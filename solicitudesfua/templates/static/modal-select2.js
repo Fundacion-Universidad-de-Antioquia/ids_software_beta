@@ -180,9 +180,10 @@ $(document).ready(function() {
             var fields = {
                 Title: novedad.nombre,
                 Nombre: novedad.cedula,
-                TipoNovedad: novedad.tipoNovedadText || '',
-                Detalle: novedad.observaciones || '',
+                TipoNovedad: novedad.tipoNovedadText,
+                Fecha: formatDate(novedad.fecha),
                 Zona: novedad.zona || '',
+                Detalle: novedad.observaciones || '',
                 Ruta: novedad.ruta || '',
                 Fecha_ingreso_Odoo: formatDate(novedad.fecha_ingreso_odoo),
                 Reemplaza: novedad.reemplaza || '',
@@ -203,13 +204,12 @@ $(document).ready(function() {
                 Control: novedad.control || '',
                 Nuevo_control: novedad.nuevo_control || '',
                 Tipo_servicio: novedad.tipo_servicio || '',
-                Fecha: formatDate(novedad.fecha),
                 Zona_inicial: novedad.zona_inicial || ''
             };
     
-            // Eliminar campos vacíos
+            // Remover campos con valores vacíos o nulos
             Object.keys(fields).forEach(key => {
-                if (fields[key] === '') {
+                if (fields[key] === '' || fields[key] === null) {
                     delete fields[key];
                 }
             });

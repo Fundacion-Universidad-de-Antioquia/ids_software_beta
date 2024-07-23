@@ -195,12 +195,6 @@ def obtener_access_token():
     return results"""
 
 
-def format_date(date_str):
-    try:
-        return datetime.strptime(date_str, "%Y-%m-%d").isoformat()
-    except ValueError:
-        return date_str
-
 def sincronizar_con_sharepoint(registros, access_token):
     results = []
     for registro in registros:
@@ -210,62 +204,29 @@ def sincronizar_con_sharepoint(registros, access_token):
                 logging.error("Registro recibido no es un diccionario: %s", type(registro))
                 continue
 
-            fields = {
-                'Title': registro.get('nombre'),
-                'Nombre': registro.get('cedula'),
-                'TipoNovedad': registro.get('tipo_novedad_text'),
-                'Detalle': registro.get('observaciones') or '',
-                'Zona': registro.get('zona') or '',
-                'Ruta': registro.get('ruta') or '',
-                'Fecha_ingreso_Odoo': format_date(registro.get('fecha_ingreso_odoo') or ''),
-                'Reemplaza': registro.get('reemplaza') or '',
-                'Hora_llegada': registro.get('hora_llegada') or '',
-                'Fecha_inicio': format_date(registro.get('fecha_inicio') or ''),
-                'Fecha_fin': format_date(registro.get('fecha_fin') or ''),
-                'Colaborador': registro.get('colaborador') or '',
-                'Zona_reemplaza': registro.get('zona_reemplaza') or '',
-                'Motivo': registro.get('motivo') or '',
-                'Horas_extra': registro.get('horas_extra') or '',
-                'Hora_inicio': registro.get('hora_inicio') or '',
-                'Hora_fin': registro.get('hora_fin') or '',
-                'Fecha_inicial': format_date(registro.get('fecha_inicial') or ''),
-                'Fecha_final': format_date(registro.get('fecha_final') or ''),
-                'Tipo_licencia': registro.get('tipo_licencia') or '',
-                'Tipo_permiso': registro.get('tipo_permiso') or '',
-                'Tipo_incapacidad': registro.get('tipo_incapacidad') or '',
-                'Control': registro.get('control') or '',
-                'Nuevo_control': registro.get('nuevo_control') or '',
-                'Tipo_servicio': registro.get('tipo_servicio') or '',
-                'Fecha': format_date(registro.get('fecha') or ''),
-                'Zona_inicial': registro.get('zona_inicial') or ''
-            }
-
-            # Eliminar campos vacíos
-            fields = {k: v for k, v in fields.items() if v}
-
-            # Asegurar que hay al menos los datos esenciales antes de intentar enviar
-            if not fields.get('Title') or not fields.get('Nombre') or not fields.get('TipoNovedad'):
+            fields = registro.get('fields', {})
+            if not fields:
                 logging.error(f"El registro {registro} no contiene datos válidos para enviar.")
                 results.append(f"El registro {registro} no contiene datos válidos para enviar.")
                 continue
 
-            data = {'fields': fields}
-            logging.info(f'Datos a enviar: {data}')  # Añadimos un log para ver los datos antes de enviarlos
+            logging.info(f'Registro a enviar: {fields}')
+
             headers = {
                 'Authorization': f'Bearer {access_token}',
                 'Content-Type': 'application/json'
             }
             url = f'https://graph.microsoft.com/v1.0/sites/{site_id}/lists/{list_name}/items'
-            response = requests.post(url, headers=headers, json=data)
+            response = requests.post(url, headers=headers, json={'fields': fields})
             
             if response.status_code == 201:
-                logging.info(f'Registro {data["fields"].get("Title")} enviado exitosamente a SharePoint.')
-                results.append(f'Registro {data["fields"].get("Title")} enviado exitosamente.')
+                logging.info(f'Registro {fields.get("Title")} enviado exitosamente a SharePoint.')
+                results.append(f'Registro {fields.get("Title")} enviado exitosamente.')
             else:
                 error_message = response.json().get('error', {}).get('message', 'No error message provided')
-                logging.error(f'Error al enviar registro {data["fields"].get("Title")} a SharePoint: {error_message}')
-                logging.error(f'Response details: {response.json()}')  # Añadimos detalles de la respuesta
-                results.append(f'Error al enviar registro {data["fields"].get("Title")}: {error_message}')
+                logging.error(f'Error al enviar registro {fields.get("Title")} a SharePoint: {error_message}')
+                logging.error(f'Response details: {response.json()}')
+                results.append(f'Error al enviar registro {fields.get("Title")}: {error_message}')
                 
         except json.JSONDecodeError:
             logging.error("Error decoding registro from JSON.")
