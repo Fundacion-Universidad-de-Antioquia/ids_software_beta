@@ -1,0 +1,66 @@
+body{
+  height: 100vh;
+  background: rgb(65,111,35);
+  background: linear-gradient(0deg, rgba(65,111,35,1) 0%, rgba(92,156,49,1) 50%);
+}
+
+
+/* SECCIÓN TÍTULO */
+.title-s h1{
+  font-family: "Work Sans", sans-serif;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  margin:25px 0;
+}
+
+.bg-shadow{
+  width: 80%;
+  min-height: 115px;
+  background-color: #3f6e2972;
+  border-radius: 0 0 40px 40px;
+  text-align: center;
+}
+
+
+/*SECCIÓN IMAGEN LOGO */
+.principal-logo{
+  min-width: 100px;
+  max-width: 500px;
+}
+
+.logo-s{
+  margin-top: 6%;
+}
+
+/* SECCIÓN BOTÓN */
+.login-btn-s{
+  margin-top: 6%;
+
+}
+ .login-btn-s .btn-primary{
+  color: #689A46;
+  font-weight: bold;
+  min-width: 130px;
+  max-width: 200px;
+  width: 180px;
+  height: 2.8rem;
+  /* border: 0px; */
+  border-color: #fff;
+  background: linear-gradient(0deg, rgb(215, 215, 215) 0%, rgba(255,255,255,1) 100%);
+ }
+
+ .btn-primary:hover{
+  color: #fff;
+  background: #343434; 
+ }
+
+ .btn-primary:active{
+  border-color: #fff !important;
+  background: #858585 !important;
+ }
+
+ .login-btn-s i{
+  font-weight: 600;
+ }
+

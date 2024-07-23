@@ -1,0 +1,59 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.containerinicio {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 100px;
+}
+
+h1 {
+  font-size: 3.5em;
+  margin-bottom: 1.5em;
+}
+
+/* titulos */
+.h3 {
+  text-align: center;
+  padding-top: 4%;
+  padding-bottom: 2.5%;
+}
+
+/* Tablas */
+.table-responsive {
+  border-radius: 10px;
+  margin-bottom: -16px;
+}
+
+/* botones */
+.btn-icon-detail {
+  font-size: 1.5em;
+  /* Ajusta el tamaño de los iconos en los detalles de las tablas */
+  padding-block-end: 1%;
+}
+
+.btn-sm.btn-icon-detail {
+  padding: 0.12rem 0.25rem;
+  margin-right: 6px;
+}
+
+/* form */
+.input-wide {
+  width: 100%;
+}
+
+.card-custom {
+  background-color: #ededed;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.contform {
+  background-color: #ededed;
+  border-radius: 8px;
+  padding: 20px;
+}

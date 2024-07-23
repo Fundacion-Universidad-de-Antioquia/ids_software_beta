@@ -1,0 +1,4 @@
+.env
+./media/*
+venv
+ids_aseo_software\venv
