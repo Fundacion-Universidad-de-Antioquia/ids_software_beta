@@ -14,15 +14,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <!-- CSS -->
-    <link rel="stylesheet" href="/static/form_inicio.css" />
+    <link rel="stylesheet" href="/static/form_inicio.css"/>
     <title>Datos de Empleados</title>
     {% load static %}
 </head>
 <body>
+    <header class="static-header">
+        <img src="/templates/img/funda-logo-3.png" class="header-logo" alt="Logo Fundación UdeA">
+    </header>
     <!-- SECCIÓN TÍTULO DE HERRAMINETA -->
     <section class="title-s">
         <div class="container d-flex justify-content-center">
-            <div class="bg-shadow d-flex justify-content-center">
+            <div class="bg-shadow d-flex justify-content-center mt-3 mb-3">
                 <h1>Datos de Empleados</h1>
             </div>
         </div>
@@ -31,32 +34,39 @@
     <!-- SECCIÓN DE DATOS DE EMPLEADOS -->
     <section class="employee-data">
         <div class="container">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Zona</th>
-                        <th>Correo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for persona in personas %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ persona.0 }}</td>
-                            <td>{{ persona.1 }}</td>
-                            <td>{{ persona.2 }}</td>
-                            <td>{{ persona.3 }}</td>
+                            <th>Identificación</th>
+                            <th>Nombre</th>
+                            <th>Zona</th>
+                            <th>Correo</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody>
+                        {% for persona in personas %}
+                            <tr>
+                                <td>{{ persona.1 }}</td>
+                                <td>{{ persona.0 }}</td>
+                                <td>{{ persona.2 }}</td>
+                                <td>{{ persona.3 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+           
+            <br />
             <!-- Campos adicionales -->
             <form id="extraForm" method="POST">
                 {% csrf_token %}
-                {{ campo_form.as_p }}
-                <button type="button" class="btn btn-primary" id="validarZonaBtn">Continuar</button>
+                <div class="two-fields">
+                    {{ campo_form.as_p }}
+                </div>
+                <div class="button-container">
+                    <button type="button" class="btn btn-primary btn-funda" id="validarZonaBtn">Continuar</button>
+                </div>
             </form>
         </div>
     </section>
