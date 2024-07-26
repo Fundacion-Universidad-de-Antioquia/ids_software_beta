@@ -2,7 +2,10 @@ $(document).ready(function() {
     const params = new URLSearchParams(window.location.search);
     const nombre = params.get('nombre');
     const zona = params.get('zona');
-    var personasData = [];
+
+    // Cargar los datos de las personas desde el script JSON
+    var personasDataElement = document.getElementById('personas-data');
+    var personasData = JSON.parse(personasDataElement ? personasDataElement.textContent : '{}');
 
     if (nombre && zona) {
         $('#userInfo').text(`Reportando: ${nombre} en la zona ${zona}`);
@@ -21,6 +24,25 @@ $(document).ready(function() {
         }
     });
 
+    function buscarFechaIngreso(personaId) {
+        $.ajax({
+            url: '/api/fecha/',
+            type: 'GET',
+            data: { persona_id: personaId },
+            success: function(data) {
+                if (data.fecha_ingreso) {
+                    $('#id_fecha_ingreso').val(data.fecha_ingreso);
+                } else {
+                    alert('Fecha de ingreso no encontrada.');
+                }
+            },
+            error: function(error) {
+                console.error('Error al buscar la fecha de ingreso: ', error);
+                alert('Error al buscar la fecha de ingreso. Por favor, intente nuevamente.');
+            }
+        });
+    }
+
     function cargarFormularioNovedad(tipoNovedad, novedad = null, index = null) {
         $.ajax({
             url: `/azure_auth/novedades/formulario/${tipoNovedad}/`,
@@ -34,6 +56,14 @@ $(document).ready(function() {
                     $('#novedadModal').data('edit-index', index);
                     cargarValoresFormulario(novedad);
                 }
+
+                // Adjuntar evento change al nuevo campo cargado
+                $('#id_Persona').change(function() {
+                    var personaId = $(this).val().split(' - ')[0]; // Obtener solo la cédula
+                    if (personaId) {
+                        buscarFechaIngreso(personaId);
+                    }
+                });
 
                 // Adjuntar evento submit al nuevo formulario cargado
                 $('#novedadForm').off('submit').on('submit', function(event) {
@@ -74,7 +104,8 @@ $(document).ready(function() {
             tipoNovedad: tipoNovedad,
             tipoNovedadText: $('#tipoNovedadSelect option:selected').text(),
             fecha: form.find('#id_fecha').val(),
-            zona: zona
+            zona: zona,
+            fecha_ingreso: form.find('#id_fecha_ingreso').val()  // Capturar la fecha de ingreso
         };
 
         // Agrega solo los campos relevantes según el tipo de novedad
@@ -128,6 +159,7 @@ $(document).ready(function() {
     function cargarValoresFormulario(novedad) {
         $('#id_Persona').val(novedad.cedula).trigger('change');
         $('#id_fecha').val(novedad.fecha);
+        $('#id_fecha_ingreso').val(novedad.fecha_ingreso); // Asignar la fecha de ingreso si existe
 
         // Cargar el tipo de novedad en el select
         $('#tipoNovedadSelect').val(novedad.tipoNovedad).trigger('change');
@@ -175,6 +207,7 @@ $(document).ready(function() {
         console.log(registros);
         enviarDatosASharePoint(registros);
     });
+
     function enviarDatosASharePoint(registros) {
         var data = registros.map(function(novedad) {
             var fields = {
@@ -185,7 +218,7 @@ $(document).ready(function() {
                 Zona: novedad.zona || '',
                 Detalle: novedad.observaciones || '',
                 Ruta: novedad.ruta || '',
-                Fecha_ingreso_Odoo: formatDate(novedad.fecha_ingreso_odoo),
+                Fecha_ingreso_Odoo: formatDate(novedad.fecha_ingreso),
                 Reemplaza: novedad.reemplaza || '',
                 Hora_llegada: novedad.hora_llegada || '',
                 Fecha_inicio: formatDate(novedad.fecha_inicio),
@@ -204,19 +237,20 @@ $(document).ready(function() {
                 Control: novedad.control || '',
                 Nuevo_control: novedad.nuevo_control || '',
                 Tipo_servicio: novedad.tipo_servicio || '',
-                Zona_inicial: novedad.zona_inicial || ''
+                Zona_inicial: novedad.zona_inicial || '',
+                Novedad_extratemporanea: novedad.novedad_extemporanea || ''
             };
-    
+
             // Remover campos con valores vacíos o nulos
             Object.keys(fields).forEach(key => {
                 if (fields[key] === '' || fields[key] === null) {
                     delete fields[key];
                 }
             });
-    
+
             return { fields };
         });
-    
+
         $.ajax({
             url: '/api/sharepoint/',
             type: 'POST',
@@ -239,17 +273,12 @@ $(document).ready(function() {
             }
         });
     }
-    
+
     function formatDate(dateStr) {
         if (!dateStr) return '';
         var date = new Date(dateStr);
         return date.toISOString();
     }
-    
-    
-    
-
-    
 
     function guardarRegistrosLocales(registros) {
         localStorage.setItem('registros', JSON.stringify(registros));
@@ -284,14 +313,15 @@ $(document).ready(function() {
 
     function agregarRegistroATabla(novedad, index, tableId) {
         var newRow = '<tr data-index="' + index + '">';
-    
+
         // Campos comunes para todas las tablas
         newRow += '<td>' + (novedad.nombre || '') + '</td>';
         newRow += '<td>' + (novedad.cedula || '') + '</td>';
         newRow += '<td>' + (novedad.observaciones || '') + '</td>';
         newRow += '<td>' + (novedad.zona || '') + '</td>';
         newRow += '<td>' + (novedad.tipoNovedadText || '') + '</td>';
-    
+        newRow += '<td>' + (novedad.novedad_extemporanea || '') + '</td>';
+
         // Campos específicos para cada tipo de novedad
         if (tableId === '#novedadesTableAusencias') {
             newRow += '<td>' + (novedad.rutas || '') + '</td>';
@@ -307,7 +337,7 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.tipo_permisos || '') + '</td>';
             newRow += '<td>' + (novedad.tipo_incapacidad || '') + '</td>';
         } else if (tableId === '#novedadesTableIngresosRetiros') {
-            newRow += '<td>' + (novedad.fecha_ingreso_odoo || '') + '</td>';
+            newRow += '<td>' + (novedad.fecha_ingreso || '') + '</td>';  // Mostrar la fecha de ingreso en la tabla
             newRow += '<td>' + (novedad.fecha_inicio || '') + '</td>';
             newRow += '<td>' + (novedad.fecha_fin || '') + '</td>';
             newRow += '<td>' + (novedad.motivo || '') + '</td>';
@@ -332,11 +362,12 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.fecha || '') + '</td>';
         } else if (tableId === '#novedadesTablePersonal') {
             newRow += '<td>' + (novedad.hora_llegada || '') + '</td>';
+            newRow += '<td>' + (novedad.fecha || '') + '</td>';
         }
-    
+
         newRow += '<td><button class="btn btn-warning btn-sm edit">Editar</button><button class="btn btn-danger btn-sm delete">Eliminar</button></td>';
         newRow += '</tr>';
-    
+
         $(tableId).append(newRow);
     }
 

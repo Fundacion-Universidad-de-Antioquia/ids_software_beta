@@ -1,9 +1,11 @@
 from django import forms
 from .models import  Usuario, Campo, NovedadBase
-from .utils import fetch_zonas_from_odoo, fetch_personas_from_odoo, fetch_rutas_from_odoo
+from datetime import date
+import json
+from .utils import fetch_zonas_from_odoo, fetch_personas_from_odoo, fetch_rutas_from_odoo,fetch_personas_from_odoo_usuarios
 
 
-class NovedadFormBase(forms.Form):
+"""class NovedadFormBase(forms.Form):
     fecha = forms.DateField()
     Persona = forms.ChoiceField(choices=[], label='Persona')
     zona = forms.ChoiceField(choices=[], label='Zona')
@@ -15,8 +17,31 @@ class NovedadFormBase(forms.Form):
         personas = fetch_personas_from_odoo()
         colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
         self.fields['Persona'].choices = colaborador_choices
-        self.fields['zona'].choices = zona_choices
+        self.fields['zona'].choices = zona_choices"""
+class NovedadFormBase(forms.Form):
+    fecha = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), initial=date.today)
+    Persona = forms.ChoiceField(choices=[], label='Persona')
+    zona = forms.ChoiceField(choices=[], label='Zona')
+    novedad_extemporanea = forms.ChoiceField(
+        choices=[
+            ('opcion1', 'Si'),
+            ('opcion2', 'No'),
+        ],
+        label='Novedad Extemporánea'
+    )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        zonas = fetch_zonas_from_odoo()
+        zona_choices = [(zona, zona) for zona in zonas]
+        personas = fetch_personas_from_odoo()
+        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        self.fields['zona'].choices = zona_choices
+        self.fields['Persona'].choices = colaborador_choices
+        self.personas_data = {persona[0]: persona for persona in personas}  # Almacena los datos de las personas
+
+    def get_persona_data(self, identification_id):
+        return self.personas_data.get(identification_id)
 class NovedadFormTipo1(NovedadFormBase, forms.ModelForm):
     class Meta:
         model = Campo
@@ -106,9 +131,16 @@ class NovedadFormTipo7(NovedadFormBase, forms.ModelForm):
         self.fields['zona_reemplazo'].choices = zona_choices    
 
 class NovedadFormTipo8(NovedadFormBase, forms.ModelForm):
+    fecha_ingreso = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Fecha de Ingreso')
+
     class Meta:
         model = Campo
-        fields = ['fecha_ingreso']
+        fields = ['fecha_ingreso']  # Añadir los campos necesarios
+
+    def __init__(self, *args, **kwargs):
+        super(NovedadFormTipo8, self).__init__(*args, **kwargs)
+        self.fields['fecha_ingreso'].widget.attrs['readonly'] = True
+
 
 class NovedadFormTipo9(NovedadFormBase, forms.ModelForm):
     class Meta:

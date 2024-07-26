@@ -3,8 +3,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
-from softwareids.views import index, home, novedad_view, enviar_a_sharepoint, cargar_formulario_novedad
-from softwareids.utils import obtener_personas_ajax, zonas_json_view, fetch_zonas_from_odoo
+from softwareids.views import index, home, novedad_view, enviar_a_sharepoint, cargar_formulario_novedad, obtener_fecha_ingreso
+from softwareids.utils import obtener_personas_ajax, zonas_json_view
 
 
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/personas/', obtener_personas_ajax, name='api_personas'),
     path('api/sharepoint/', enviar_a_sharepoint, name='enviar_a_sharepoint'),
     path('api/zonas/', zonas_json_view, name='zonas_json'),
+    path('api/fecha/', obtener_fecha_ingreso, name='obtener_fecha_ingreso'),
 
     # model departmend views
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

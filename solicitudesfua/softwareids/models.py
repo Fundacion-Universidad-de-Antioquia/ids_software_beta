@@ -36,6 +36,13 @@ class NovedadBase(models.Model):
         ],
     )
     zona = models.CharField(max_length=200)
+    novedad_extemporanea = models.CharField(
+        max_length=50,
+        choices=[
+            ('opcion1', 'Si'),
+            ('opcion2', 'No'),
+        ],
+    )
 
     def __str__(self):
         return f'{self.fecha} - {self.persona}'
@@ -122,13 +129,7 @@ class Campo(models.Model):
             ('opcion2', 'Barredora'),            
         ],
     )
-    novedad_extemporanea = models.CharField(
-        max_length=50,
-        choices=[
-            ('opcion1', 'Si'),
-            ('opcion2', 'No'),
-        ],
-    )
+    
     cantidad_horas_extra = models.FloatField(null=True, blank=True)
     
     

@@ -34,14 +34,15 @@ def fetch_personas_from_odoo():
         personas = models.execute_kw(database, uid, password,
             'hr.employee', 'search_read',
             [[('company_id.name', '=', 'Programa de Gestión del Aseo de la Ciudad')]],
-            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo']})#'job_title.name']})
+            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'x_studio_fecha_de_ingreso_1']})#'job_title.name']})
         
         if personas:
             logger.debug(f'Retrieved {len(personas)} personas')
         else:
             logger.debug('No personas found')
         #return [(persona['identification_id'], persona['name']) for persona in personas if 'identification_id' in persona and 'name' in persona]
-        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+
         #return [(str(persona['identification_id']), persona['name']) for persona in personas if 'identification_id' in persona and 'name' in persona]
 
     except Exception as e:
@@ -253,14 +254,14 @@ def fetch_personas_from_odoo_usuarios(correo):
         personas = models.execute_kw(database, uid, password,
             'hr.employee', 'search_read',
             [[('work_email', '=', correo)]],
-            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'work_email']})
+            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'work_email','x_studio_fecha_de_ingreso_1']})
 
         if personas:
             logger.debug(f'Retrieved {len(personas)} personas')
         else:
             logger.debug('No personas found')
 
-        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('work_email', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('work_email', ''),persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
 
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)
@@ -329,3 +330,7 @@ def zonas_json_view(request):
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)
         return JsonResponse({'error': 'Failed to fetch data', 'details': str(e)}, status=500)
+
+
+
+
