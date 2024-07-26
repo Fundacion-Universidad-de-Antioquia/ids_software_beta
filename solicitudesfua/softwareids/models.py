@@ -30,7 +30,6 @@ class NovedadBase(models.Model):
             ('opcion20', 'Servicios adicionales'),
             ('opcion21', 'Suspensiones'),
             ('opcion22', 'Urgencias médicas EPS/ ARL'),
-            ('opcion23', 'Novedad extemporanea'),
             
 
         ],
@@ -88,6 +87,7 @@ class Campo(models.Model):
             ('opcion1', 'Si'),
             ('opcion2', 'No'),
         ],
+        default='opcion2'
     )
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
@@ -107,6 +107,7 @@ class Campo(models.Model):
         ],
     )
     control= models.CharField(max_length=200)
+    consecutivo= models.CharField(max_length=200)
     nuevo_control = models.CharField(max_length=200)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()

@@ -3,7 +3,6 @@ $(document).ready(function() {
     const nombre = params.get('nombre');
     const zona = params.get('zona');
 
-    // Cargar los datos de las personas desde el script JSON
     var personasDataElement = document.getElementById('personas-data');
     var personasData = JSON.parse(personasDataElement ? personasDataElement.textContent : '{}');
 
@@ -57,19 +56,54 @@ $(document).ready(function() {
                     cargarValoresFormulario(novedad);
                 }
 
-                // Adjuntar evento change al nuevo campo cargado
                 $('#id_Persona').change(function() {
-                    var personaId = $(this).val().split(' - ')[0]; // Obtener solo la cédula
+                    var personaId = $(this).val().split(' - ')[0];
                     if (personaId) {
                         buscarFechaIngreso(personaId);
                     }
                 });
 
-                // Adjuntar evento submit al nuevo formulario cargado
-                $('#novedadForm').off('submit').on('submit', function(event) {
-                    event.preventDefault();
-                    guardarNovedad();
+                $('#id_novedad_extemporanea').change(function() {
+                    var novedadExtemporanea = $(this).val();
+                    
+                    if (novedadExtemporanea === 'opcion1') { // 'Sí' seleccionado
+                        $('#id_fecha').val('');
+                        $('#id_fecha').attr('readonly', false);
+                        $('#id_fecha').attr('required', true);
+                        $('#id_fecha').attr('max', new Date().toISOString().split("T")[0]);
+                    } else { // 'No' seleccionado
+                        $('#id_fecha').val(new Date().toISOString().split('T')[0]);
+                        $('#id_fecha').attr('readonly', true);
+                        $('#id_fecha').removeAttr('required');
+                        $('#id_fecha').removeAttr('max');
+                    }
                 });
+
+                $('#id_horasextra').change(function() {
+                    var horasextra = $(this).val();
+                    if (horasextra === 'opcion1') {
+                        $('#id_hora_inicio, #id_hora_fin').parent().show();
+                        $('#id_hora_inicio, #id_hora_fin').attr('required', true);
+                    } else {
+                        $('#id_hora_inicio, #id_hora_fin').parent().hide();
+                        $('#id_hora_inicio, #id_hora_fin').removeAttr('required').val('');
+                    }
+                });
+
+                $('#novedadForm').off('submit').on('submit', function(event) {
+                    var novedadExtemporanea = $('#id_novedad_extemporanea').val();
+                    var fechaNovedad = $('#id_fecha').val();
+                    var hoy = new Date();
+                    hoy.setHours(0, 0, 0, 0); // Asegurar que se compara solo la fecha sin la hora
+                
+                    if (novedadExtemporanea === 'opcion1' && (!fechaNovedad || new Date(fechaNovedad) >= hoy)) {
+                        event.preventDefault();
+                        alert('Por favor, ingrese una fecha válida anterior a la fecha actual.');
+                    } else {
+                        guardarNovedad();
+                    }
+                });
+                
             },
             error: function(error) {
                 console.error('Error al cargar el formulario: ', error);
@@ -80,18 +114,14 @@ $(document).ready(function() {
 
     function guardarNovedad() {
         var form = $('#novedadForm');
-        var tipoNovedad = $('#tipoNovedadSelect').val(); // Obtener tipo de novedad del select
+        var tipoNovedad = $('#tipoNovedadSelect').val();
         var index = $('#novedadModal').data('edit-index');
         var registros = JSON.parse(localStorage.getItem('registros')) || [];
 
-        // Obtener la persona seleccionada
         var selectedOption = form.find('#id_Persona option:selected');
         var selectedId = selectedOption.val();
         var selectedText = selectedOption.text();
         var selectedPersona = selectedText.split(' - ');
-
-        console.log('Selected ID:', selectedId);
-        console.log('Selected Persona:', selectedPersona);
 
         if (!selectedId || selectedPersona.length < 2) {
             alert('Por favor, seleccione una persona.');
@@ -105,10 +135,10 @@ $(document).ready(function() {
             tipoNovedadText: $('#tipoNovedadSelect option:selected').text(),
             fecha: form.find('#id_fecha').val(),
             zona: zona,
-            fecha_ingreso: form.find('#id_fecha_ingreso').val()  // Capturar la fecha de ingreso
+            fecha_ingreso: form.find('#id_fecha_ingreso').val(),
+            novedad_extemporanea: form.find('#id_novedad_extemporanea').val()
         };
 
-        // Agrega solo los campos relevantes según el tipo de novedad
         form.find(':input').each(function() {
             var input = $(this);
             var inputId = input.attr('id');
@@ -124,7 +154,6 @@ $(document).ready(function() {
             }
         });
 
-        // Validar y agregar a la tabla correspondiente
         var tableId;
         var validTypesAusencias = ['opcion1', 'opcion2', 'opcion7', 'opcion9', 'opcion10', 'opcion11', 'opcion21', 'opcion22'];
         var validTypesIngresosRetiros = ['opcion8', 'opcion12', 'opcion17', 'opcion18'];
@@ -159,12 +188,11 @@ $(document).ready(function() {
     function cargarValoresFormulario(novedad) {
         $('#id_Persona').val(novedad.cedula).trigger('change');
         $('#id_fecha').val(novedad.fecha);
-        $('#id_fecha_ingreso').val(novedad.fecha_ingreso); // Asignar la fecha de ingreso si existe
+        $('#id_fecha_ingreso').val(novedad.fecha_ingreso);
+        $('#id_novedad_extemporanea').val(novedad.novedad_extemporanea).trigger('change');
 
-        // Cargar el tipo de novedad en el select
         $('#tipoNovedadSelect').val(novedad.tipoNovedad).trigger('change');
 
-        // Cargar los valores específicos según el tipo de novedad
         $('#novedadForm').find(':input').each(function() {
             var input = $(this);
             var inputId = input.attr('id');
@@ -184,6 +212,9 @@ $(document).ready(function() {
                 }
             }
         });
+
+        // Llamar el change handler para horasextra después de cargar los valores del formulario
+        $('#id_horasextra').trigger('change');
     }
 
     $(document).on('click', '.delete', function() {
@@ -226,7 +257,7 @@ $(document).ready(function() {
                 Colaborador: novedad.colaborador || '',
                 Zona_reemplaza: novedad.zona_reemplaza || '',
                 Motivo: novedad.motivo || '',
-                Horas_extra: novedad.horas_extra || '',
+                Horas_extra: novedad.horasextra || '',
                 Hora_inicio: novedad.hora_inicio || '',
                 Hora_fin: novedad.hora_fin || '',
                 Fecha_inicial: formatDate(novedad.fecha_inicial),
@@ -238,10 +269,10 @@ $(document).ready(function() {
                 Nuevo_control: novedad.nuevo_control || '',
                 Tipo_servicio: novedad.tipo_servicio || '',
                 Zona_inicial: novedad.zona_inicial || '',
-                Novedad_extratemporanea: novedad.novedad_extemporanea || ''
+                Novedad_extratemporanea: novedad.novedad_extemporanea || '',
+                Consecutivo_servicio_Adcional: novedad.consecutivo || ''
             };
 
-            // Remover campos con valores vacíos o nulos
             Object.keys(fields).forEach(key => {
                 if (fields[key] === '' || fields[key] === null) {
                     delete fields[key];
@@ -314,7 +345,6 @@ $(document).ready(function() {
     function agregarRegistroATabla(novedad, index, tableId) {
         var newRow = '<tr data-index="' + index + '">';
 
-        // Campos comunes para todas las tablas
         newRow += '<td>' + (novedad.nombre || '') + '</td>';
         newRow += '<td>' + (novedad.cedula || '') + '</td>';
         newRow += '<td>' + (novedad.observaciones || '') + '</td>';
@@ -322,7 +352,6 @@ $(document).ready(function() {
         newRow += '<td>' + (novedad.tipoNovedadText || '') + '</td>';
         newRow += '<td>' + (novedad.novedad_extemporanea || '') + '</td>';
 
-        // Campos específicos para cada tipo de novedad
         if (tableId === '#novedadesTableAusencias') {
             newRow += '<td>' + (novedad.rutas || '') + '</td>';
             newRow += '<td>' + (novedad.reemplaza || '') + '</td>';
@@ -337,7 +366,7 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.tipo_permisos || '') + '</td>';
             newRow += '<td>' + (novedad.tipo_incapacidad || '') + '</td>';
         } else if (tableId === '#novedadesTableIngresosRetiros') {
-            newRow += '<td>' + (novedad.fecha_ingreso || '') + '</td>';  // Mostrar la fecha de ingreso en la tabla
+            newRow += '<td>' + (novedad.fecha_ingreso || '') + '</td>';
             newRow += '<td>' + (novedad.fecha_inicio || '') + '</td>';
             newRow += '<td>' + (novedad.fecha_fin || '') + '</td>';
             newRow += '<td>' + (novedad.motivo || '') + '</td>';
@@ -348,6 +377,7 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.hora_fin || '') + '</td>';
             newRow += '<td>' + (novedad.zona_reemplaza || '') + '</td>';
         } else if (tableId === '#novedadesTableOperativos') {
+            newRow += '<td>' + (novedad.consecutivo || '') + '</td>';
             newRow += '<td>' + (novedad.reemplaza || '') + '</td>';
             newRow += '<td>' + (novedad.colaborador || '') + '</td>';
             newRow += '<td>' + (novedad.zona_reemplaza || '') + '</td>';

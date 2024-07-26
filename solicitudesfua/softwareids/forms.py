@@ -27,7 +27,8 @@ class NovedadFormBase(forms.Form):
             ('opcion1', 'Si'),
             ('opcion2', 'No'),
         ],
-        label='Novedad Extemporánea'
+        label='Novedad Extemporánea',
+        initial='opcion2'  # Establecer valor predeterminado a "No"
     )
 
     def __init__(self, *args, **kwargs):
@@ -53,9 +54,13 @@ class NovedadFormTipo2(NovedadFormBase, forms.ModelForm):
         fields = ['tipo_permisos']
 
 
-class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
+"""class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
     colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
-    horasextra = forms.ChoiceField(choices=[('Si', 'Sí'), ('No', 'No')], label='Horas Extra')
+    horasextra = forms.ChoiceField(
+        choices=[('opcion1', 'Si'), ('opcion2', 'No')],
+        label='Horas Extra',
+        initial='opcion2'
+    )
     zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
 
     class Meta:
@@ -71,7 +76,34 @@ class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
         zona_reemplazo = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zona_reemplazo]
         self.fields['zona_reemplazo'].choices = zona_choices  
+        self.fields['colaborador'].choices = colaborador_choices"""
+class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
+    colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
+    horasextra = forms.ChoiceField(
+        choices=[('opcion1', 'Si'), ('opcion2', 'No')],
+        label='Horas Extra',
+        initial='opcion2'
+    )
+    zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
+
+    class Meta:
+        model = Campo
+        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['hora_inicio'].required = False
+        self.fields['hora_fin'].required = False
+
+        zonas = fetch_zonas_from_odoo()
+        zona_choices = [(zona, zona) for zona in zonas]
+        self.fields['zona_reemplazo'].choices = zona_choices
+
+        personas = fetch_personas_from_odoo()
+        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
         self.fields['colaborador'].choices = colaborador_choices
+        self.fields['reemplaza'].choices = colaborador_choices
+        
 
 
  
@@ -222,7 +254,7 @@ class NovedadFormTipo19(NovedadFormBase, forms.ModelForm):
 class NovedadFormTipo20(NovedadFormBase, forms.ModelForm):
     class Meta:
         model = Campo
-        fields = ['tipo_servicio', 'hora_inicio', 'hora_fin','horasextra']
+        fields = ['consecutivo','tipo_servicio', 'hora_inicio', 'hora_fin','horasextra']
 
 class NovedadFormTipo21(NovedadFormBase, forms.ModelForm):
     rutas = forms.ChoiceField(choices=[], label='Ruta')   
