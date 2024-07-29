@@ -32,14 +32,16 @@ class NovedadFormBase(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        departamento = kwargs.pop('departamento', None)  # Obtener el departamento del kwargs
         super().__init__(*args, **kwargs)
         zonas = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zonas]
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        personas = fetch_personas_from_odoo(departamento)
+        persona_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
         self.fields['zona'].choices = zona_choices
-        self.fields['Persona'].choices = colaborador_choices
+        self.fields['Persona'].choices = persona_choices
         self.personas_data = {persona[0]: persona for persona in personas}  # Almacena los datos de las personas
+        
 
     def get_persona_data(self, identification_id):
         return self.personas_data.get(identification_id)
@@ -56,16 +58,11 @@ class NovedadFormTipo2(NovedadFormBase, forms.ModelForm):
 
 """class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
     colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
-    horasextra = forms.ChoiceField(
-        choices=[('opcion1', 'Si'), ('opcion2', 'No')],
-        label='Horas Extra',
-        initial='opcion2'
-    )
     zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
 
     class Meta:
         model = Campo
-        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin']
+        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin','cantidad_horas_extra']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,34 +76,43 @@ class NovedadFormTipo2(NovedadFormBase, forms.ModelForm):
         self.fields['colaborador'].choices = colaborador_choices"""
 class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
     colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
+    
+    rutas = forms.ChoiceField(choices=[], label='Ruta')
     horasextra = forms.ChoiceField(
         choices=[('opcion1', 'Si'), ('opcion2', 'No')],
         label='Horas Extra',
         initial='opcion2'
     )
     zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
 
     class Meta:
         model = Campo
-        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin']
+        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin', 'cantidad_horas']
 
     def __init__(self, *args, **kwargs):
+        departamento = kwargs.pop('departamento', None) 
         super().__init__(*args, **kwargs)
         self.fields['hora_inicio'].required = False
         self.fields['hora_fin'].required = False
+        
+        rutas = fetch_rutas_from_odoo()
+        ruta_choices = [(ruta, ruta) for ruta in rutas]
+        self.fields['rutas'].choices = ruta_choices
 
         zonas = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zonas]
         self.fields['zona_reemplazo'].choices = zona_choices
 
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
-        self.fields['colaborador'].choices = colaborador_choices
-        self.fields['reemplaza'].choices = colaborador_choices
+        personas = fetch_personas_from_odoo(departamento)
+        persona_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        self.fields['Persona'].choices = persona_choices
         
+        # Aquí, colaborador_choices se puede inicializar igual que persona_choices 
+        # ya que se está filtrando por el mismo departamento.
+        colaborador_choices = persona_choices
+        self.fields['colaborador'].choices = colaborador_choices
 
-
- 
 class TiposNovedades(forms.ModelForm):
     class Meta:
         model = NovedadBase
@@ -122,13 +128,20 @@ class NovedadFormTipo4(NovedadFormBase, forms.ModelForm):
         model = Campo
         fields = ['reemplaza']
     def __init__(self, *args, **kwargs):
+        
+        departamento = kwargs.pop('departamento', None) 
         super().__init__(*args, **kwargs)
         zona_inicial = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zona_inicial]
         zona_reemplazo = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zona_reemplazo]
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        personas = fetch_personas_from_odoo(departamento)
+        persona_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        self.fields['Persona'].choices = persona_choices
+        
+        # Aquí, colaborador_choices se puede inicializar igual que persona_choices 
+        # ya que se está filtrando por el mismo departamento.
+        colaborador_choices = persona_choices
         self.fields['colaborador'].choices = colaborador_choices
         self.fields['zona_reemplazo'].choices = zona_choices  
         self.fields['zona_inicial'].choices = zona_choices 
@@ -139,27 +152,37 @@ class NovedadFormTipo5(NovedadFormBase, forms.ModelForm):
         fields = ['hora_llegada']
 
 class NovedadFormTipo6(NovedadFormBase, forms.ModelForm):
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     class Meta:
         model = Campo
-        fields = ['hora_inicio', 'hora_fin']
+        fields = ['hora_inicio', 'hora_fin','cantidad_horas']
 
 class NovedadFormTipo7(NovedadFormBase, forms.ModelForm):
     zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
     rutas = forms.ChoiceField(choices=[], label='Ruta')
     colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     class Meta:
         model = Campo
-        fields = ['tipo_incapacidad','rutas', 'reemplaza','horasextra','hora_inicio', 'hora_fin']
+        fields = ['tipo_incapacidad','rutas', 'reemplaza','horasextra','hora_inicio', 'hora_fin','cantidad_horas']
     def __init__(self, *args, **kwargs):
+        
+        departamento = kwargs.pop('departamento', None) 
         super().__init__(*args, **kwargs)
         zona_reemplazo = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zona_reemplazo]
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
         rutas = fetch_rutas_from_odoo()
         ruta_choices = [(ruta, ruta) for ruta in rutas]
-        self.fields['rutas'].choices = ruta_choices
+        personas = fetch_personas_from_odoo(departamento)
+        persona_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
+        self.fields['Persona'].choices = persona_choices
+        
+        # Aquí, colaborador_choices se puede inicializar igual que persona_choices 
+        # ya que se está filtrando por el mismo departamento.
+        colaborador_choices = persona_choices
         self.fields['colaborador'].choices = colaborador_choices
+        
+        self.fields['rutas'].choices = ruta_choices
         self.fields['zona_reemplazo'].choices = zona_choices    
 
 class NovedadFormTipo8(NovedadFormBase, forms.ModelForm):
@@ -174,10 +197,24 @@ class NovedadFormTipo8(NovedadFormBase, forms.ModelForm):
         self.fields['fecha_ingreso'].widget.attrs['readonly'] = True
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class NovedadFormTipo9(NovedadFormBase, forms.ModelForm):
+    cantidad_dias = forms.IntegerField(label='Cantidad de Días', required=False)
+
     class Meta:
         model = Campo
-        fields = ['fecha_inicial', 'fecha_final','tipos_licencia']
+        fields = ['fecha_inicial', 'fecha_final', 'tipos_licencia']
+        widgets = {
+            'fecha_inicial': DateInput(attrs={'class': 'form-control'}),
+            'fecha_final': DateInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cantidad_dias'].widget.attrs['readonly'] = True
+
 
 """class NovedadFormTipo10(forms.ModelForm):
     zona = forms.ChoiceField(choices=[], label='Zona')
@@ -196,9 +233,19 @@ class NovedadFormTipo10(NovedadFormBase, forms.ModelForm):
     
 
 class NovedadFormTipo11(NovedadFormBase, forms.ModelForm):
+    
+    cantidad_dias = forms.IntegerField(label='Cantidad de Días', required=False)
     class Meta:
         model = Campo
         fields = ['fecha_inicial', 'fecha_final']
+        widgets = {
+            'fecha_inicial': DateInput(attrs={'class': 'form-control'}),
+            'fecha_final': DateInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cantidad_dias'].widget.attrs['readonly'] = True
 
 class NovedadFormTipo12(NovedadFormBase, forms.ModelForm):
     class Meta:
@@ -231,9 +278,18 @@ class NovedadFormTipo16(NovedadFormBase, forms.ModelForm):
         self.fields['zona_inicial'].choices = zona_choices    
 
 class NovedadFormTipo17(NovedadFormBase, forms.ModelForm):
+    cantidad_dias = forms.IntegerField(label='Cantidad de Días', required=False)
     class Meta:
         model = Campo
         fields = ['fecha_inicio', 'fecha_fin', 'observaciones']
+        widgets = {
+            'fecha_inicial': DateInput(attrs={'class': 'form-control'}),
+            'fecha_final': DateInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cantidad_dias'].widget.attrs['readonly'] = True
 
 class NovedadFormTipo18(NovedadFormBase, forms.ModelForm):
     class Meta:
@@ -241,26 +297,30 @@ class NovedadFormTipo18(NovedadFormBase, forms.ModelForm):
         fields = ['motivo_renuncia']
 
 class NovedadFormTipo19(NovedadFormBase, forms.ModelForm):
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     rutas = forms.ChoiceField(choices=[], label='Ruta')
+    
     class Meta:
         model = Campo
-        fields = ['hora_inicio', 'hora_fin']
+        fields = ['hora_inicio', 'hora_fin','cantidad_horas']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         rutas = fetch_rutas_from_odoo()
         ruta_choices = [(ruta, ruta) for ruta in rutas]
-        self.fields['rutas'].choices = ruta_choices        
+        self.fields['rutas'].choices = ruta_choices
 
 class NovedadFormTipo20(NovedadFormBase, forms.ModelForm):
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     class Meta:
         model = Campo
-        fields = ['consecutivo','tipo_servicio', 'hora_inicio', 'hora_fin','horasextra']
+        fields = ['consecutivo','tipo_servicio', 'hora_inicio', 'hora_fin','horasextra', 'cantidad_horas']
 
 class NovedadFormTipo21(NovedadFormBase, forms.ModelForm):
     rutas = forms.ChoiceField(choices=[], label='Ruta')   
+    cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     class Meta:
         model = Campo
-        fields = [ 'hora_inicio', 'hora_fin','horasextra','zona_reemplazo', 'hora_inicio', 'hora_fin','horasextra']
+        fields = [ 'hora_inicio', 'hora_fin','horasextra','zona_reemplazo', 'hora_inicio', 'hora_fin','horasextra','cantidad_horas']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         rutas = fetch_rutas_from_odoo()
@@ -292,7 +352,7 @@ class NovedadFormTipo23(forms.ModelForm):
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['cedula', 'nombre', 'correo']
+        fields = ['cedula', 'nombre', 'correo','departamento']
 
 class CampoForm(forms.ModelForm):
     class Meta:

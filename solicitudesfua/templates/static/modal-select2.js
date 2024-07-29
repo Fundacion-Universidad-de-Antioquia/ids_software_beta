@@ -2,17 +2,51 @@ $(document).ready(function() {
     const params = new URLSearchParams(window.location.search);
     const nombre = params.get('nombre');
     const zona = params.get('zona');
+    const departamento = params.get('departamento');
 
     var personasDataElement = document.getElementById('personas-data');
     var personasData = JSON.parse(personasDataElement ? personasDataElement.textContent : '{}');
+    const tiposNovedadesOcultas = {
+        'Supervisores / LV': ['opcion16', 'opcion19', 'opcion20'],
+        'Supervisores / RYT': []
+    };
 
-    if (nombre && zona) {
-        $('#userInfo').text(`Reportando: ${nombre} en la zona ${zona}`);
-    } else {
-        console.error('Nombre o zona no recibidos correctamente');
+    function actualizarTiposNovedades(departamento) {
+        var tipoNovedadSelect = $('#tipoNovedadSelect');
+        
+        // Primero destruye Select2 si está inicializado
+        if (tipoNovedadSelect.hasClass("select2-hidden-accessible")) {
+            tipoNovedadSelect.select2('destroy');
+        }
+
+        tipoNovedadSelect.find('option').each(function() {
+            var value = $(this).val();
+            var text = $(this).text();
+            if (tiposNovedadesOcultas[departamento] && tiposNovedadesOcultas[departamento].includes(value)) {
+                
+                $(this).attr('disabled', 'disabled').hide();
+            } else {
+                $(this).removeAttr('disabled').show();
+            }
+        });
+
+        // Reinicializar Select2 después de modificar las opciones
+        tipoNovedadSelect.select2();
+        tipoNovedadSelect.val(null).trigger('change'); // Reiniciar la selección
     }
 
+    if (departamento) {
+        actualizarTiposNovedades(departamento); // Actualizar los tipos de novedades basados en el departamento
+        
+    }
+    if (nombre && zona) {
+        $('#userInfo').html(`Reportando: ${nombre} en la zona ${zona}<br>Departamento: ${departamento}`);
+        actualizarTiposNovedades(departamento);   
+    } else {
+        console.error('Nombre, zona o departamento no recibidos correctamente');
+    }
     $('#tipoNovedadSelect').select2();
+    
 
     $('#agregarNovedadBtn').click(function() {
         var tipoNovedad = $('#tipoNovedadSelect').val();
@@ -44,7 +78,7 @@ $(document).ready(function() {
 
     function cargarFormularioNovedad(tipoNovedad, novedad = null, index = null) {
         $.ajax({
-            url: `/azure_auth/novedades/formulario/${tipoNovedad}/`,
+            url: `/azure_auth/novedades/formulario/${tipoNovedad}/?departamento=${departamento}`,
             type: 'GET',
             success: function(data) {
                 $('#novedadModal .modal-body').html(data);
@@ -62,7 +96,9 @@ $(document).ready(function() {
                         buscarFechaIngreso(personaId);
                     }
                 });
-
+                // Ejecutar al cargar el formulario para ocultar campos
+                toggleHoraExtraFields();
+                toggleReemplazaFields();
                 $('#id_novedad_extemporanea').change(function() {
                     var novedadExtemporanea = $(this).val();
                     
@@ -80,14 +116,16 @@ $(document).ready(function() {
                 });
 
                 $('#id_horasextra').change(function() {
-                    var horasextra = $(this).val();
-                    if (horasextra === 'opcion1') {
-                        $('#id_hora_inicio, #id_hora_fin').parent().show();
-                        $('#id_hora_inicio, #id_hora_fin').attr('required', true);
-                    } else {
-                        $('#id_hora_inicio, #id_hora_fin').parent().hide();
-                        $('#id_hora_inicio, #id_hora_fin').removeAttr('required').val('');
-                    }
+                    toggleHoraExtraFields();
+                });
+                $('#id_reemplaza').change(function() {
+                    toggleReemplazaFields();
+                });
+                $('#id_hora_inicio, #id_hora_fin').change(function() {
+                    calcularHoras();
+                });
+                $('#id_fecha_inicial, #id_fecha_final').change(function() {
+                    calcularDias();
                 });
 
                 $('#novedadForm').off('submit').on('submit', function(event) {
@@ -111,6 +149,82 @@ $(document).ready(function() {
             }
         });
     }
+    function toggleHoraExtraFields() {
+        var horasextra = $('#id_horasextra').val();
+        if (horasextra === 'opcion1') {
+            $('#id_hora_inicio, #id_hora_fin').parent().show();
+            $('#id_hora_inicio, #id_hora_fin').attr('required', true);
+        } else {
+            $('#id_hora_inicio, #id_hora_fin').parent().hide();
+            $('#id_hora_inicio, #id_hora_fin').removeAttr('required').val('');
+            $('#id_cantidad_horas').val(''); // Limpiar el campo de cantidad de horas
+       
+        }
+    }
+
+    function toggleReemplazaFields() {
+        var reemplaza = $('#id_reemplaza').val();
+        if (reemplaza === 'opcion1') {
+            $('#id_zona_reemplazo, #id_colaborador').parent().show();
+            $('#id_zona_reemplazo, #id_colaborador').attr('required', true);
+        } else {
+            $('#id_zona_reemplazo, #id_colaborador').parent().hide();
+            $('#id_zona_reemplazo, #id_colaborador').removeAttr('required').val('');
+        }
+    }
+    function calcularHoras() {
+        var horaInicio = $('#id_hora_inicio').val();
+        var horaFin = $('#id_hora_fin').val();
+
+        if (horaInicio && horaFin) {
+            $.ajax({
+                url: '/calcular_cantidad_horas/',
+                type: 'GET',
+                data: {
+                    hora_inicio: horaInicio,
+                    hora_fin: horaFin
+                },
+                success: function(data) {
+                    $('#id_cantidad_horas').val(data.cantidad_horas.toFixed(2));
+                },
+                error: function(error) {
+                    console.error('Error al calcular cantidad de horas:', error);
+                    $('#id_cantidad_horas').val('');
+                }
+            });
+        } else {
+            $('#id_cantidad_horas').val('');
+        }
+    }
+    function calcularDias() {
+        var fechaInicio = $('#id_fecha_inicial').val();
+        var fechaFin = $('#id_fecha_final').val();
+        console.log('Fecha Inicio:', fechaInicio);  // Agregar log
+        console.log('Fecha Fin:', fechaFin);        // Agregar log
+    
+        if (fechaInicio && fechaFin) {
+            $.ajax({
+                url: '/calcular_cantidad_dias/',
+                type: 'GET',
+                data: {
+                    fecha_inicio: fechaInicio,
+                    fecha_fin: fechaFin
+                },
+                success: function(data) {
+                    console.log('Cantidad de Días:', data.cantidad_dias);  // Agregar log
+                    $('#id_cantidad_dias').val(data.cantidad_dias);
+                },
+                error: function(error) {
+                    console.error('Error al calcular cantidad de días:', error);
+                    $('#id_cantidad_dias').val('');
+                }
+            });
+        } else {
+            $('#id_cantidad_dias').val('');
+        }
+    }
+    
+    
 
     function guardarNovedad() {
         var form = $('#novedadForm');
@@ -270,7 +384,9 @@ $(document).ready(function() {
                 Tipo_servicio: novedad.tipo_servicio || '',
                 Zona_inicial: novedad.zona_inicial || '',
                 Novedad_extratemporanea: novedad.novedad_extemporanea || '',
-                Consecutivo_servicio_Adcional: novedad.consecutivo || ''
+                Consecutivo_servicio_Adcional: novedad.consecutivo || '',
+                Cantidad_horas: novedad.cantidad_horas || '',
+                Cantidad_dias: novedad.cantidad_dias || '' 
             };
 
             Object.keys(fields).forEach(key => {
@@ -359,8 +475,10 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.horasextra || '') + '</td>';
             newRow += '<td>' + (novedad.hora_inicio || '') + '</td>';
             newRow += '<td>' + (novedad.hora_fin || '') + '</td>';
+            newRow += '<td>' + (novedad.cantidad_horas || '') + '</td>'; 
             newRow += '<td>' + (novedad.fecha_inicial || '') + '</td>';
-            newRow += '<td>' + (novedad.fecha_final || '') + '</td>';
+            newRow += '<td>' + (novedad.fecha_final || '') + '</td>'; 
+            newRow += '<td>' + (novedad.cantidad_dias || '') + '</td>'; 
             newRow += '<td>' + (novedad.fecha || '') + '</td>';
             newRow += '<td>' + (novedad.tipos_licencia || '') + '</td>';
             newRow += '<td>' + (novedad.tipo_permisos || '') + '</td>';
@@ -369,12 +487,14 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.fecha_ingreso || '') + '</td>';
             newRow += '<td>' + (novedad.fecha_inicio || '') + '</td>';
             newRow += '<td>' + (novedad.fecha_fin || '') + '</td>';
+            newRow += '<td>' + (novedad.cantidad_dias || '') + '</td>';  
             newRow += '<td>' + (novedad.motivo || '') + '</td>';
             newRow += '<td>' + (novedad.fecha || '') + '</td>';
             newRow += '<td>' + (novedad.rutas || '') + '</td>';
             newRow += '<td>' + (novedad.horasextra || '') + '</td>';
             newRow += '<td>' + (novedad.hora_inicio || '') + '</td>';
-            newRow += '<td>' + (novedad.hora_fin || '') + '</td>';
+            newRow += '<td>' + (novedad.hora_fin || '') + '</td>';            
+            newRow += '<td>' + (novedad.cantidad_horas || '') + '</td>'; 
             newRow += '<td>' + (novedad.zona_reemplaza || '') + '</td>';
         } else if (tableId === '#novedadesTableOperativos') {
             newRow += '<td>' + (novedad.consecutivo || '') + '</td>';
@@ -384,6 +504,7 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.horasextra || '') + '</td>';
             newRow += '<td>' + (novedad.hora_inicio || '') + '</td>';
             newRow += '<td>' + (novedad.hora_fin || '') + '</td>';
+            newRow += '<td>' + (novedad.cantidad_horas || '') + '</td>'; 
             newRow += '<td>' + (novedad.ruta || '') + '</td>';
             newRow += '<td>' + (novedad.zona_inicial || '') + '</td>';
             newRow += '<td>' + (novedad.control || '') + '</td>';

@@ -21,7 +21,7 @@ client_secret = os.getenv("CLIENT_SECRET_LIST")
 scope = 'https://graph.microsoft.com/.default'
 site_id = os.getenv("SITE_ID_LIST")
 list_name = os.getenv("LIST_NAME_LIST")
-
+"""
 def fetch_personas_from_odoo():
     
     try:
@@ -45,6 +45,43 @@ def fetch_personas_from_odoo():
 
         #return [(str(persona['identification_id']), persona['name']) for persona in personas if 'identification_id' in persona and 'name' in persona]
 
+    except Exception as e:
+        logger.error('Failed to fetch data from Odoo', exc_info=True)
+        return []
+
+"""
+def fetch_personas_from_odoo(departamento=None):
+    try:
+        common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
+        uid = common.authenticate(database, user, password, {})
+        models = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/object')
+        logger.debug(f'Authenticated user ID: {uid}')
+        
+        personas = models.execute_kw(database, uid, password,
+            'hr.employee', 'search_read',
+            [[('company_id.name', '=', 'Programa de Gestión del Aseo de la Ciudad')]],
+            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'x_studio_fecha_de_ingreso_1', 'department_id']})
+
+        if not personas:
+            logger.debug('No personas found')
+            return []
+
+        # Filtrar según el departamento
+        if departamento == 'Supervisores / LV':
+            departamento_filtro = 'OPERADORES DE BARRIDO'
+        elif departamento == 'Supervisores / RYT':
+            departamento_filtro = ['RECOLECTORES', 'CONDUCTORES']
+        else:
+            departamento_filtro = None
+
+        if departamento_filtro:
+            if isinstance(departamento_filtro, list):
+                personas = [p for p in personas if isinstance(p.get('department_id'), list) and p['department_id'][1] in departamento_filtro]
+            else:
+                personas = [p for p in personas if isinstance(p.get('department_id'), list) and p['department_id'][1] == departamento_filtro]
+
+        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+        
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)
         return []
@@ -244,6 +281,28 @@ def sincronizar_con_sharepoint(registros, access_token):
 
 logger = logging.getLogger(__name__)
 
+"""def fetch_personas_from_odoo_usuarios(correo):
+    try:
+        common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
+        uid = common.authenticate(database, user, password, {})
+        models = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/object')
+        logger.debug(f'Authenticated user ID: {uid}')
+        
+        personas = models.execute_kw(database, uid, password,
+            'hr.employee', 'search_read',
+            [[('work_email', '=', correo)]],
+            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'work_email','x_studio_fecha_de_ingreso_1', 'department_id']})
+
+        if personas:
+            logger.debug(f'Retrieved {len(personas)} personas')
+        else:
+            logger.debug('No personas found')
+
+        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''),persona.get('department_id', ''), persona.get('work_email', ''),persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+
+    except Exception as e:
+        logger.error('Failed to fetch data from Odoo', exc_info=True)
+        return []"""
 def fetch_personas_from_odoo_usuarios(correo):
     try:
         common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
@@ -254,18 +313,25 @@ def fetch_personas_from_odoo_usuarios(correo):
         personas = models.execute_kw(database, uid, password,
             'hr.employee', 'search_read',
             [[('work_email', '=', correo)]],
-            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'work_email','x_studio_fecha_de_ingreso_1']})
+            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo','department_id', 'work_email']})
 
         if personas:
             logger.debug(f'Retrieved {len(personas)} personas')
         else:
             logger.debug('No personas found')
 
-        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('work_email', ''),persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
+        # Adjusting to extract only the department name
+        return [(persona['identification_id'], 
+                 persona['name'], 
+                 persona.get('x_studio_zona_proyecto_aseo', ''), 
+                 persona['department_id'][1] if 'department_id' in persona and persona['department_id'] else '',  # Extract the name part of the department
+                 persona.get('work_email', '')) 
+                for persona in personas if 'identification_id' in persona and 'name' in persona]
 
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)
         return []
+        
     
 def fetch_zonas_from_odoo():
     try:

@@ -29,9 +29,10 @@ function validarZona() {
     const selectedZona = document.getElementById('id_zona').value;
     const selectedRow = document.querySelector('tbody tr');
     const selectedNombre = selectedRow ? selectedRow.cells[1].innerText : ''; // Asumiendo que el nombre está en la segunda columna
+    const selectedDepartamento = selectedRow ? selectedRow.cells[3].innerText : ''; // Asumiendo que el departamento está en la cuarta columna
 
-    if (!selectedZona || !selectedNombre) {
-        alert('Por favor, seleccione una zona y asegúrese de que el nombre esté disponible.');
+    if (!selectedZona || !selectedNombre || !selectedDepartamento) {
+        alert('Por favor, seleccione una zona y asegúrese de que el nombre y el departamento estén disponibles.');
         return;
     }
     // Validar si la zona seleccionada es diferente a la zona capturada en la tabla
@@ -44,7 +45,7 @@ function validarZona() {
     }
 
     // Redirigir con parámetros
-    window.location.href = `/azure_auth/novedades/?zona=${selectedZona}&nombre=${selectedNombre}`;
+    window.location.href = `/azure_auth/novedades/?zona=${selectedZona}&nombre=${selectedNombre}&departamento=${selectedDepartamento}`;
 }
 
 $(document).ready(function() {

@@ -1,6 +1,8 @@
 from django.db import models
 from django.db import models
 from datetime import timedelta
+from django.http import JsonResponse
+
 
 class NovedadBase(models.Model):
     fecha = models.DateField(default='')
@@ -50,6 +52,7 @@ class Usuario(models.Model):
     cedula = models.CharField(max_length=200, unique=True)
     nombre = models.CharField(max_length=200)
     correo = models.EmailField(unique=True)
+    departamento = models.EmailField(unique=True)
     def __str__(self):
         return self.nombre
 
@@ -89,8 +92,8 @@ class Campo(models.Model):
         ],
         default='opcion2'
     )
-    hora_inicio = models.TimeField()
-    hora_fin = models.TimeField()
+    hora_inicio = models.TimeField(null=True, blank=True)
+    hora_fin = models.TimeField(null=True, blank=True)
     zona_inicial = models.CharField(max_length=200)
     zona_reemplazo = models.CharField(max_length=200)
     hora_llegada = models.TimeField()
@@ -136,15 +139,12 @@ class Campo(models.Model):
     
     @property
     def cantidad_horas(self):
-        if self.horasextra == 'Si' and self.hora_inicio and self.hora_fin:
+        if self.horasextra == 'opcion1' and self.hora_inicio and self.hora_fin:
             inicio = timedelta(hours=self.hora_inicio.hour, minutes=self.hora_inicio.minute, seconds=self.hora_inicio.second)
             fin = timedelta(hours=self.hora_fin.hour, minutes=self.hora_fin.minute, seconds=self.hora_fin.second)
             cantidad_horas = (fin - inicio).total_seconds() / 3600  # Convertir segundos a horas
             return cantidad_horas
         return 0
-    def save(self, *args, **kwargs):
-        self.cantidad_horas_extra = self.cantidad_horas
-        super().save(*args, **kwargs)
     
     @property
     def cantidad_dias(self):
