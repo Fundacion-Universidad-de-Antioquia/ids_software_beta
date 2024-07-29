@@ -1,8 +1,10 @@
 <form method="post" id="novedadForm">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="hidden" id="id_fecha_ingreso" name="fecha_ingreso">
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <div class="d-flex justify-content-center align-items-center">
+        <button type="submit" class="btn btn-primary btn-funda">Enviar</button>
+    </div>
+    
 </form>
 
 <script id="personas-data" type="application/json">

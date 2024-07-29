@@ -515,8 +515,8 @@ $(document).ready(function() {
             newRow += '<td>' + (novedad.hora_llegada || '') + '</td>';
             newRow += '<td>' + (novedad.fecha || '') + '</td>';
         }
-
-        newRow += '<td><button class="btn btn-warning btn-sm edit">Editar</button><button class="btn btn-danger btn-sm delete">Eliminar</button></td>';
+    
+        newRow += '<td class="actions-btns"><button class="edit"><i class="bi bi-pencil-square"></i></button><button class="delete"><i class="bi bi-trash"></i></button></td>';
         newRow += '</tr>';
 
         $(tableId).append(newRow);

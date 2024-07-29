@@ -1,154 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Registro de Novedades</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- GOOGLE FONTS   -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/form_inicio.css" />
+  </head>
+  <body>
+    <header class="dinamic-header">
+      <div class="container items-header">
+        <img
+          src="/templates/img/funda-logo-3.png"
+          class="header-logo desktop"
+          alt="Logo Fundación UdeA"
+        />
+        <img
+          src="/templates/img/funda-icon-1.png"
+          class="header-logo mobile"
+          alt="Logo Fundación UdeA"
+        />
+        <h2 class="d-flex justify-content-center align-items-center">
+          Formulario de Novedades
+        </h2>
+        <a class="item-btn" href="/azure_auth/home/">
+          <i class="bi bi-arrow-left mobile"></i>
+          <button><i class="bi bi-arrow-left"></i> Regresar</button>
+        </a>
+      </div>
+    </header>
     <div class="container mt-5">
-        <h1>Formulario de Novedades</h1>
-        <h2 id="userInfo"></h2> <!-- Mostrar nombre y zona aquí -->
-        <select id="tipoNovedadSelect" class="form-select" aria-label="Tipo de Novedad">
-            <option selected>Seleccione el tipo de novedad</option>
-            {% for value, label in tipos_novedad %}
-                <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-        </select>
-        <button type="button" class="btn btn-primary" id="agregarNovedadBtn">Agregar Novedad</button>
-        
-        <div class="modal fade" id="novedadModal" tabindex="-1" aria-labelledby="novedadModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="novedadModalLabel">Nueva Novedad</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Aquí se cargará el formulario dinámicamente -->
-                    </div>
-                </div>
+      <!-- <h1 class="d-flex justify-content-center align-items-center mb-4">
+        Formulario de Novedades
+      </h1> -->
+      <br />
+      <div class="head-info">
+        <div class="grid-container">
+          <div class="gc-item-1">
+            <h5 id="userInfo"></h5>
+            <br />
+            <!-- Mostrar nombre y zona aquí -->
+            <select
+              id="tipoNovedadSelect"
+              class="form-select"
+              aria-label="Tipo de Novedad"
+            >
+              <option selected>Seleccione el tipo de novedad</option>
+              {% for value, label in tipos_novedad %}
+              <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="gc-item-2">
+            <div class="d-flex justify-content-center align-items-center">
+              <button
+                type="button"
+                class="btn btn-primary btn-funda mt-4 mb-4"
+                id="agregarNovedadBtn"
+              >
+                Agregar Novedad
+              </button>
             </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Tablas de Novedades -->
-        <h2>Tabla Ausencias</h2>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cédula</th>
-                    <th scope="col">Observaciones</th>
-                    <th scope="col">Zona</th>
-                    <th scope="col">Tipo Novedad</th>
-                    <th scope="col">Novedad Extratemporanea</th>
-                    <th scope="col">Ruta</th>
-                    <th scope="col">Reemplaza</th>
-                    <th scope="col">Colaborador</th>
-                    <th scope="col">Horas Extra</th>
-                    <th scope="col">Hora Inicio</th>
-                    <th scope="col">Hora Fin</th>
-                    <th scope="col">Cantidad horas extra</th>
-                    <th scope="col">Fecha Inicial</th>
-                    <th scope="col">Fecha Final</th>
-                    <th scope="col">Cantidad Días</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Tipo Licencia</th>
-                    <th scope="col">Tipo Permiso</th>
-                    <th scope="col">Tipo Incapacidad</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="novedadesTableAusencias">
-            </tbody>
-        </table>
+      <br />
 
-        <h2>Tabla Ingresos y Retiros</h2>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cédula</th>
-                    <th scope="col">Observaciones</th>
-                    <th scope="col">Zona</th>
-                    <th scope="col">Tipo Novedad</th>
-                    <th scope="col">Novedad Extratemporanea</th>
-                    <th scope="col">Fecha Ingreso Odoo</th>
-                    <th scope="col">Fecha Inicio</th>
-                    <th scope="col">Fecha Fin</th>                      
-                    <th scope="col">Cantidad Días</th>
-                    <th scope="col">Motivo</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Rutas</th>
-                    <th scope="col">Horas Extra</th>
-                    <th scope="col">Hora Inicio</th>
-                    <th scope="col">Hora Fin</th>                    
-                    <th scope="col">Cantidad horas extra</th>
-                    <th scope="col">Zona Reemplaza</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="novedadesTableIngresosRetiros">
-            </tbody>
-        </table>
+      <div
+        class="modal fade"
+        id="novedadModal"
+        tabindex="-1"
+        aria-labelledby="novedadModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="novedadModalLabel">Nueva Novedad</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Aquí se cargará el formulario dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <h2>Tabla Operativos</h2>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cédula</th>
-                    <th scope="col">Observaciones</th>
-                    <th scope="col">Zona</th>
-                    <th scope="col">Tipo Novedad</th>
-                    <th scope="col">Novedad Extratemporanea</th>
-                    <th scope="col">Consecutivo</th>
-                    <th scope="col">Reemplaza</th>
-                    <th scope="col">Colaborador</th>
-                    <th scope="col">Zona Reemplazo</th>
-                    <th scope="col">Horas Extra</th>
-                    <th scope="col">Hora Inicio</th>
-                    <th scope="col">Hora Fin</th>
-                    <th scope="col">Cantidad horas extra</th>
-                    <th scope="col">Ruta</th>
-                    <th scope="col">Zona Inicial</th>
-                    <th scope="col">Control</th>
-                    <th scope="col">Nuevo Control</th>
-                    <th scope="col">Tipo Servicio</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="novedadesTableOperativos">
-            </tbody>
+      <!-- Tablas de Novedades -->
+      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
+        AUSENCIAS
+      </h4>
+      <div class="table-responsive mb-5">
+        <table class="table mt-1">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">Observaciones</th>
+              <th scope="col">Zona</th>
+              <th scope="col">Tipo Novedad</th>
+              <th scope="col">Ruta</th>
+              <th scope="col">Reemplaza</th>
+              <th scope="col">Colaborador</th>
+              <th scope="col">Horas Extra</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora Fin</th>
+              <th scope="col">Fecha Inicial</th>
+              <th scope="col">Fecha Final</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Tipo Licencia</th>
+              <th scope="col">Tipo Permiso</th>
+              <th scope="col">Tipo Incapacidad</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="novedadesTableAusencias"></tbody>
         </table>
+      </div>
 
-        <h2>Tabla Personal</h2>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cédula</th>
-                    <th scope="col">Observaciones</th>
-                    <th scope="col">Zona</th>
-                    <th scope="col">Tipo Novedad</th>
-                    <th scope="col">Novedad Extratemporanea</th>
-                    <th scope="col">Hora Llegada</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="novedadesTablePersonal">
-            </tbody>
+      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
+        INGRESOS Y RETIROS
+      </h4>
+      <div class="table-responsive">
+        <table class="table mt-1">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">Observaciones</th>
+              <th scope="col">Zona</th>
+              <th scope="col">Tipo Novedad</th>
+              <th scope="col">Fecha Ingreso Odoo</th>
+              <th scope="col">Fecha Inicio</th>
+              <th scope="col">Fecha Fin</th>
+              <th scope="col">Motivo</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Rutas</th>
+              <th scope="col">Horas Extra</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora Fin</th>
+              <th scope="col">Zona Reemplaza</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="novedadesTableIngresosRetiros"></tbody>
         </table>
-        <button type="button" id="guardarBtn" class="btn btn-success mt-3">Guardar</button>
+      </div>
+
+      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
+        OPERATIVOS
+      </h4>
+      <div class="table-responsive">
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">Observaciones</th>
+              <th scope="col">Zona</th>
+              <th scope="col">Tipo Novedad</th>
+              <th scope="col">Reemplaza</th>
+              <th scope="col">Colaborador</th>
+              <th scope="col">Zona Reemplazo</th>
+              <th scope="col">Horas Extra</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora Fin</th>
+              <th scope="col">Ruta</th>
+              <th scope="col">Zona Inicial</th>
+              <th scope="col">Control</th>
+              <th scope="col">Nuevo Control</th>
+              <th scope="col">Tipo Servicio</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="novedadesTableOperativos"></tbody>
+        </table>
+      </div>
+
+      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
+        PERSONAL
+      </h4>
+      <div class="table-responsive">
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">Observaciones</th>
+              <th scope="col">Zona</th>
+              <th scope="col">Tipo Novedad</th>
+              <th scope="col">Hora Llegada</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="novedadesTablePersonal"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center">
+        <button
+          type="button"
+          id="guardarBtn"
+          class="btn btn-success btn-funda mt-3 mb-5"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/modal-select2.js"></script>
-    
-</body>
+  </body>
 </html>

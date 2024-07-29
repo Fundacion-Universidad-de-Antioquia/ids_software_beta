@@ -1,8 +1,214 @@
 select#id_zona {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    background-color: #fff;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background-color: #fff;
+}
+
+body{
+  font-family: "Open Sans", sans-serif;
+}
+
+.mobile{
+  display: none;
+}
+
+/* HEADER */
+.static-header{
+  display: flex;
+  justify-content: center;
+  background-color: #5C9C31;
+}
+
+.header-logo{
+  min-width: 100px;
+  max-width: 180px;
+  margin: 8px 0;
+}
+
+.dinamic-header{
+  font-family: "Open Sans", sans-serif;
+  color: #fff;
+  background-color: #5C9C31;
+}
+
+.dinamic-header a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.25em;
+}
+
+.items-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-btn{
+  display: flex;
+  align-items: center;
+  /* max-height: 50px; */
+}
+
+.item-btn button{
+  color: #fff;
+  border: none;
+  background-color:inherit;
+}
+
+.item-btn button:hover{
+  border-radius: 6px;
+  background-color: #3c6922;
+}
+
+/* TÍTULO HERRAMIENTA */
+.title-s{
+  margin: 20px 0;
+}
+
+.select2-container{
+  width: 100% !important;
+}
+
+/* DATOS EMPLEADO */
+.two-fields{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.two-fields p {
+  margin: 8px 15px 15px 0;
+}
+
+.two-fields input, .two-fields select {
+  min-width: 200px;
+}
+
+/* BOTONES */
+.actions-btns button{
+  width: 100%;
+  border: none;
+  background-color: inherit;
+}
+
+.actions-btns .edit:hover{
+  border-radius: 6px;
+  background-color: #ffa500;
+}
+
+.actions-btns .delete:hover{
+  border-radius: 6px;
+  background-color: #ff0000;
+}
+
+.actions-btns .bi-pencil-square, .actions-btns .bi-trash{
+  display: flex;
+  padding: 5px;
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions-btns .bi-trash{
+  color: #ff0000;
+}
+
+.actions-btns .bi-trash:hover{
+  color: #ffffff;
+}
+
+.actions-btns .bi-pencil-square{
+  color: #ffa500;
+}
+
+.actions-btns .bi-pencil-square:hover{
+  color: #ffffff;
+}
+
+.button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-funda {
+  background-color: #5c9c31;
+  border-color: #5c9c31;
+  color: #e3e3e3;
+  min-width: 160px;
+  min-height: 45px;
+  font-size: 1.15rem;
+}
+
+.btn-funda:active {
+  background-color: #3c6922 !important;
+  border-color: #3c6922 !important;
+}
+
+.btn-funda:hover{
+  background-color: #4c8927;
+  border-color: #4c8927;
+}
+
+.btn-close{
+  background-color: #ff0000;
+}
+
+/* Grids*/
+.grid-container{
+  display: grid;
+  grid-template-columns: 2fr 1fr ;
+}
+
+/* TABLAS */
+.table-responsive{
+  border-radius: 6px;
+  background-color: #e3e3e3;
+}
+
+/* MODAL */
+.modal-body select{
+  width: 100%;
+}
+
+@media (max-width: 700px){
+  .mobile{
+    display: block;
+  }
+
+  .desktop{
+    display: none;
+  }
+
+  .two-fields{
+    display: block;
+  }
+
+  .item-btn button{
+    display: none;
+  }
+
+  .select2-container{
+    width: 95% !important;
+  }
+
+  .grid-container{
+    display: block;
+  }
+
+  .header-logo{
+    min-width: 20px;
+    max-width: 70px;
+  }
+
+  .modal-dialog{
+    margin: 1rem;
+  }
 }

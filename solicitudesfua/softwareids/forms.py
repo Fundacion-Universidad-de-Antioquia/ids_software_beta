@@ -8,7 +8,13 @@ from .utils import fetch_zonas_from_odoo, fetch_personas_from_odoo, fetch_rutas_
 """class NovedadFormBase(forms.Form):
     fecha = forms.DateField()
     Persona = forms.ChoiceField(choices=[], label='Persona')
-    zona = forms.ChoiceField(choices=[], label='Zona')
+    zona = forms.ChoiceField(widget=forms.Select(
+            attrs={
+                'class': 'form-select',  # Clase CSS de Bootstrap para selects
+                'placeholder': 'Seleccione una zona'
+            }
+        ))
+                             
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -355,6 +361,16 @@ class UsuarioForm(forms.ModelForm):
         fields = ['cedula', 'nombre', 'correo','departamento']
 
 class CampoForm(forms.ModelForm):
+    fecha = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',  # Esto utiliza el selector de fecha HTML5
+                'class': 'form-control',  # Clase CSS para Bootstrap
+                'placeholder': 'Seleccione una fecha'  # Texto de marcador de posición
+            }
+        ),
+        input_formats=['%Y-%m-%d'],  # Formato de entrada esperado
+    )
     class Meta:
         model = NovedadBase
         fields = ['fecha','zona']

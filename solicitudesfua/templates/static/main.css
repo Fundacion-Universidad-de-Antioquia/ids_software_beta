@@ -4,6 +4,9 @@ body{
   background: linear-gradient(0deg, rgba(65,111,35,1) 0%, rgba(92,156,49,1) 50%);
 }
 
+.static-header{
+  background-color: #689A46;
+}
 
 /* SECCIÓN TÍTULO */
 .title-s h1{
