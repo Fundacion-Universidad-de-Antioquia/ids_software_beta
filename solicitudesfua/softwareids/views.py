@@ -3,15 +3,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import os
 from .forms import CampoForm, NovedadFormTipo1, NovedadFormTipo2, NovedadFormTipo3, NovedadFormTipo4, NovedadFormTipo10,NovedadFormTipo11, NovedadFormTipo12, NovedadFormTipo13, NovedadFormTipo14,NovedadFormTipo15, NovedadFormTipo16, NovedadFormTipo18, NovedadFormTipo17, NovedadFormTipo19, NovedadFormTipo20, NovedadFormTipo21, NovedadFormTipo22, NovedadFormTipo23,  NovedadFormTipo5, NovedadFormTipo6, NovedadFormTipo7, NovedadFormTipo8, NovedadFormTipo9
-from .utils import  obtener_access_token, sincronizar_con_sharepoint, fetch_personas_from_odoo_usuarios, fetch_zonas_from_odoo
+from .utils import  obtener_access_token, sincronizar_con_sharepoint, fetch_personas_from_odoo_usuarios, fetch_zonas_from_odoo, fetch_personas_from_odoo
 from django.views.decorators.csrf import csrf_exempt
 import json
 import logging
 from .models import NovedadBase
 from django.http import Http404, JsonResponse
+from django.utils.safestring import mark_safe
 
 
 
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -47,11 +49,12 @@ def home(request):
     # Usar print para depuración rápida o considerar logging.debug para producción
 # views.py
 
+
 @login_required
 def novedad_view(request):
     tipos_novedad = NovedadBase._meta.get_field('tipo_novedad').choices
     return render(request, 'form.html', {'tipos_novedad': tipos_novedad})
-# Renderiza la página principal
+"""
 @login_required
 def cargar_formulario_novedad(request, tipo_novedad):
     form_classes = {
@@ -85,11 +88,121 @@ def cargar_formulario_novedad(request, tipo_novedad):
     if not FormClass:
         raise Http404("Tipo de novedad no válido")
 
-    form = FormClass()
-    return render(request, 'formulario_novedad.html', {'form': form, 'tipo_novedad': tipo_novedad})
-# Renderiza la página principal
+    if request.method == 'POST':
+        form = FormClass(request.POST)
+        if form.is_valid():
+            cedula = form.cleaned_data['cedula']
+            logger.debug(f'Cedula recibida: {cedula}')
 
+            # Obtener la fecha de ingreso desde Odoo solo para el formulario tipo 8
+            if tipo_novedad == 'opcion8':
+                personas = fetch_personas_from_odoo()
+                fecha_ingreso = ''
+                for persona in personas:
+                    if persona[0] == cedula:
+                        fecha_ingreso = persona[3]
+                        break
 
+                logger.debug(f'Fecha de ingreso obtenida: {fecha_ingreso}')
+
+                # Guardar en la base de datos
+                novedad = form.save(commit=False)
+                novedad.fecha_ingreso = fecha_ingreso
+                novedad.cantidad_horas = novedad.cantidad_horas  # Calcular y asignar cantidad_horas
+                novedad.save()
+            else:
+                form.save()
+
+            # Redirigir o mostrar un mensaje de éxito
+            return redirect('url_de_exito')
+
+    else:
+        form = FormClass()
+        personas_data = fetch_personas_from_odoo()
+        personas_data_dict = {
+            persona[0]: {
+                'nombre': persona[1],
+                'fecha_ingreso': persona[3]
+            } for persona in personas_data
+        }
+
+    return render(request, 'formulario_novedad.html', {
+        'form': form,
+        'tipo_novedad': tipo_novedad,
+        'personas_data_json': mark_safe(json.dumps(personas_data_dict))
+    })"""
+
+@login_required
+def cargar_formulario_novedad(request, tipo_novedad):
+    form_classes = {
+        'opcion1': NovedadFormTipo1,
+        'opcion2': NovedadFormTipo2,
+        'opcion3': NovedadFormTipo3,
+        'opcion4': NovedadFormTipo4,
+        'opcion5': NovedadFormTipo5,
+        'opcion6': NovedadFormTipo6,
+        'opcion7': NovedadFormTipo7,
+        'opcion8': NovedadFormTipo8,
+        'opcion9': NovedadFormTipo9,
+        'opcion10': NovedadFormTipo10,
+        'opcion11': NovedadFormTipo11,
+        'opcion12': NovedadFormTipo12,
+        'opcion13': NovedadFormTipo13,
+        'opcion14': NovedadFormTipo14,
+        'opcion15': NovedadFormTipo15,
+        'opcion16': NovedadFormTipo16,
+        'opcion17': NovedadFormTipo17,
+        'opcion18': NovedadFormTipo18,
+        'opcion19': NovedadFormTipo19,
+        'opcion20': NovedadFormTipo20,
+        'opcion21': NovedadFormTipo21,
+        'opcion22': NovedadFormTipo22,
+        'opcion23': NovedadFormTipo23,
+    }
+    FormClass = form_classes.get(tipo_novedad)
+
+    if not FormClass:
+        raise Http404("Tipo de novedad no válido")
+
+    departamento = request.GET.get('departamento')
+
+    if request.method == 'POST':
+        form = FormClass(request.POST, departamento=departamento)
+        if form.is_valid():
+            if tipo_novedad == 'opcion8':
+                personas = fetch_personas_from_odoo()
+                cedula = form.cleaned_data['cedula']
+                fecha_ingreso = ''
+                for persona in personas:
+                    if persona[0] == cedula:
+                        fecha_ingreso = persona[3]
+                        break
+
+                novedad = form.save(commit=False)
+                novedad.fecha_ingreso = fecha_ingreso
+                novedad.cantidad_horas = novedad.cantidad_horas  # Calcular y asignar cantidad_horas
+                novedad.save()
+            else:
+                form.save()
+
+            return redirect('url_de_exito')
+
+    else:
+        form = FormClass(departamento=departamento)
+        personas_data = fetch_personas_from_odoo(departamento)
+        personas_data_dict = {
+            persona[0]: {
+                'nombre': persona[1],
+                'fecha_ingreso': persona[3]
+            } for persona in personas_data
+        }
+
+    return render(request, 'formulario_novedad.html', {
+        'form': form,
+        'tipo_novedad': tipo_novedad,
+        'personas_data_json': mark_safe(json.dumps(personas_data_dict)),
+        'departamento': departamento  # Asegurando que el departamento se pasa al template
+    })
 
 """@login_required
 def novedad_view(request):
@@ -153,4 +266,52 @@ def enviar_a_sharepoint(request):
 
     return JsonResponse({'error': 'Invalid method'}, status=405)
 
+@csrf_exempt
+def obtener_fecha_ingreso(request):
+    persona_id = request.GET.get('persona_id')
+    logger.debug(f'Persona ID recibida: {persona_id}')
+    if persona_id:
+        personas = fetch_personas_from_odoo()
+        for persona in personas:
+            if persona[0] == persona_id:
+                logger.debug(f'Fecha de ingreso encontrada: {persona[3]}')
+                return JsonResponse({'fecha_ingreso': persona[3]})  # La fecha de ingreso es el cuarto elemento de la tupla
+    logger.debug('Persona no encontrada')
+    return JsonResponse({'error': 'Persona no encontrada'}, status=404)
 
+
+from datetime import datetime, timedelta
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def calcular_cantidad_horas(request):
+    hora_inicio = request.GET.get('hora_inicio')
+    hora_fin = request.GET.get('hora_fin')
+    if hora_inicio and hora_fin:
+        try:
+            hora_inicio = datetime.strptime(hora_inicio, '%H:%M').time()
+            hora_fin = datetime.strptime(hora_fin, '%H:%M').time()
+            inicio = timedelta(hours=hora_inicio.hour, minutes=hora_inicio.minute, seconds=hora_inicio.second)
+            fin = timedelta(hours=hora_fin.hour, minutes=hora_fin.minute, seconds=hora_fin.second)
+            cantidad_horas = (fin - inicio).total_seconds() / 3600  # Convertir segundos a horas
+            return JsonResponse({'cantidad_horas': cantidad_horas})
+        except ValueError:
+            return JsonResponse({'error': 'Formato de hora inválido'}, status=400)
+    return JsonResponse({'cantidad_horas': 0})
+@login_required
+def calcular_cantidad_dias(request):
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+    if fecha_inicio and fecha_fin:
+        try:
+            print('Fecha Inicio:', fecha_inicio)  # Agregar log
+            print('Fecha Fin:', fecha_fin)        # Agregar log
+            fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
+            cantidad_dias = (fecha_fin - fecha_inicio).days
+            print('Cantidad de días:', cantidad_dias)  # Agregar log
+            return JsonResponse({'cantidad_dias': cantidad_dias})
+        except ValueError:
+            return JsonResponse({'error': 'Formato de fecha inválido'}, status=400)
+    return JsonResponse({'cantidad_dias': 0})

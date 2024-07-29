@@ -1,9 +1,12 @@
 <form method="post" id="novedadForm">
     {% csrf_token %}
-    
     {{ form.as_p }}
     <div class="d-flex justify-content-center align-items-center">
         <button type="submit" class="btn btn-primary btn-funda">Enviar</button>
     </div>
     
 </form>
+
+<script id="personas-data" type="application/json">
+    {{ personas_data_json|safe }}
+</script>
