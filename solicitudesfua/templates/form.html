@@ -4,7 +4,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery primero -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <!-- Luego Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     <meta charset="UTF-8" />
     <title>Registro de Novedades</title>
@@ -26,7 +40,6 @@
       rel="stylesheet"
     />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -81,11 +94,7 @@
           </div>
           <div class="gc-item-2">
             <div class="d-flex justify-content-center align-items-center">
-              <button
-                type="button"
-                class="btn btn-primary btn-funda mt-4 mb-4"
-                id="agregarNovedadBtn"
-              >
+              <button type="button" class="btn btn-primary btn-funda mt-4 mb-4" id="agregarNovedadBtn">
                 Agregar Novedad
               </button>
             </div>
@@ -106,14 +115,14 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="novedadModalLabel">Nueva Novedad</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-              
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+             <!-- Aquí se agrega el icono de cargando -->
+            
+          
+          
+          
+          
             <div class="modal-body">
               <!-- Aquí se cargará el formulario dinámicamente -->
             </div>
@@ -125,6 +134,12 @@
         <div id="loadingModal" class="modal">
           <div class="modal-content">
               <p>Enviando datos, por favor espere...</p>
+          </div>
+        </div>  
+          <!-- Modal de Cargando -->
+        <div id="loadingModalFormNovedad" class="modal">
+          <div class="modal-content2">
+              <p>Cargando información, por favor espere...</p>
           </div>
       </div>
       <!-- Modal de Justificación -->
@@ -138,7 +153,7 @@
                 <div class="modal-body">
                     <form id="justificacionForm">
                         <div class="mb-3">
-                            <label for="justificacion-textarea" class="form-label">Por favor, ingrese la justificación:</label>
+                            <label for="justificacion-textarea" class="form-label">Justifique por qué no realizó el reporte del día anterior en el horario establecido</label>
                             <textarea class="form-control" id="justificacion-textarea" rows="3"></textarea>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">

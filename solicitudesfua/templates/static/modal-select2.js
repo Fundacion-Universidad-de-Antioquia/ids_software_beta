@@ -4,9 +4,20 @@ $(document).ready(function() {
     const zona = params.get('zona');
     const departamento = params.get('departamento');
     const correo = $('#userEmail').val() || sessionStorage.getItem('correo') || '';
+    // Inicializar Select2 en los campos existentes
+    $('#id_Persona').select2({
+        width: '100%',
+        placeholder: "Seleccione una persona",
+        allowClear: true,
+        dropdownParent: $('#novedadModal')  // Asegura que el dropdown se muestra dentro del modal
+    });
 
-
-
+    $('#id_colaborador').select2({
+        width: '100%',
+        placeholder: "Seleccione un colaborador",
+        allowClear: true,
+        dropdownParent: $('#novedadModal')  // Asegura que el dropdown se muestra dentro del modal
+    });
     $('#guardarBtn').prop('disabled', true);
     var personasDataElement = document.getElementById('personas-data');
     var personasData = JSON.parse(personasDataElement ? personasDataElement.textContent : '{}');
@@ -105,14 +116,38 @@ $(document).ready(function() {
         }
     }
     function cargarFormularioNovedad(tipoNovedad, novedad = null, index = null) {
+        var loadingModalNovedad = document.getElementById("loadingModalFormNovedad");
+    
+        // Mostrar el modal de cargando
+        loadingModalNovedad.style.display = "block";
+
         $.ajax({
             url: `/azure_auth/novedades/formulario/${tipoNovedad}/?departamento=${departamento}`,
             type: 'GET',
             success: function(data) {
+                
+                // Ocultar el modal de cargando antes de mostrar el modal de novedad
+                loadingModalNovedad.style.display = "none";
                 $('#novedadModal .modal-body').html(data);
                 $('#novedadModalLabel').text('Nueva Novedad - ' + $('#tipoNovedadSelect option:selected').text());
+                
                 $('#novedadModal').modal('show');
-    
+                // Inicializar Select2 en los campos del formulario cargado dinámicamente
+                // Inicializar Select2 solo en los campos Persona y Colaborador
+                $('#id_Persona').select2({
+                    width: '100%',
+                    placeholder: "Seleccione una persona",
+                    allowClear: true,
+                    dropdownParent: $('#novedadModal')  // Asegura que el dropdown se muestra dentro del modal
+                });
+
+                $('#id_colaborador').select2({
+                    width: '100%',
+                    placeholder: "Seleccione un colaborador",
+                    allowClear: true,
+                    dropdownParent: $('#novedadModal')  // Asegura que el dropdown se muestra dentro del modal
+                });
+
                 if (novedad) {
                     $('#novedadModal').data('edit-index', index);
                     cargarValoresFormulario(novedad);
@@ -175,6 +210,8 @@ $(document).ready(function() {
                 
             },
             error: function(error) {
+                // Ocultar el modal de cargando en caso de error
+                loadingModalNovedad.style.display = "none";
                 console.error('Error al cargar el formulario: ', error);
                 alert('Error al cargar el formulario. Por favor, intente nuevamente.');
             }
@@ -183,15 +220,15 @@ $(document).ready(function() {
     function toggleHoraExtraFields() {
         var horasextra = $('#id_horasextra').val();
         if (horasextra === 'opcion1') {
-            $('#id_hora_inicio, #id_hora_fin').parent().show();
-            $('#id_hora_inicio, #id_hora_fin').attr('required', true);
+            $('#id_hora_inicio, #id_hora_fin, #id_cantidad_horas').parent().show();
+            $('#id_hora_inicio, #id_hora_fin, #id_cantidad_horas').attr('required', true);
         } else {
-            $('#id_hora_inicio, #id_hora_fin').parent().hide();
-            $('#id_hora_inicio, #id_hora_fin').removeAttr('required').val('');
+            $('#id_hora_inicio, #id_hora_fin, #id_cantidad_horas').parent().hide();
+            $('#id_hora_inicio, #id_hora_fin, #id_cantidad_horas').removeAttr('required').val('');
             $('#id_cantidad_horas').val(''); // Limpiar el campo de cantidad de horas
-       
         }
     }
+    
 
     function toggleReemplazaFields() {
         var reemplaza = $('#id_reemplaza').val();
@@ -408,7 +445,7 @@ $(document).ready(function() {
         })
         .then(data => {
             // Verificar si ya existe justificación almacenada
-            var justificacion = sessionStorage.getItem('justificacion');
+            var justificacion = $('#justificacion-textarea').val() || sessionStorage.getItem('justificacion') || '';
     
             if (data.requires_justification && !justificacion) {
                 // Si se requiere justificación y no hay una almacenada, abrir el modal
@@ -436,6 +473,7 @@ $(document).ready(function() {
     
     
     
+    
     function formatDate(dateStr) {
         if (!dateStr) return '';
         var date = new Date(dateStr);
@@ -446,7 +484,9 @@ $(document).ready(function() {
     function enviarDatosASharePoint(registros, correo) {
         var loadingModal = document.getElementById("loadingModal");
         loadingModal.style.display = "block";
-    
+        const params = new URLSearchParams(window.location.search);
+        const supervisor = params.get('nombre');  // Obtener el nombre desde la URL
+        const zonaReportada = params.get('zona');
         var data = registros.map(function(novedad) {
             var fields = {
                 Title: novedad.nombre,
@@ -481,6 +521,10 @@ $(document).ready(function() {
                 Cantidad_horas: novedad.cantidad_horas || '',
                 Cantidad_dias: novedad.cantidad_dias || '',
                 Justificacion: novedad.justificacion || '',
+                Correo: correo,
+                Supervisor: supervisor || '',  // Se agrega el campo Supervisor
+                Zona_Reportada: zonaReportada || ''  // Se agrega el campo Zona_Reportada
+        
             };
     
             Object.keys(fields).forEach(key => {

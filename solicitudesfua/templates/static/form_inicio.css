@@ -183,6 +183,15 @@ body{
 .modal-body select{
   width: 100%;
 }
+#novedadModal .select2-container {
+  z-index: 1055; /* Asegúrate de que tenga un z-index mayor al modal */
+  width: 100% !important;
+}
+
+#novedadModal .select2-dropdown {
+  z-index: 1056; /* Asegúrate de que el dropdown esté por encima del modal */
+}
+
 
 @media (max-width: 700px){
   .mobile{
@@ -232,6 +241,34 @@ body{
 }
 
 #loadingModal .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+#loadingModalFormNovedad {
+  display: none; /* Ocultar el modal por defecto */
+  position: fixed; /* Mantener el modal en una posición fija */
+  z-index: 1000; /* Asegurarse de que el modal esté por encima de otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Habilitar el scroll si es necesario */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+  border:50px;
+}
+
+#loadingModalFormNovedad .modal-content2 {
   position: absolute;
   top: 50%;
   left: 50%;

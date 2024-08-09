@@ -124,6 +124,11 @@ class NovedadFormTipo5(NovedadFormBase, forms.ModelForm):
         fields = ['hora_llegada']
 
 class NovedadFormTipo6(NovedadFormBase, forms.ModelForm):
+    horasextra = forms.ChoiceField(
+        choices=[('opcion1', 'Si'), ('opcion2', 'No')],
+        label='Horas Extra',
+        initial='opcion1'
+    )
     cantidad_horas = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False, label='Cantidad de Horas')
     class Meta:
         model = Campo
@@ -335,7 +340,7 @@ class CampoForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',  # Asegurarse de que tenga la clase form-control para el estilo
-                'placeholder': 'Justifique por qué no realizó el reporte del día anterior',
+                'placeholder': 'Justifique por qué no realizó el reporte del día anterior en el horario establecido',
                 'rows': 3,
                 'id': 'justificacion-textarea'  # Identificador único
             }
