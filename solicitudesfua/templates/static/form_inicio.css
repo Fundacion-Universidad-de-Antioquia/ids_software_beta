@@ -156,6 +156,12 @@ body{
   background-color: #4c8927;
   border-color: #4c8927;
 }
+.btn-funda:disabled{
+  background-color: gray;
+  
+  border-color: white;
+}
+
 
 .btn-close{
   background-color: #ff0000;
@@ -211,4 +217,63 @@ body{
   .modal-dialog{
     margin: 1rem;
   }
+}
+
+#loadingModal {
+  display: none; /* Ocultar el modal por defecto */
+  position: fixed; /* Mantener el modal en una posición fija */
+  z-index: 1000; /* Asegurarse de que el modal esté por encima de otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Habilitar el scroll si es necesario */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+}
+
+#loadingModal .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo personalizado para el botón "Sí" */
+.btn-confirm {
+    background-color: #4c8927 !important;
+    color: white !important;
+    border: none !important;
+    width: 80px; /* Ajusta el ancho del botón */
+    height: 40px; /* Ajusta la altura del botón */
+    margin-right: 10px; /* Espaciado entre los botones */
+}
+
+.btn-confirm:hover {
+    background-color: #3d6e20 !important;
+}
+
+/* Estilo personalizado para el botón "No" */
+.btn-cancel {
+    background-color: #6c757d !important;
+    color: white !important;
+    border: none !important;
+    width: 80px; /* Ajusta el ancho del botón */
+    height: 40px; /* Ajusta la altura del botón */
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268 !important;
+}
+.hidden {
+  display: none;
+}
+.table-responsive {
+  margin-bottom: 2rem; /* Ajusta este valor según sea necesario para lograr el espaciado deseado */
 }

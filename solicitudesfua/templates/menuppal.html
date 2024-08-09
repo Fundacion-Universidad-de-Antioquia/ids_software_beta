@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ... otros enlaces ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8" />
     <meta name="description" content="Datos de Empleados" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +43,8 @@
                         <tr>
                             <th>Identificación</th>
                             <th>Nombre</th>
-                            <th>Zona</th>
+                            <th>Zona</th>               
+                            <th>Departamento</th>
                             <th>Correo</th>
                         </tr>
                     </thead>
@@ -51,6 +55,7 @@
                                 <td>{{ persona.0 }}</td>
                                 <td>{{ persona.2 }}</td>
                                 <td>{{ persona.3 }}</td>
+                                <td>{{ persona.4 }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -58,21 +63,32 @@
             </div>
            
             <br />
-            <!-- Campos adicionales -->
-            <form id="extraForm" method="POST">
+            <form id="extraForm" method="post">
                 {% csrf_token %}
                 <div class="two-fields">
-                    {{ campo_form.as_p }}
+                    <div class="form-group">
+                        {{ campo_form.fecha.label_tag }}
+                        {{ campo_form.fecha }}
+                    </div>
+                    <div class="form-group">
+                        {{ campo_form.zona.label_tag }}
+                        {{ campo_form.zona }}
+                    </div>
+                    <div class="form-group" id="justificacion-group">
+                        {{ campo_form.justificacion.label_tag }}
+                        {{ campo_form.justificacion }}
+                    </div>
                 </div>
                 <div class="button-container">
                     <button type="button" class="btn btn-primary btn-funda" id="validarZonaBtn">Continuar</button>
                 </div>
             </form>
+            
         </div>
     </section>
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <script src="{% static 'menuppal.js' %}"></script>  <!-- Enlace al archivo JavaScript personalizado -->
+    <script src="{% static 'menuppal.js' %}"></script>   <!-- Enlace al archivo JavaScript personalizado para validar fecha -->
 </body>
 </html>

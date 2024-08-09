@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+
+
     <meta charset="UTF-8" />
     <title>Registro de Novedades</title>
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"
       rel="stylesheet"
     />
+    
+    <link rel="icon" type="image/x-icon" href="/templates/img/Favicono.png" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -60,6 +67,7 @@
             <h5 id="userInfo"></h5>
             <br />
             <!-- Mostrar nombre y zona aquí -->
+            
             <select
               id="tipoNovedadSelect"
               class="form-select"
@@ -104,6 +112,7 @@
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+              
             </div>
             <div class="modal-body">
               <!-- Aquí se cargará el formulario dinámicamente -->
@@ -112,118 +121,154 @@
         </div>
       </div>
 
+        <!-- Modal de Cargando -->
+        <div id="loadingModal" class="modal">
+          <div class="modal-content">
+              <p>Enviando datos, por favor espere...</p>
+          </div>
+      </div>
+      <!-- Modal de Justificación -->
+      <div class="modal fade" id="justificacionModal" tabindex="-1" aria-labelledby="justificacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="justificacionModalLabel">Justificación Requerida</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="justificacionForm">
+                        <div class="mb-3">
+                            <label for="justificacion-textarea" class="form-label">Por favor, ingrese la justificación:</label>
+                            <textarea class="form-control" id="justificacion-textarea" rows="3"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button type="button" id="guardarJustificacionBtn" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="userEmail" value="{{ correo }}">
+
+
+
       <!-- Tablas de Novedades -->
-      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
-        AUSENCIAS
-      </h4>
-      <div class="table-responsive mb-5">
+      <div class="table-responsive mb-5 hidden">
+        <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">AUSENCIAS</h4>
         <table class="table mt-1">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cédula</th>
-              <th scope="col">Observaciones</th>
-              <th scope="col">Zona</th>
-              <th scope="col">Tipo Novedad</th>
-              <th scope="col">Ruta</th>
-              <th scope="col">Reemplaza</th>
-              <th scope="col">Colaborador</th>
-              <th scope="col">Horas Extra</th>
-              <th scope="col">Hora Inicio</th>
-              <th scope="col">Hora Fin</th>
-              <th scope="col">Fecha Inicial</th>
-              <th scope="col">Fecha Final</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Tipo Licencia</th>
-              <th scope="col">Tipo Permiso</th>
-              <th scope="col">Tipo Incapacidad</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="novedadesTableAusencias"></tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Observaciones</th>
+                    <th scope="col">Zona</th>
+                    <th scope="col">Tipo Novedad</th>
+                    <th scope="col">Novedad Extratemporanea</th>
+                    <th scope="col">Ruta</th>
+                    <th scope="col">Reemplaza</th>
+                    <th scope="col">Colaborador</th>
+                    <th scope="col">Horas Extra</th>
+                    <th scope="col">Hora Inicio</th>
+                    <th scope="col">Hora Fin</th>
+                    <th scope="col">Cantidad horas extra</th>
+                    <th scope="col">Fecha Inicial</th>
+                    <th scope="col">Fecha Final</th>
+                    <th scope="col">Cantidad Días</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Tipo Licencia</th>
+                    <th scope="col">Tipo Permiso</th>
+                    <th scope="col">Tipo Incapacidad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="novedadesTableAusencias"></tbody>
         </table>
-      </div>
-
-      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
-        INGRESOS Y RETIROS
-      </h4>
-      <div class="table-responsive">
+    </div>
+    
+    <div class="table-responsive hidden">
+        <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">INGRESOS Y RETIROS</h4>
         <table class="table mt-1">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cédula</th>
-              <th scope="col">Observaciones</th>
-              <th scope="col">Zona</th>
-              <th scope="col">Tipo Novedad</th>
-              <th scope="col">Fecha Ingreso Odoo</th>
-              <th scope="col">Fecha Inicio</th>
-              <th scope="col">Fecha Fin</th>
-              <th scope="col">Motivo</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Rutas</th>
-              <th scope="col">Horas Extra</th>
-              <th scope="col">Hora Inicio</th>
-              <th scope="col">Hora Fin</th>
-              <th scope="col">Zona Reemplaza</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="novedadesTableIngresosRetiros"></tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Observaciones</th>
+                    <th scope="col">Zona</th>
+                    <th scope="col">Tipo Novedad</th>
+                    <th scope="col">Novedad Extratemporanea</th>
+                    <th scope="col">Fecha Ingreso Odoo</th>
+                    <th scope="col">Fecha Inicio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Cantidad Días</th>
+                    <th scope="col">Motivo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Rutas</th>
+                    <th scope="col">Horas Extra</th>
+                    <th scope="col">Hora Inicio</th>
+                    <th scope="col">Hora Fin</th>                                  
+                    <th scope="col">Cantidad horas extra</th>
+                    <th scope="col">Zona Reemplaza</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="novedadesTableIngresosRetiros"></tbody>
         </table>
-      </div>
-
-      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
-        OPERATIVOS
-      </h4>
-      <div class="table-responsive">
+    </div>
+    
+    <div class="table-responsive hidden">
+        <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">OPERATIVOS</h4>
         <table class="table mt-4">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cédula</th>
-              <th scope="col">Observaciones</th>
-              <th scope="col">Zona</th>
-              <th scope="col">Tipo Novedad</th>
-              <th scope="col">Reemplaza</th>
-              <th scope="col">Colaborador</th>
-              <th scope="col">Zona Reemplazo</th>
-              <th scope="col">Horas Extra</th>
-              <th scope="col">Hora Inicio</th>
-              <th scope="col">Hora Fin</th>
-              <th scope="col">Ruta</th>
-              <th scope="col">Zona Inicial</th>
-              <th scope="col">Control</th>
-              <th scope="col">Nuevo Control</th>
-              <th scope="col">Tipo Servicio</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="novedadesTableOperativos"></tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Observaciones</th>
+                    <th scope="col">Zona</th>
+                    <th scope="col">Tipo Novedad</th>
+                    <th scope="col">Novedad Extratemporanea</th>
+                    <th scope="col">Consecutivo</th>
+                    <th scope="col">Reemplaza</th>
+                    <th scope="col">Colaborador</th>
+                    <th scope="col">Zona Reemplazo</th>
+                    <th scope="col">Horas Extra</th>
+                    <th scope="col">Hora Inicio</th>
+                    <th scope="col">Hora Fin</th>
+                    <th scope="col">Cantidad horas extra</th>
+                    <th scope="col">Ruta</th>
+                    <th scope="col">Zona Inicial</th>
+                    <th scope="col">Control</th>
+                    <th scope="col">Nuevo Control</th>
+                    <th scope="col">Tipo Servicio</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="novedadesTableOperativos"></tbody>
         </table>
-      </div>
-
-      <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">
-        PERSONAL
-      </h4>
-      <div class="table-responsive">
+    </div>
+    
+    <div class="table-responsive hidden">
+        <h4 class="d-flex justify-content-center align-items-center mb-4 mt-5">PERSONAL</h4>
         <table class="table mt-4">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Cédula</th>
-              <th scope="col">Observaciones</th>
-              <th scope="col">Zona</th>
-              <th scope="col">Tipo Novedad</th>
-              <th scope="col">Hora Llegada</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="novedadesTablePersonal"></tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Observaciones</th>
+                    <th scope="col">Zona</th>
+                    <th scope="col">Tipo Novedad</th>
+                    <th scope="col">Novedad Extratemporanea</th>
+                    <th scope="col">Hora Llegada</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="novedadesTablePersonal"></tbody>
         </table>
-      </div>
-
+    </div>
+    
       <div class="d-flex justify-content-center align-items-center">
         <button
           type="button"
@@ -235,6 +280,9 @@
       </div>
     </div>
 
+    
+    <!-- Definir la variable de fecha en un bloque de script -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/modal-select2.js"></script>
   </body>

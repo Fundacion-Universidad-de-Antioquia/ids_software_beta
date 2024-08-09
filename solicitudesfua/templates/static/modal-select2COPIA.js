@@ -147,6 +147,9 @@ $(document).ready(function() {
                         <td>${novedad.control || ''}</td>
                         <td>${novedad.nuevo_control || ''}</td>
                         <td>${novedad.tipo_servicio || ''}</td>
+                        <td>${novedad.cantidad_horas || ''}</td>
+                        <td>${novedad.novedad_extemporanea || ''}</td>
+                        <td>${novedad.cantidad_dias || ''}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit">Editar</button>
                             <button class="btn btn-danger btn-sm delete">Eliminar</button>

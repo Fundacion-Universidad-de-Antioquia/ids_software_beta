@@ -26,6 +26,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-2gz6)+&hrycppniy*qre!h$!o!7r7g96oee6(ui2hso5f=3e@8'
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'America/Bogota'
+
+USE_I18N = True
+
+USE_TZ = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -132,15 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

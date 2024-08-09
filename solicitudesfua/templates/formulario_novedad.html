@@ -4,8 +4,12 @@
     <div class="d-flex justify-content-center align-items-center">
         <button type="submit" class="btn btn-primary btn-funda">Enviar</button>
     </div>
+    <input type="hidden" id="fecha_sesion" value="{{ fecha }}">
+
     
 </form>
+<!-- Definir la variable de fecha en un bloque de script -->
+
 
 <script id="personas-data" type="application/json">
     {{ personas_data_json|safe }}

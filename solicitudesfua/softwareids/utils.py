@@ -21,35 +21,7 @@ client_secret = os.getenv("CLIENT_SECRET_LIST")
 scope = 'https://graph.microsoft.com/.default'
 site_id = os.getenv("SITE_ID_LIST")
 list_name = os.getenv("LIST_NAME_LIST")
-"""
-def fetch_personas_from_odoo():
-    
-    try:
-        
-        common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
-        uid = common.authenticate(database, user, password, {})
-        models = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/object')
-        logger.debug(f'Authenticated user ID: {uid}')
-        
-        personas = models.execute_kw(database, uid, password,
-            'hr.employee', 'search_read',
-            [[('company_id.name', '=', 'Programa de Gestión del Aseo de la Ciudad')]],
-            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'x_studio_fecha_de_ingreso_1']})#'job_title.name']})
-        
-        if personas:
-            logger.debug(f'Retrieved {len(personas)} personas')
-        else:
-            logger.debug('No personas found')
-        #return [(persona['identification_id'], persona['name']) for persona in personas if 'identification_id' in persona and 'name' in persona]
-        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''), persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
 
-        #return [(str(persona['identification_id']), persona['name']) for persona in personas if 'identification_id' in persona and 'name' in persona]
-
-    except Exception as e:
-        logger.error('Failed to fetch data from Odoo', exc_info=True)
-        return []
-
-"""
 def fetch_personas_from_odoo(departamento=None):
     try:
         common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
@@ -118,134 +90,24 @@ def obtener_access_token():
 
 # views.py
 
-"""def sincronizar_con_sharepoint(registros, access_token):
-    results = []
-    for registro in registros:
-        try:
-            logging.info(f'Procesando registro: {registro}')
-            if not isinstance(registro, dict):
-                logging.error("Registro recibido no es un diccionario: %s", type(registro))
-                continue
-
-            nombre = registro.get('nombre')
-            persona = registro.get('persona')
-            TipoNovedadText = registro.get('tipo_novedad_text')
-            fecha = registro.get('fecha')
-            zona = registro.get('zona')
-            detalle = registro.get('detalle')
-            
-            logging.info(f'Registro a enviar: {registro}')
-
-            data = {
-                'fields': {
-                    'Title': nombre,
-                    'Nombre': persona,
-                    'TipoNovedad': TipoNovedadText,
-                    'Fecha': fecha,
-                    'Zona': zona,
-                    'Detalle': detalle
-                }
-            }
-            headers = {
-                'Authorization': f'Bearer {access_token}',
-                'Content-Type': 'application/json'
-            }
-            url = f'https://graph.microsoft.com/v1.0/sites/{site_id}/lists/{list_name}/items'
-            response = requests.post(url, headers=headers, json=data)
-            
-            if response.status_code == 201:
-                logging.info(f'Registro {nombre} enviado exitosamente a SharePoint.')
-                logging.info(f'info enviada {TipoNovedadText}')
-                results.append(f'Registro {nombre} enviado exitosamente.')
-            else:
-                error_message = response.json().get('error', {}).get('message', 'No error message provided')
-                logging.error(f'Error al enviar registro {nombre} a SharePoint: {error_message}')
-                results.append(f'Error al enviar registro {nombre}: {error_message}')
-                
-        except json.JSONDecodeError:
-            logging.error("Error decoding registro from JSON.")
-            results.append("Error decoding registro from JSON.")
-        except KeyError as e:
-            logging.error(f"Falta la clave {e} en los datos del registro.")
-            results.append(f"Falta la clave {e} en los datos del registro.")
-        except Exception as e:
-            logging.error(f"An error occurred: {str(e)}")
-            results.append(f"An error occurred: {str(e)}")
-
-    return results
-
-"""
-"""def sincronizar_con_sharepoint(registros, access_token):
-    results = []
-    for registro in registros:
-        try:
-            logging.info(f'Procesando registro: {registro}')
-            if not isinstance(registro, dict):
-                logging.error("Registro recibido no es un diccionario: %s", type(registro))
-                continue
-
-            nombre = registro.get('nombre')
-            persona = registro.get('persona')
-            tipo_novedad_text = registro.get('tipo_novedad_text')
-            fecha = registro.get('fecha')
-            zona = registro.get('zona') or ''  # Asegurarse de que zona no sea False o None
-            detalle = registro.get('detalle') or ''  # Asegurarse de que detalle no sea None
-            
-            logging.info(f'Registro a enviar: {registro}')
-
-            data = {
-                'fields': {
-                    'Title': nombre,
-                    'Nombre': persona,
-                    'TipoNovedad': tipo_novedad_text,
-                    'Fecha': fecha,
-                    'Zona': zona,
-                    'Detalle': detalle
-                }
-            }
-            logging.info(f'Datos a enviar: {data}')  # Añadimos un log para ver los datos antes de enviarlos
-            headers = {
-                'Authorization': f'Bearer {access_token}',
-                'Content-Type': 'application/json'
-            }
-            url = f'https://graph.microsoft.com/v1.0/sites/{site_id}/lists/{list_name}/items'
-            response = requests.post(url, headers=headers, json=data)
-            
-            if response.status_code == 201:
-                logging.info(f'Registro {nombre} enviado exitosamente a SharePoint.')
-                results.append(f'Registro {nombre} enviado exitosamente.')
-            else:
-                error_message = response.json().get('error', {}).get('message', 'No error message provided')
-                logging.error(f'Error al enviar registro {nombre} a SharePoint: {error_message}')
-                logging.error(f'Response details: {response.json()}')  # Añadimos detalles de la respuesta
-                results.append(f'Error al enviar registro {nombre}: {error_message}')
-                
-        except json.JSONDecodeError:
-            logging.error("Error decoding registro from JSON.")
-            results.append("Error decoding registro from JSON.")
-        except KeyError as e:
-            logging.error(f"Falta la clave {e} en los datos del registro.")
-            results.append(f"Falta la clave {e} en los datos del registro.")
-        except Exception as e:
-            logging.error(f"An error occurred: {str(e)}")
-            results.append(f"An error occurred: {str(e)}")
-
-    return results"""
-
-
 def sincronizar_con_sharepoint(registros, access_token):
-    results = []
+    all_success = True
+    general_observacion = "Todos los registros se enviaron exitosamente."
+
     for registro in registros:
         try:
             logging.info(f'Procesando registro: {registro}')
             if not isinstance(registro, dict):
                 logging.error("Registro recibido no es un diccionario: %s", type(registro))
+                all_success = False
+                general_observacion = "Algunos registros no son diccionarios."
                 continue
 
             fields = registro.get('fields', {})
             if not fields:
                 logging.error(f"El registro {registro} no contiene datos válidos para enviar.")
-                results.append(f"El registro {registro} no contiene datos válidos para enviar.")
+                all_success = False
+                general_observacion = "Algunos registros no contienen datos válidos."
                 continue
 
             logging.info(f'Registro a enviar: {fields}')
@@ -257,52 +119,31 @@ def sincronizar_con_sharepoint(registros, access_token):
             url = f'https://graph.microsoft.com/v1.0/sites/{site_id}/lists/{list_name}/items'
             response = requests.post(url, headers=headers, json={'fields': fields})
             
-            if response.status_code == 201:
-                logging.info(f'Registro {fields.get("Title")} enviado exitosamente a SharePoint.')
-                results.append(f'Registro {fields.get("Title")} enviado exitosamente.')
-            else:
+            if response.status_code != 201:
                 error_message = response.json().get('error', {}).get('message', 'No error message provided')
                 logging.error(f'Error al enviar registro {fields.get("Title")} a SharePoint: {error_message}')
                 logging.error(f'Response details: {response.json()}')
-                results.append(f'Error al enviar registro {fields.get("Title")}: {error_message}')
+                all_success = False
+                general_observacion = "Error al enviar algunos registros a SharePoint."
                 
         except json.JSONDecodeError:
             logging.error("Error decoding registro from JSON.")
-            results.append("Error decoding registro from JSON.")
+            all_success = False
+            general_observacion = "Error al decodificar algunos registros de JSON."
         except KeyError as e:
             logging.error(f"Falta la clave {e} en los datos del registro.")
-            results.append(f"Falta la clave {e} en los datos del registro.")
+            all_success = False
+            general_observacion = f"Falta la clave {e} en los datos de algunos registros."
         except Exception as e:
             logging.error(f"An error occurred: {str(e)}")
-            results.append(f"An error occurred: {str(e)}")
+            all_success = False
+            general_observacion = f"Ocurrió un error: {str(e)}"
 
-    return results
+    log_status = 'SUCCESS' if all_success else 'ERROR'
 
-
+    return log_status, general_observacion
 logger = logging.getLogger(__name__)
 
-"""def fetch_personas_from_odoo_usuarios(correo):
-    try:
-        common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
-        uid = common.authenticate(database, user, password, {})
-        models = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/object')
-        logger.debug(f'Authenticated user ID: {uid}')
-        
-        personas = models.execute_kw(database, uid, password,
-            'hr.employee', 'search_read',
-            [[('work_email', '=', correo)]],
-            {'fields': ['identification_id', 'name', 'x_studio_zona_proyecto_aseo', 'work_email','x_studio_fecha_de_ingreso_1', 'department_id']})
-
-        if personas:
-            logger.debug(f'Retrieved {len(personas)} personas')
-        else:
-            logger.debug('No personas found')
-
-        return [(persona['identification_id'], persona['name'], persona.get('x_studio_zona_proyecto_aseo', ''),persona.get('department_id', ''), persona.get('work_email', ''),persona.get('x_studio_fecha_de_ingreso_1', '')) for persona in personas if 'identification_id' in persona and 'name' in persona]
-
-    except Exception as e:
-        logger.error('Failed to fetch data from Odoo', exc_info=True)
-        return []"""
 def fetch_personas_from_odoo_usuarios(correo):
     try:
         common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
@@ -350,7 +191,6 @@ def fetch_zonas_from_odoo():
             logger.debug(f'Retrieved {len(zonas)} zonas')
         else:
             logger.debug('No zonas found')
-        print("ZONAS", zonas)
         return [zona['x_name'] for zona in zonas if 'x_name' in zona]
 
     except Exception as e:
@@ -373,7 +213,6 @@ def fetch_rutas_from_odoo():
             logger.debug(f'Retrieved {len(rutas)} zonas')
         else:
             logger.debug('No zonas found')
-        print("RUTAS", rutas)
         return [ruta['x_name'] for ruta in rutas if 'x_name' in ruta]
 
     except Exception as e:
@@ -383,7 +222,6 @@ def fetch_rutas_from_odoo():
 def rutas_json_view(request):
     try:
         rutas = fetch_rutas_from_odoo()
-        print("RUTAS     API", rutas)
         return JsonResponse(rutas, safe=False)
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)
@@ -391,7 +229,6 @@ def rutas_json_view(request):
 def zonas_json_view(request):
     try:
         zonas = fetch_zonas_from_odoo()
-        print("ZONAS API",zonas)
         return JsonResponse(zonas, safe=False)
     except Exception as e:
         logger.error('Failed to fetch data from Odoo', exc_info=True)

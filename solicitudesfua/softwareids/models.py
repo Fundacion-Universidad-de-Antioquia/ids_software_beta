@@ -135,6 +135,7 @@ class Campo(models.Model):
     )
     
     cantidad_horas_extra = models.FloatField(null=True, blank=True)
+    justificacion = models.TextField(null=True, blank=True)
     
     
     @property

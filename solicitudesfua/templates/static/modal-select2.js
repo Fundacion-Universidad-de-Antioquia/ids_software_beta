@@ -3,13 +3,18 @@ $(document).ready(function() {
     const nombre = params.get('nombre');
     const zona = params.get('zona');
     const departamento = params.get('departamento');
+    const correo = $('#userEmail').val() || sessionStorage.getItem('correo') || '';
 
+
+
+    $('#guardarBtn').prop('disabled', true);
     var personasDataElement = document.getElementById('personas-data');
     var personasData = JSON.parse(personasDataElement ? personasDataElement.textContent : '{}');
     const tiposNovedadesOcultas = {
         'Supervisores / LV': ['opcion16', 'opcion19', 'opcion20'],
         'Supervisores / RYT': []
     };
+   
 
     function actualizarTiposNovedades(departamento) {
         var tipoNovedadSelect = $('#tipoNovedadSelect');
@@ -45,8 +50,21 @@ $(document).ready(function() {
     } else {
         console.error('Nombre, zona o departamento no recibidos correctamente');
     }
-    $('#tipoNovedadSelect').select2();
     
+    $('#tipoNovedadSelect').select2();
+    // Deshabilitar el botón inicialmente
+    $('#agregarNovedadBtn').prop('disabled', true);
+
+    // Escuchar el cambio en el select de tipo de novedad
+    $('#tipoNovedadSelect').change(function() {
+        var tipoNovedad = $(this).val();
+        // Habilitar el botón solo si se ha seleccionado un tipo de novedad
+        if (tipoNovedad) {
+            $('#agregarNovedadBtn').prop('disabled', false);
+        } else {
+            $('#agregarNovedadBtn').prop('disabled', true);
+        }
+    });
 
     $('#agregarNovedadBtn').click(function() {
         var tipoNovedad = $('#tipoNovedadSelect').val();
@@ -75,7 +93,17 @@ $(document).ready(function() {
             }
         });
     }
-
+    // Agregar la función para verificar el contenido de las tablas
+    function verificarTablas() {
+        if ($('#novedadesTableAusencias tr').length > 0 || 
+            $('#novedadesTableIngresosRetiros tr').length > 0 || 
+            $('#novedadesTableOperativos tr').length > 0 || 
+            $('#novedadesTablePersonal tr').length > 0) {
+            $('#guardarBtn').prop('disabled', false);
+        } else {
+            $('#guardarBtn').prop('disabled', true);
+        }
+    }
     function cargarFormularioNovedad(tipoNovedad, novedad = null, index = null) {
         $.ajax({
             url: `/azure_auth/novedades/formulario/${tipoNovedad}/?departamento=${departamento}`,
@@ -84,21 +112,24 @@ $(document).ready(function() {
                 $('#novedadModal .modal-body').html(data);
                 $('#novedadModalLabel').text('Nueva Novedad - ' + $('#tipoNovedadSelect option:selected').text());
                 $('#novedadModal').modal('show');
-
+    
                 if (novedad) {
                     $('#novedadModal').data('edit-index', index);
                     cargarValoresFormulario(novedad);
                 }
-
+    
                 $('#id_Persona').change(function() {
                     var personaId = $(this).val().split(' - ')[0];
                     if (personaId) {
                         buscarFechaIngreso(personaId);
                     }
                 });
+                
+    
                 // Ejecutar al cargar el formulario para ocultar campos
                 toggleHoraExtraFields();
                 toggleReemplazaFields();
+                // Verificar si la variable fechaInicial está definida
                 $('#id_novedad_extemporanea').change(function() {
                     var novedadExtemporanea = $(this).val();
                     
@@ -114,7 +145,7 @@ $(document).ready(function() {
                         $('#id_fecha').removeAttr('max');
                     }
                 });
-
+    
                 $('#id_horasextra').change(function() {
                     toggleHoraExtraFields();
                 });
@@ -127,7 +158,7 @@ $(document).ready(function() {
                 $('#id_fecha_inicial, #id_fecha_final').change(function() {
                     calcularDias();
                 });
-
+    
                 $('#novedadForm').off('submit').on('submit', function(event) {
                     var novedadExtemporanea = $('#id_novedad_extemporanea').val();
                     var fechaNovedad = $('#id_fecha').val();
@@ -198,9 +229,7 @@ $(document).ready(function() {
     }
     function calcularDias() {
         var fechaInicio = $('#id_fecha_inicial').val();
-        var fechaFin = $('#id_fecha_final').val();
-        console.log('Fecha Inicio:', fechaInicio);  // Agregar log
-        console.log('Fecha Fin:', fechaFin);        // Agregar log
+        var fechaFin = $('#id_fecha_final').val();   // Agregar log
     
         if (fechaInicio && fechaFin) {
             $.ajax({
@@ -211,7 +240,6 @@ $(document).ready(function() {
                     fecha_fin: fechaFin
                 },
                 success: function(data) {
-                    console.log('Cantidad de Días:', data.cantidad_dias);  // Agregar log
                     $('#id_cantidad_dias').val(data.cantidad_dias);
                 },
                 error: function(error) {
@@ -231,17 +259,20 @@ $(document).ready(function() {
         var tipoNovedad = $('#tipoNovedadSelect').val();
         var index = $('#novedadModal').data('edit-index');
         var registros = JSON.parse(localStorage.getItem('registros')) || [];
-
+    
         var selectedOption = form.find('#id_Persona option:selected');
         var selectedId = selectedOption.val();
         var selectedText = selectedOption.text();
         var selectedPersona = selectedText.split(' - ');
-
+    
         if (!selectedId || selectedPersona.length < 2) {
             alert('Por favor, seleccione una persona.');
             return;
         }
+        // Obtener la justificación desde el formulario (si está disponible)
+        var justificacion = $('#justificacion-textarea').val() || sessionStorage.getItem('justificacion') || '';
 
+        
         var novedad = {
             nombre: selectedPersona[1],
             cedula: selectedPersona[0],
@@ -250,9 +281,11 @@ $(document).ready(function() {
             fecha: form.find('#id_fecha').val(),
             zona: zona,
             fecha_ingreso: form.find('#id_fecha_ingreso').val(),
-            novedad_extemporanea: form.find('#id_novedad_extemporanea').val()
+            novedad_extemporanea: form.find('#id_novedad_extemporanea').val(),
+            justificacion: justificacion,  // Asignar la justificación obtenida
+        
         };
-
+    
         form.find(':input').each(function() {
             var input = $(this);
             var inputId = input.attr('id');
@@ -267,13 +300,13 @@ $(document).ready(function() {
                 }
             }
         });
-
+    
         var tableId;
         var validTypesAusencias = ['opcion1', 'opcion2', 'opcion7', 'opcion9', 'opcion10', 'opcion11', 'opcion21', 'opcion22'];
         var validTypesIngresosRetiros = ['opcion8', 'opcion12', 'opcion17', 'opcion18'];
         var validTypesOperativos = ['opcion3', 'opcion4', 'opcion6', 'opcion16', 'opcion19', 'opcion20'];
         var validTypesPersonal = ['opcion5', 'opcion13', 'opcion14', 'opcion15'];
-
+    
         if (validTypesAusencias.includes(tipoNovedad)) {
             tableId = '#novedadesTableAusencias';
         } else if (validTypesIngresosRetiros.includes(tipoNovedad)) {
@@ -286,13 +319,13 @@ $(document).ready(function() {
             alert('Tipo de novedad no válido');
             return;
         }
-
+    
         if (index >= 0) {
             registros[index] = novedad;
         } else {
             registros.push(novedad);
         }
-
+    
         guardarRegistrosLocales(registros);
         $(tableId).empty();
         cargarRegistrosLocales();
@@ -304,6 +337,7 @@ $(document).ready(function() {
         $('#id_fecha').val(novedad.fecha);
         $('#id_fecha_ingreso').val(novedad.fecha_ingreso);
         $('#id_novedad_extemporanea').val(novedad.novedad_extemporanea).trigger('change');
+        $('#justificacion-textarea').val(novedad.justificacion); // Cargar la justificación si existe
 
         $('#tipoNovedadSelect').val(novedad.tipoNovedad).trigger('change');
 
@@ -331,14 +365,6 @@ $(document).ready(function() {
         $('#id_horasextra').trigger('change');
     }
 
-    $(document).on('click', '.delete', function() {
-        var index = $(this).closest('tr').data('index');
-        var registros = JSON.parse(localStorage.getItem('registros')) || [];
-        registros.splice(index, 1);
-        guardarRegistrosLocales(registros);
-        cargarRegistrosLocales();
-    });
-
     $(document).on('click', '.edit', function() {
         var index = $(this).closest('tr').data('index');
         var registros = JSON.parse(localStorage.getItem('registros')) || [];
@@ -347,13 +373,80 @@ $(document).ready(function() {
         cargarFormularioNovedad(tipoNovedad, novedad, index);
     });
 
-    $('#guardarBtn').click(function() {
+    $(document).on('click', '.delete', function() {
+        var index = $(this).closest('tr').data('index');
         var registros = JSON.parse(localStorage.getItem('registros')) || [];
-        console.log(registros);
-        enviarDatosASharePoint(registros);
+        registros.splice(index, 1);
+        guardarRegistrosLocales(registros);
+        cargarRegistrosLocales();
     });
 
-    function enviarDatosASharePoint(registros) {
+    if (!correo) {
+        console.error('Correo no capturado correctamente.');
+    } else {
+        console.log('Correo capturado correctamente:', correo);
+    }
+    
+    $('#guardarBtn').click(function() {
+        var registros = JSON.parse(localStorage.getItem('registros')) || [];
+        sendLogUpdateRequest(correo, registros);
+    });
+    
+
+    function sendLogUpdateRequest(correo, registros) {
+        fetch(`https://app-conexionerp-prod-001.azurewebsites.net/logs/consultar/?correo=${encodeURIComponent(correo)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Verificar si ya existe justificación almacenada
+            var justificacion = sessionStorage.getItem('justificacion');
+    
+            if (data.requires_justification && !justificacion) {
+                // Si se requiere justificación y no hay una almacenada, abrir el modal
+                $('#justificacionModal').modal('show');
+                $('#guardarJustificacionBtn').off('click').on('click', function() {
+                    justificacion = $('#justificacion-textarea').val();
+                    if (justificacion) {
+                        sessionStorage.setItem('justificacion', justificacion);
+                        $('#justificacionModal').modal('hide');
+                        // Llamar la función después de cerrar el modal
+                        enviarDatosASharePoint(registros, correo); 
+                    } else {
+                        alert('Por favor, ingrese una justificación.');
+                    }
+                });
+            } else {
+                // Si no se requiere justificación o ya está almacenada, enviar los datos
+                enviarDatosASharePoint(registros, correo);
+            }
+        })
+        .catch(err => {
+            console.error('Error updating log:', err);
+        });
+    }
+    
+    
+    
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var date = new Date(dateStr);
+        // Configura la fecha en UTC para evitar problemas de zona horaria en el backend
+        return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+    }
+    
+    function enviarDatosASharePoint(registros, correo) {
+        var loadingModal = document.getElementById("loadingModal");
+        loadingModal.style.display = "block";
+    
         var data = registros.map(function(novedad) {
             var fields = {
                 Title: novedad.nombre,
@@ -377,7 +470,7 @@ $(document).ready(function() {
                 Fecha_inicial: formatDate(novedad.fecha_inicial),
                 Fecha_final: formatDate(novedad.fecha_final),
                 Tipo_licencia: novedad.tipo_licencia || '',
-                Tipo_permiso: novedad.tipo_permiso || '',
+                Tipo_permiso: novedad.tipo_permisos || '',
                 Tipo_incapacidad: novedad.tipo_incapacidad || '',
                 Control: novedad.control || '',
                 Nuevo_control: novedad.nuevo_control || '',
@@ -386,18 +479,19 @@ $(document).ready(function() {
                 Novedad_extratemporanea: novedad.novedad_extemporanea || '',
                 Consecutivo_servicio_Adcional: novedad.consecutivo || '',
                 Cantidad_horas: novedad.cantidad_horas || '',
-                Cantidad_dias: novedad.cantidad_dias || '' 
+                Cantidad_dias: novedad.cantidad_dias || '',
+                Justificacion: novedad.justificacion || '',
             };
-
+    
             Object.keys(fields).forEach(key => {
                 if (fields[key] === '' || fields[key] === null) {
                     delete fields[key];
                 }
             });
-
+    
             return { fields };
         });
-
+    
         $.ajax({
             url: '/api/sharepoint/',
             type: 'POST',
@@ -405,30 +499,62 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 if (response.status === 'success') {
-                    console.log('Datos enviados correctamente a SharePoint');
                     localStorage.removeItem('registros');
                     cargarRegistrosLocales();
-                    alert('Datos guardados y almacenamiento local limpiado.');
+                    Swal.fire({
+                        title: 'Correcto',
+                        text: 'Datos guardados y almacenamiento local limpiado.',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'btn-confirm',
+                        },
+                        buttonsStyling: false  // Necesario para aplicar las clases personalizadas
+                    }).then(() => {
+                        window.location.href = "/azure_auth/home/"; // Redirigir a la página principal
+                    });
                 } else if (response.status === 'partial_success') {
                     console.error('Error parcial al enviar datos a SharePoint', response.details);
-                    alert('Algunos datos no se pudieron enviar. Verifique los detalles.');
+                    Swal.fire({
+                        title: 'Advertencia',
+                        text: 'Algunos datos no se pudieron enviar. Verifique los detalles.',
+                        icon: 'warning'
+                    });
                 }
+                loadingModal.style.display = "none"; // Ocultar el modal de cargando
             },
             error: function(error) {
                 console.error('Error al enviar datos a SharePoint', error);
                 alert('Error al enviar datos a SharePoint. Por favor, intente nuevamente.');
+                loadingModal.style.display = "none"; // Ocultar el modal de cargando
             }
         });
     }
-
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        var guardarBtn = document.getElementById("guardarBtn");
+        if (guardarBtn) {
+            guardarBtn.onclick = function() {
+                // Aquí debes obtener los registros y el correo, ajustar según tu lógica
+                var registros = []; // Obtén los registros desde tu lógica
+                var correo = ""; // Obtén el correo desde tu lógica
+                enviarDatosASharePoint(registros, correo);
+            };
+        }
+    });
+    
+    
     function formatDate(dateStr) {
         if (!dateStr) return '';
         var date = new Date(dateStr);
-        return date.toISOString();
+        // Aquí aseguramos que la fecha sea en la zona horaria de Colombia
+        return date.toISOString().replace('Z', '-05:00');
     }
+    
+    
 
     function guardarRegistrosLocales(registros) {
         localStorage.setItem('registros', JSON.stringify(registros));
+        verificarTablas();
     }
 
     function cargarRegistrosLocales() {
@@ -437,6 +563,12 @@ $(document).ready(function() {
         $('#novedadesTableIngresosRetiros').empty();
         $('#novedadesTableOperativos').empty();
         $('#novedadesTablePersonal').empty();
+
+        var hayRegistrosAusencias = false;
+        var hayRegistrosIngresosRetiros = false;
+        var hayRegistrosOperativos = false;
+        var hayRegistrosPersonal = false;
+
         registros.forEach(function(novedad, index) {
             var tableId;
             var validTypesAusencias = ['opcion1', 'opcion2', 'opcion7', 'opcion9', 'opcion10', 'opcion11', 'opcion21', 'opcion22'];
@@ -446,28 +578,59 @@ $(document).ready(function() {
 
             if (validTypesAusencias.includes(novedad.tipoNovedad)) {
                 tableId = '#novedadesTableAusencias';
+                hayRegistrosAusencias = true;
             } else if (validTypesIngresosRetiros.includes(novedad.tipoNovedad)) {
                 tableId = '#novedadesTableIngresosRetiros';
+                hayRegistrosIngresosRetiros = true;
             } else if (validTypesOperativos.includes(novedad.tipoNovedad)) {
                 tableId = '#novedadesTableOperativos';
+                hayRegistrosOperativos = true;
             } else if (validTypesPersonal.includes(novedad.tipoNovedad)) {
                 tableId = '#novedadesTablePersonal';
+                hayRegistrosPersonal = true;
             }
 
             agregarRegistroATabla(novedad, index, tableId);
         });
-    }
 
+        // Mostrar/ocultar tablas según haya registros
+        if (hayRegistrosAusencias) {
+            $('#novedadesTableAusencias').closest('.table-responsive').removeClass('hidden');
+        } else {
+            $('#novedadesTableAusencias').closest('.table-responsive').addClass('hidden');
+        }
+
+        if (hayRegistrosIngresosRetiros) {
+            $('#novedadesTableIngresosRetiros').closest('.table-responsive').removeClass('hidden');
+        } else {
+            $('#novedadesTableIngresosRetiros').closest('.table-responsive').addClass('hidden');
+        }
+
+        if (hayRegistrosOperativos) {
+            $('#novedadesTableOperativos').closest('.table-responsive').removeClass('hidden');
+        } else {
+            $('#novedadesTableOperativos').closest('.table-responsive').addClass('hidden');
+        }
+
+        if (hayRegistrosPersonal) {
+            $('#novedadesTablePersonal').closest('.table-responsive').removeClass('hidden');
+        } else {
+            $('#novedadesTablePersonal').closest('.table-responsive').addClass('hidden');
+        }
+
+        verificarTablas(); // Verificar el contenido de las tablas después de cargar los registros
+    }
+    
     function agregarRegistroATabla(novedad, index, tableId) {
         var newRow = '<tr data-index="' + index + '">';
-
+    
         newRow += '<td>' + (novedad.nombre || '') + '</td>';
         newRow += '<td>' + (novedad.cedula || '') + '</td>';
         newRow += '<td>' + (novedad.observaciones || '') + '</td>';
         newRow += '<td>' + (novedad.zona || '') + '</td>';
         newRow += '<td>' + (novedad.tipoNovedadText || '') + '</td>';
         newRow += '<td>' + (novedad.novedad_extemporanea || '') + '</td>';
-
+    
         if (tableId === '#novedadesTableAusencias') {
             newRow += '<td>' + (novedad.rutas || '') + '</td>';
             newRow += '<td>' + (novedad.reemplaza || '') + '</td>';
@@ -518,9 +681,11 @@ $(document).ready(function() {
     
         newRow += '<td class="actions-btns"><button class="edit"><i class="bi bi-pencil-square"></i></button><button class="delete"><i class="bi bi-trash"></i></button></td>';
         newRow += '</tr>';
-
+    
         $(tableId).append(newRow);
     }
+    
 
     cargarRegistrosLocales();
 });
+

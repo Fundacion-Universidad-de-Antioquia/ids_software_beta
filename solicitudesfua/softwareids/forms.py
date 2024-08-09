@@ -1,31 +1,13 @@
 from django import forms
 from .models import  Usuario, Campo, NovedadBase
 from datetime import date
-import json
 from .utils import fetch_zonas_from_odoo, fetch_personas_from_odoo, fetch_rutas_from_odoo,fetch_personas_from_odoo_usuarios
 
-
-"""class NovedadFormBase(forms.Form):
-    fecha = forms.DateField()
-    Persona = forms.ChoiceField(choices=[], label='Persona')
-    zona = forms.ChoiceField(widget=forms.Select(
-            attrs={
-                'class': 'form-select',  # Clase CSS de Bootstrap para selects
-                'placeholder': 'Seleccione una zona'
-            }
-        ))
-                             
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        zonas = fetch_zonas_from_odoo()
-        zona_choices = [(zona, zona) for zona in zonas]
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
-        self.fields['Persona'].choices = colaborador_choices
-        self.fields['zona'].choices = zona_choices"""
 class NovedadFormBase(forms.Form):
-    fecha = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), initial=date.today)
+    fecha = forms.DateField(widget=forms.DateInput(attrs={'type': 'date','readonly': 'readonly'}))
+    justificacion = forms.CharField(widget=forms.HiddenInput(), required=False)  # Ocultar el campo con CSS
+    #fecha = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    #fecha = forms.DateField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), initial=date.today)
     Persona = forms.ChoiceField(choices=[], label='Persona')
     zona = forms.ChoiceField(choices=[], label='Zona')
     novedad_extemporanea = forms.ChoiceField(
@@ -38,8 +20,12 @@ class NovedadFormBase(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        departamento = kwargs.pop('departamento', None)  # Obtener el departamento del kwargs
+        departamento = kwargs.pop('departamento', None) 
+        initial = kwargs.get('initial', {})
+        initial.setdefault('fecha', date.today().isoformat())  # Establecer la fecha predeterminada
+        kwargs['initial'] = initial
         super().__init__(*args, **kwargs)
+        
         zonas = fetch_zonas_from_odoo()
         zona_choices = [(zona, zona) for zona in zonas]
         personas = fetch_personas_from_odoo(departamento)
@@ -60,26 +46,6 @@ class NovedadFormTipo2(NovedadFormBase, forms.ModelForm):
     class Meta:
         model = Campo
         fields = ['tipo_permisos']
-
-
-"""class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
-    colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
-    zona_reemplazo = forms.ChoiceField(choices=[], label='Zona Reemplazo')
-
-    class Meta:
-        model = Campo
-        fields = ['rutas', 'reemplaza', 'zona_reemplazo', 'horasextra', 'hora_inicio', 'hora_fin','cantidad_horas_extra']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # Obtener las personas desde Odoo
-        personas = fetch_personas_from_odoo()
-        colaborador_choices = [(persona[0], f"{persona[0]} - {persona[1]}") for persona in personas]
-        zona_reemplazo = fetch_zonas_from_odoo()
-        zona_choices = [(zona, zona) for zona in zona_reemplazo]
-        self.fields['zona_reemplazo'].choices = zona_choices  
-        self.fields['colaborador'].choices = colaborador_choices"""
 class NovedadFormTipo3(NovedadFormBase, forms.ModelForm):
     colaborador = forms.ChoiceField(choices=[], label='Colaborador Reemplazo')
     
@@ -222,16 +188,6 @@ class NovedadFormTipo9(NovedadFormBase, forms.ModelForm):
         self.fields['cantidad_dias'].widget.attrs['readonly'] = True
 
 
-"""class NovedadFormTipo10(forms.ModelForm):
-    zona = forms.ChoiceField(choices=[], label='Zona')
-    class Meta:
-            model = NovedadBase
-            fields = ['fecha', 'persona', 'zona']
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        zonas = fetch_zonas_from_odoo()
-        zona_choices = [(zona, zona) for zona in zonas]
-        self.fields['zona'].choices = zona_choices"""
 class NovedadFormTipo10(NovedadFormBase, forms.ModelForm):
     class Meta:
         model = Campo
@@ -366,17 +322,31 @@ class CampoForm(forms.ModelForm):
             attrs={
                 'type': 'date',  # Esto utiliza el selector de fecha HTML5
                 'class': 'form-control',  # Clase CSS para Bootstrap
+                'readonly': 'readonly',  # Bloquear el campo de fecha
                 'placeholder': 'Seleccione una fecha'  # Texto de marcador de posición
             }
         ),
         input_formats=['%Y-%m-%d'],  # Formato de entrada esperado
     )
-    class Meta:
-        model = NovedadBase
-        fields = ['fecha','zona']
-    
 
     zona = forms.ChoiceField(choices=[], label='Zona')
+
+    justificacion = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',  # Asegurarse de que tenga la clase form-control para el estilo
+                'placeholder': 'Justifique por qué no realizó el reporte del día anterior',
+                'rows': 3,
+                'id': 'justificacion-textarea'  # Identificador único
+            }
+        ),
+        required=False,
+        label='Justificación'
+    )
+
+    class Meta:
+        model = NovedadBase
+        fields = ['fecha', 'zona', 'justificacion']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

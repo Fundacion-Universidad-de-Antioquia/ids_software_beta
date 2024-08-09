@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
-from softwareids.views import index, home, novedad_view, enviar_a_sharepoint, cargar_formulario_novedad, obtener_fecha_ingreso, calcular_cantidad_horas, calcular_cantidad_dias
+from softwareids.views import index ,home,guardar_fecha,novedad_view, enviar_a_sharepoint, cargar_formulario_novedad, obtener_fecha_ingreso, calcular_cantidad_horas, calcular_cantidad_dias
 from softwareids.utils import obtener_personas_ajax, zonas_json_view
 
 
@@ -24,6 +24,9 @@ urlpatterns = [
     path('api/fecha/', obtener_fecha_ingreso, name='obtener_fecha_ingreso'),
     path('calcular_cantidad_horas/', calcular_cantidad_horas, name='calcular_cantidad_horas'),
     path('calcular_cantidad_dias/', calcular_cantidad_dias, name='calcular_cantidad_dias'),
+    path('api/guardar_fecha/', guardar_fecha, name='guardar_fecha'),
+    
+
 
 
 
