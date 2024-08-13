@@ -418,11 +418,7 @@ $(document).ready(function() {
         cargarRegistrosLocales();
     });
 
-    if (!correo) {
-        console.error('Correo no capturado correctamente.');
-    } else {
-        console.log('Correo capturado correctamente:', correo);
-    }
+  
     
     $('#guardarBtn').click(function() {
         var registros = JSON.parse(localStorage.getItem('registros')) || [];

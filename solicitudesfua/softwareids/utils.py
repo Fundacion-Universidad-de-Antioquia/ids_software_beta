@@ -146,11 +146,13 @@ logger = logging.getLogger(__name__)
 
 def fetch_personas_from_odoo_usuarios(correo):
     try:
+        print("HOST",host)
         common = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/common')
+        print('COMMON',common)
         uid = common.authenticate(database, user, password, {})
         models = xmlrpc.client.ServerProxy(f'{host}/xmlrpc/2/object')
         logger.debug(f'Authenticated user ID: {uid}')
-        
+        print('CORREO', correo)
         personas = models.execute_kw(database, uid, password,
             'hr.employee', 'search_read',
             [[('work_email', '=', correo)]],

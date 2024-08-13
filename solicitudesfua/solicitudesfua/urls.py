@@ -7,12 +7,10 @@ from softwareids.views import index ,home,guardar_fecha,novedad_view, enviar_a_s
 from softwareids.utils import obtener_personas_ajax, zonas_json_view
 
 
-
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('azure_auth/config/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="home.html")),
     path('logout/', TemplateView.as_view(template_name="home.html")),
     path("azure_auth/", include("azure_auth.urls"),),
     path('azure_auth/home/', home, name="home"),
@@ -25,10 +23,6 @@ urlpatterns = [
     path('calcular_cantidad_horas/', calcular_cantidad_horas, name='calcular_cantidad_horas'),
     path('calcular_cantidad_dias/', calcular_cantidad_dias, name='calcular_cantidad_dias'),
     path('api/guardar_fecha/', guardar_fecha, name='guardar_fecha'),
-    
-
-
-
-
+    # otras rutas
     # model departmend views
-    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

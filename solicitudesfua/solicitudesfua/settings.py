@@ -38,7 +38,10 @@ USE_TZ = False
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+# Lista de IDs de grupos permitidos
+ALLOWED_GROUPS = [
+    "425ddb39-836e-47d6-98cd-0a4015d1563e",
+]
 # azure ad settings
 AZURE_AUTH = {
     "CLIENT_ID": os.getenv('CLIENT_ID'),
@@ -50,7 +53,6 @@ AZURE_AUTH = {
     "PUBLIC_URLS": ['index'],  # Optional, public views accessible by non-authenticated users
     "PUBLIC_PATHS": ['/',],  # Optional, public paths accessible by non-authenticated users
     "ROLES": {
-        "f5808d26-1b2c-4848-924b-620ecbef7c5e": "TodosFUA",
         "425ddb39-836e-47d6-98cd-0a4015d1563e": "Gestion Tecnologica e innovacion"
     }  # Optional, will add user to django group if user is in EntraID group
 }
@@ -78,10 +80,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'softwareids.middleware.EnsureAccessTokenMiddleware',  # Colocado después de SessionMiddleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "azure_auth.middleware.AzureMiddleware",
+    # "azure_auth.middleware.AzureMiddleware",
 ]
+
 
 ROOT_URLCONF = 'solicitudesfua.urls'
 

@@ -1,7 +1,6 @@
 from django.db import models
 from django.db import models
 from datetime import timedelta
-from django.http import JsonResponse
 
 
 class NovedadBase(models.Model):

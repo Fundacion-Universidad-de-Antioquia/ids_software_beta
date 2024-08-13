@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import os
@@ -12,8 +11,10 @@ from django.http import Http404, JsonResponse
 from django.utils.safestring import mark_safe
 import requests
 from datetime import datetime, timedelta
-from django.utils import timezone
-
+from django.urls import reverse
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.conf import settings
+import msal
 
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,8 @@ logger = logging.getLogger(__name__)
 
 def index(request):
     correo = request.user.email  # Correo obtenido del login de Microsoft
-    request.session['correo'] = correo 
+    request.session['correo'] = correo
+    logger.warning('CORREO INDEX', correo) 
     context = {
             'APP': os.getenv('APP', 'No definido'),
             # Agrega más variables según sea necesario
@@ -34,7 +36,11 @@ def home(request):
     personas = fetch_personas_from_odoo_usuarios(correo)
     zonas = fetch_zonas_from_odoo()
     # Guardar el correo en la sesión
-    request.session['correo'] = correo 
+    
+    if not correo:
+            # Maneja el caso en que no hay correo en la sesión
+        logger.warning("El correo no está presente en la sesión")
+    
     # Limpiar la justificación almacenada en la sesión al ingresar a home
     if 'justificacion' in request.session:
         del request.session['justificacion']
@@ -71,7 +77,6 @@ def cargar_formulario_novedad(request, tipo_novedad):
     fecha = request.session.get('fecha', None)
     justificacion = request.session.get('justificacion', None)
     correo = request.session.get('correo')  # Obtener el correo de la sesión 
-    print(f"Correo en cargar_formulario_novedad: {correo}")
     form_classes = {
         'opcion1': NovedadFormTipo1,
         'opcion2': NovedadFormTipo2,
@@ -261,4 +266,6 @@ def guardar_fecha(request):
         else:
             return JsonResponse({'status': 'error', 'message': 'Fecha no proporcionada'}, status=400)
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
-    
+
+
+
