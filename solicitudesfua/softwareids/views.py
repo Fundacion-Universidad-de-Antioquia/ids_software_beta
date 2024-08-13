@@ -19,7 +19,7 @@ import msal
 
 logger = logging.getLogger(__name__)
 
-
+#
 def index(request):
     correo = request.user.email  # Correo obtenido del login de Microsoft
     request.session['correo'] = correo
