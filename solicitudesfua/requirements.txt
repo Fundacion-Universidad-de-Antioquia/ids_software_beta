@@ -24,3 +24,4 @@ typing_extensions==4.11.0
 urllib3==2.2.1
 django-select2==8.2.0
 requests == 2.31.0
+gunicorn  ==23.0.0
