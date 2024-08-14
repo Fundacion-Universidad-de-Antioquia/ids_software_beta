@@ -5,7 +5,8 @@ FROM python:3.12
 WORKDIR /app
 
 # Copiar los archivos de requerimientos
-COPY ./solicitudesfua/requirements.txt .
+COPY /github/workspace/solicitudesfua/requirements.txt .
+
 
 # Instalar las dependencias
 RUN pip install --no-cache-dir -r requirements.txt

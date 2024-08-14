@@ -18,8 +18,9 @@ jobs:
 
 
 
-      - name: Run the Docker container
-        run: docker run -d --name ids_software_beta ids_software_beta
+      - name: Build the Docker container
+        run: docker build ./solicitudesfua --file ./solicitudesfua/dockerfile --tag ids_software_beta --no-cache
+      
 
       - name: Zip artifact for deployment
         run: |
