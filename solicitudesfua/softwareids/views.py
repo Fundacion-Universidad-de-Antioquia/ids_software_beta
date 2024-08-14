@@ -11,10 +11,6 @@ from django.http import Http404, JsonResponse
 from django.utils.safestring import mark_safe
 import requests
 from datetime import datetime, timedelta
-from django.urls import reverse
-from django.http import HttpResponseForbidden, HttpResponseRedirect
-from django.conf import settings
-import msal
 from django.http import HttpResponse
 
 
