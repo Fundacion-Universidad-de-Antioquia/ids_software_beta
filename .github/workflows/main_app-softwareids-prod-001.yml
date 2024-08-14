@@ -13,41 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python version
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.12'
+      - name: Build the Docker container
+        run: docker build . --file Dockerfile --tag ids_software_beta
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-
-      - name: Install dependencies
-        run: |
-          source venv/bin/activate
-          pip install -r solicitudesfua/requirements.txt
-
-      - name: Collect static files
-        run: |
-          source venv/bin/activate
-          python solicitudesfua/manage.py collectstatic --noinput
-      - name: Start Gunicorn
-        run: |
-          source venv/bin/activate
-          cd IDS_SOFTWARE_BETA  # Cambia al directorio raíz de tu proyecto
-          gunicorn --bind 0.0.0.0:8000 solicitudesfua.wsgi:application
-            
+      - name: Run the Docker container
+        run: docker run -d --name ids_software_beta ids_software_beta
 
       - name: Zip artifact for deployment
         run: |
-          zip -r release.zip ./* -x "venv/*"
+          docker save ids_software_beta | gzip > ids_software_beta.tar.gz
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
-          name: python-app
-          path: release.zip
+          name: docker-image
+          path: ids_software_beta.tar.gz
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,11 +40,12 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: python-app
+          name: docker-image
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-          
+      - name: Unzip and Load Docker image
+        run: |
+          gunzip -c ids_software_beta.tar.gz | docker load
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
