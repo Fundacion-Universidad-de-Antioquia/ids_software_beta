@@ -11,17 +11,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4      
+      - uses: actions/checkout@v4
+
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.12'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate
+          pip install -r solicitudesfua/requirements.txt
+
+      - name: Collect static files
+        run: |
+          source venv/bin/activate
+          python solicitudesfua/manage.py collectstatic --noinput
+      - name: Start Gunicorn
+        run: |
+          source venv/bin/activate
+          cd IDS_SOFTWARE_BETA  # Cambia al directorio raíz de tu proyecto
+          gunicorn --bind 0.0.0.0:8000 solicitudesfua.wsgi:application
+            
 
       - name: Zip artifact for deployment
         run: |
-          docker save ids_software_beta | gzip > ids_software_beta.tar.gz
+          zip -r release.zip ./* -x "venv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
-          name: docker-image
-          path: ids_software_beta.tar.gz
+          name: python-app
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,7 +57,14 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
 
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+          
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
