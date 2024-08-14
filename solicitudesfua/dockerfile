@@ -5,23 +5,22 @@ FROM python:3.12
 WORKDIR /app
 
 # Copiar los archivos de requerimientos
-COPY solicitudesfua/requirements.txt .
+COPY ./solicitudesfua/requirements.txt .
 
 # Instalar las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto de los archivos de la aplicación
-COPY . .
+COPY ./solicitudesfua .
 
 # Ejecutar las migraciones
-RUN python solicitudesfua/manage.py migrate
+RUN python manage.py migrate
 
 # Colectar archivos estáticos
-RUN python solicitudesfua/manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Exponer el puerto en el que la aplicación se ejecutará
 EXPOSE 8000
 
 # Comando para iniciar la aplicación usando gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "solicitudesfua.wsgi:application"]
-# dor
