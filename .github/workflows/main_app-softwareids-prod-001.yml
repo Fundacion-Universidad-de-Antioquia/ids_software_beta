@@ -65,4 +65,4 @@ jobs:
         with:
           app-name: 'app-softwareids-prod-001'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_SOFTWAREIDS }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_CLIENTID_43C9C042E7B84888A6A39E4417E6A36F }}
