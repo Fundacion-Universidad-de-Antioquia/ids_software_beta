@@ -35,7 +35,7 @@ USE_I18N = True
 USE_TZ = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 # Lista de IDs de grupos permitidos
