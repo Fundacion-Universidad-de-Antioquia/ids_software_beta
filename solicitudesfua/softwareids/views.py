@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.conf import settings
 import msal
+from django.http import HttpResponse
 
 
 logger = logging.getLogger(__name__)
@@ -269,3 +270,5 @@ def guardar_fecha(request):
 
 
 
+def test_view(request):
+    return HttpResponse("Hello, Azure!")
