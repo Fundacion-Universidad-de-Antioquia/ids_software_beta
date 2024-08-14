@@ -11,16 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Build the Docker container
-        run: docker build ./solicitudesfua --file ./solicitudesfua/dockerfile --tag ids_software_beta --no-cache
-
-
-
-      - name: Build the Docker container
-        run: docker build ./solicitudesfua --file ./solicitudesfua/dockerfile --tag ids_software_beta --no-cache
-      
+      - uses: actions/checkout@v4      
 
       - name: Zip artifact for deployment
         run: |
