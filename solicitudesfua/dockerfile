@@ -24,3 +24,4 @@ EXPOSE 8000
 
 # Comando para iniciar la aplicación usando gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "solicitudesfua.wsgi:application"]
+# dor
