@@ -31,14 +31,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-image
-
-      - name: Unzip and Load Docker image
-        run: |
-          gunzip -c ids_software_beta.tar.gz | docker load
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
