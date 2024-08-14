@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build the Docker container
-        run: docker build . --file Dockerfile --tag ids_software_beta
+        run: docker build . --file dockerfile --tag ids_software_beta
 
       - name: Run the Docker container
         run: docker run -d --name ids_software_beta ids_software_beta
