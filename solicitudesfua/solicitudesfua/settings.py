@@ -32,11 +32,13 @@ TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
+WSGI_APPLICATION = 'solicitudesfua.wsgi.application'
+
 USE_TZ = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = True
+#DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 # Lista de IDs de grupos permitidos
 ALLOWED_GROUPS = [
