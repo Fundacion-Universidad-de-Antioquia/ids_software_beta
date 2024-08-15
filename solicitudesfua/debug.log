@@ -1,0 +1,840 @@
+(0.078) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.094) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.078) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.094) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.078) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.078) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" = 'logentry') LIMIT 21; args=('admin', 'logentry'); alias=default
+(0.078) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(1,); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.094) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" = 'permission') LIMIT 21; args=('auth', 'permission'); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" = 'group') LIMIT 21; args=('auth', 'group'); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" = 'user') LIMIT 21; args=('auth', 'user'); alias=default
+(0.094) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3, 4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(2, 3, 4); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.094) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" = 'contenttype') LIMIT 21; args=('contenttypes', 'contenttype'); alias=default
+(0.078) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(5,); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.094) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" = 'session') LIMIT 21; args=('sessions', 'session'); alias=default
+(0.078) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(6,); alias=default
+(0.094) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'softwareids'; args=('softwareids',); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'softwareids' AND "django_content_type"."model" = 'usuario') LIMIT 21; args=('softwareids', 'usuario'); alias=default
+(0.094) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'softwareids' AND "django_content_type"."model" = 'campo') LIMIT 21; args=('softwareids', 'campo'); alias=default
+(0.078) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (20, 21) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(20, 21); alias=default
+(0.078) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'softwareids'; args=('softwareids',); alias=default
+Watching for file changes with StatReloader
+Waiting for apps ready_event.
+Apps ready_event triggered. Sending autoreload_started signal.
+Watching dir C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates with glob **/*.
+Watching dir C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\locale with glob **/*.mo.
+Watching dir C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\locale with glob **/*.mo.
+Watching dir C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\locale with glob **/*.mo.
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\storage\__init__.py first seen with mtime 1723560307.41142
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sites\shortcuts.py first seen with mtime 1723560312.4586222
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\query.py first seen with mtime 1723560315.617098
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\solicitudesfua\urls.py first seen with mtime 1723670238.7101948
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\policy.py first seen with mtime 1717787306.522768
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\stringprep.py first seen with mtime 1713532129.6408973
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\duration.py first seen with mtime 1723560316.6704328
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\registry.py first seen with mtime 1723560314.1090229
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\__init__.py first seen with mtime 1723560316.5801194
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py first seen with mtime 1713532124.259437
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\operations\special.py first seen with mtime 1723560315.2469704
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\models.py first seen with mtime 1723489292.7488792
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zipfile\__init__.py first seen with mtime 1713532130.2808776
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\version.py first seen with mtime 1723560316.7732635
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\protocols.py first seen with mtime 1713532124.2534177
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\urllib\__init__.py first seen with mtime 1717787303.5395305
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ipaddress.py first seen with mtime 1717787306.6161296
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ctypes\wintypes.py first seen with mtime 1713532124.469439
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\operator.py first seen with mtime 1713532126.4209578
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\idna\core.py first seen with mtime 1723560289.8053024
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\detail.py first seen with mtime 1723560316.8720677
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zoneinfo\__init__.py first seen with mtime 1713532130.3008192
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\dates.py first seen with mtime 1723560316.870114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\operations\__init__.py first seen with mtime 1723560315.241521
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\aggregates.py first seen with mtime 1723560315.3293376
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\__init__.py first seen with mtime 1723560313.5782962
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\manager.py first seen with mtime 1723560315.358939
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\oauth2cli\assertion.py first seen with mtime 1723560328.2276063
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\compat.py first seen with mtime 1723560291.4502306
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\__init__.py first seen with mtime 1723560310.7921863
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\argparse.py first seen with mtime 1713532124.23873
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\__init__.py first seen with mtime 1717787303.4294937
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\manage.py first seen with mtime 1715186404.727172
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\http\client.py first seen with mtime 1713532125.2593975
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\query.py first seen with mtime 1723560315.3932488
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\tempfile.py first seen with mtime 1713532129.6996596
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\__init__.py first seen with mtime 1723560315.6075654
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\handlers\base.py first seen with mtime 1723560314.2279284
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\_common.py first seen with mtime 1713532125.8955946
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\timesince.py first seen with mtime 1723560316.7230983
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\subqueries.py first seen with mtime 1723560315.6191008
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\json\scanner.py first seen with mtime 1713532125.9595356
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\__version__.py first seen with mtime 1723560291.4386978
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\migration.py first seen with mtime 1723560315.1880803
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\api.py first seen with mtime 1723560307.3943276
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\urllib\parse.py first seen with mtime 1717787307.3201888
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\validation.py first seen with mtime 1723560314.7703643
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\log.py first seen with mtime 1723560296.1482098
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\logging\config.py first seen with mtime 1717787306.6232834
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loaders\cached.py first seen with mtime 1723560316.574606
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\tree.py first seen with mtime 1723560316.7712634
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\http\response.py first seen with mtime 1723560316.2905931
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\models.py first seen with mtime 1723560291.4602683
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\executor.py first seen with mtime 1723560315.0958414
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\defaultfilters.py first seen with mtime 1723560316.364919
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\transports.py first seen with mtime 1713532124.2642286
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\handlers.py first seen with mtime 1723560313.5868285
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\auth_scheme.py first seen with mtime 1723560328.1950164
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\select.pyd first seen with mtime 1717787305.026164
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\mixins.py first seen with mtime 1723560315.4614804
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\dotenv\parser.py first seen with mtime 1723560287.6227272
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\glob.py first seen with mtime 1713532125.2325764
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\connection.py first seen with mtime 1723560284.8943934
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\http\__init__.py first seen with mtime 1713532125.2593975
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\bz2.py first seen with mtime 1713532124.3906054
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\nturl2path.py first seen with mtime 1713532126.4209578
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\retry.py first seen with mtime 1723560284.930305
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\oauth2cli\__init__.py first seen with mtime 1723560328.226607
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\sql.py first seen with mtime 1723560286.4726374
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\apps\config.py first seen with mtime 1723560292.443329
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\parsers\__init__.py first seen with mtime 1713532130.24105
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\utils.py first seen with mtime 1723560316.615746
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\utils.py first seen with mtime 1723560315.790366
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\backends\__init__.py first seen with mtime 1723560314.091481
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\validators.py first seen with mtime 1723560313.6731143
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\base64.py first seen with mtime 1717787306.5086174
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\abc.py first seen with mtime 1713532125.8905716
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\conf\locale\__init__.py first seen with mtime 1723560292.4588583
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\bisect.py first seen with mtime 1713532124.3906054
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sites\__init__.py first seen with mtime 1723560312.406429
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\indexes.py first seen with mtime 1723560315.3554997
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\uuid.py first seen with mtime 1713532130.1256618
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\gzip.py first seen with mtime 1713532125.2343411
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\generated.py first seen with mtime 1723560315.458964
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\exceptions.py first seen with mtime 1723560284.8953936
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\util.py first seen with mtime 1723560284.9388323
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\widgets.py first seen with mtime 1723560293.8934078
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\contextvars.py first seen with mtime 1713532124.4313114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\text.py first seen with mtime 1723560316.7210925
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\request.py first seen with mtime 1723560284.9283059
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\subprocess.py first seen with mtime 1713532129.6408973
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\__init__.py first seen with mtime 1723560315.2479694
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\__init__.py first seen with mtime 1723560314.6706119
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_zoneinfo.pyd first seen with mtime 1717787306.4439487
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\ipv6.py first seen with mtime 1723560316.6799693
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\concurrent\__init__.py first seen with mtime 1713532124.420736
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\formats.py first seen with mtime 1723560316.6754549
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\http\cookiejar.py first seen with mtime 1713532125.2593975
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\utils.py first seen with mtime 1723560293.8923965
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py first seen with mtime 1713532125.9595356
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\warnings.py first seen with mtime 1717787307.360566
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\datetime.py first seen with mtime 1723560315.5006003
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\http\multipartparser.py first seen with mtime 1723560316.2880828
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\backends\filebased.py first seen with mtime 1723560314.0944922
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\engine.py first seen with mtime 1723560316.3724432
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\files.py first seen with mtime 1723560315.4007614
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\mixins.py first seen with mtime 1723560315.5056205
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\parser.py first seen with mtime 1713532124.5794106
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\base_session.py first seen with mtime 1723560310.794197
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\_psycopg.cp312-win_amd64.pyd first seen with mtime 1723560288.854174
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\termcolors.py first seen with mtime 1723560316.7185712
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\__init__.py first seen with mtime 1723560316.3573833
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\structures.py first seen with mtime 1723560291.4652889
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\http.py first seen with mtime 1723560316.6784565
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\_compression.py first seen with mtime 1713532130.3114727
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\__init__.py first seen with mtime 1723560292.4387999
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\servers\basehttp.py first seen with mtime 1723560314.5723784
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\string.py first seen with mtime 1713532129.6336293
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\options.py first seen with mtime 1723560293.8903825
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_lzma.pyd first seen with mtime 1717787306.4263597
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_ctypes.pyd first seen with mtime 1717787305.1146054
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\decimal.py first seen with mtime 1717787306.5086174
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\certs.py first seen with mtime 1723560291.4472294
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\static.py first seen with mtime 1723560316.5891418
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\_os.py first seen with mtime 1723560316.6187477
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\sessions.py first seen with mtime 1723560291.4622793
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\__init__.py first seen with mtime 1723560293.8733473
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\operations\models.py first seen with mtime 1723560315.2459705
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\etree\cElementTree.py first seen with mtime 1713532130.224646
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\types.py first seen with mtime 1713532130.0708134
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\move.py first seen with mtime 1723560314.1371346
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\nonmultipart.py first seen with mtime 1713532124.5483663
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\reprlib.py first seen with mtime 1713532126.4886272
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\etree\ElementTree.py first seen with mtime 1713532130.228716
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_socket.pyd first seen with mtime 1717787306.4336367
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\formsets.py first seen with mtime 1723560315.7763262
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\right_margin.py first seen with mtime 1723560286.502256
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\difflib.py first seen with mtime 1713532124.5256612
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\oauth2cli\oauth2.py first seen with mtime 1723560328.235143
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\http\cookie.py first seen with mtime 1723560316.2860863
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\lorem_ipsum.py first seen with mtime 1723560316.6889937
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\paginator.py first seen with mtime 1723560313.6655738
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\copy.py first seen with mtime 1713532124.4313114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\base.py first seen with mtime 1723560296.14721
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\finders.py first seen with mtime 1723560313.5848289
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\signing.py first seen with mtime 1723560313.6721017
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\base.py first seen with mtime 1713532124.5453694
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\regex_helper.py first seen with mtime 1723560316.715571
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\tokens.py first seen with mtime 1723560298.1024258
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\timeout.py first seen with mtime 1723560284.9358335
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\queue.py first seen with mtime 1713532126.4846056
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\__init__.py first seen with mtime 1723560300.2388408
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\base.py first seen with mtime 1723560316.3603866
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\graphlib.py first seen with mtime 1713532125.2335796
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\__future__.py first seen with mtime 1713532130.3595996
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\readers.py first seen with mtime 1713532125.8905716
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\utils.py first seen with mtime 1723560314.088964
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\math.py first seen with mtime 1723560315.5026207
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\enums.py first seen with mtime 1723560315.3520713
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\forms.py first seen with mtime 1723560315.7743301
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\__init__.py first seen with mtime 1723560286.4601655
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\base_user.py first seen with mtime 1723560298.0289574
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\deconstruct.py first seen with mtime 1723560316.6669207
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\creation.py first seen with mtime 1723560315.0655148
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\operations.py first seen with mtime 1723560314.764317
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\backends\base.py first seen with mtime 1723560314.092482
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\headerregistry.py first seen with mtime 1713532124.5404732
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\constants.py first seen with mtime 1723560315.610165
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\legacy.py first seen with mtime 1723560290.50722
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\__init__.py first seen with mtime 1723560328.470579
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zipfile\_path\__init__.py first seen with mtime 1713532130.2696562
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\asgiref\sync.py first seen with mtime 1723560291.1200562
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\utils.py first seen with mtime 1723560307.407894
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\views.py first seen with mtime 1723560313.6520371
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\datastructures.py first seen with mtime 1723560316.626285
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zoneinfo\_tzpath.py first seen with mtime 1713532130.3008192
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\conf\urls\static.py first seen with mtime 1723560293.8688142
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\__init__.py first seen with mtime 1723560293.87435
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\log.py first seen with mtime 1723560316.6869905
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\crypto.py first seen with mtime 1723560316.6252844
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\options.py first seen with mtime 1723560315.3922398
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\cache.py first seen with mtime 1723560316.622274
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\format_helpers.py first seen with mtime 1713532124.2392452
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\mixins.py first seen with mtime 1723560314.2239325
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\tokenize.py first seen with mtime 1713532129.839563
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ast.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\generator.py first seen with mtime 1713532124.5383737
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\response.py first seen with mtime 1723560316.5033674
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\keywords.py first seen with mtime 1723560286.4691143
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\url.py first seen with mtime 1723560284.937832
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\iterators.py first seen with mtime 1713532124.541367
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\message.py first seen with mtime 1717787306.522768
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\__init__.py first seen with mtime 1723560290.4986885
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\windows_events.py first seen with mtime 1713532124.2684236
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\_json.py first seen with mtime 1723560288.8210652
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\utils.py first seen with mtime 1723564956.340259
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\_header_value_parser.py first seen with mtime 1717787306.522768
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\locks.py first seen with mtime 1713532124.249226
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\apps.py first seen with mtime 1723560313.5792956
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\gettext.py first seen with mtime 1713532125.2315652
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\exceptions.py first seen with mtime 1723560315.0938427
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\deprecation.py first seen with mtime 1723560316.6689208
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\packages.py first seen with mtime 1723560291.461279
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\views\__init__.py first seen with mtime 1723560296.1482098
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\urls.py first seen with mtime 1723560314.1105316
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\signals.py first seen with mtime 1723560298.097898
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\exceptions.py first seen with mtime 1723560291.4547596
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\engine\statement_splitter.py first seen with mtime 1723560286.4881878
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\locks.py first seen with mtime 1723560314.135615
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\region.py first seen with mtime 1723560328.2100606
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\__init__.py first seen with mtime 1723560314.940472
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\backends.py first seen with mtime 1723560298.0259566
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xmlrpc\client.py first seen with mtime 1713532130.169909
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\dispatch\dispatcher.py first seen with mtime 1723560315.763795
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\utils.py first seen with mtime 1713532124.5794106
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\proxy.py first seen with mtime 1723560284.926979
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ctypes\__init__.py first seen with mtime 1717787306.5086174
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\opcode.py first seen with mtime 1713532126.4209578
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\safestring.py first seen with mtime 1723560316.717573
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\html\__init__.py first seen with mtime 1713532125.2394354
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\pprint.py first seen with mtime 1713532126.4405887
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\__init__.py first seen with mtime 1713532124.5922005
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\numberformat.py first seen with mtime 1723560316.7125635
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\caches.py first seen with mtime 1723560314.1020162
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\utils.py first seen with mtime 1723560314.167733
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\weakref.py first seen with mtime 1713532130.1398356
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\asgiref\local.py first seen with mtime 1723560291.1116772
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ssl.py first seen with mtime 1713532129.5788767
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\schema.py first seen with mtime 1723560315.0760593
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\exceptions.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\keyword.py first seen with mtime 1713532125.9793856
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\asyncio.py first seen with mtime 1723560316.6202607
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\proactor_events.py first seen with mtime 1717787306.4897113
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\management\__init__.py first seen with mtime 1723560314.2569132
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\async_checks.py first seen with mtime 1723560314.1000047
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\socketserver.py first seen with mtime 1713532129.554577
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\management\commands\__init__.py first seen with mtime 1723560314.2634377
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\filepost.py first seen with mtime 1723560284.8993974
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\streams.py first seen with mtime 1713532124.2584255
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\validators.py first seen with mtime 1723560298.1261399
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\proxy.py first seen with mtime 1723560315.4900634
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\functional.py first seen with mtime 1723560316.6764555
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\autoreload.py first seen with mtime 1723560316.6212735
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\features.py first seen with mtime 1723560315.068517
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\middleware.py first seen with mtime 1723560307.3983278
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\translation\trans_real.py first seen with mtime 1723560316.7943246
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\encodings\__init__.py first seen with mtime 1713532124.7996364
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\window.py first seen with mtime 1723560315.6055672
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\dateformat.py first seen with mtime 1723560316.626285
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\__init__.py first seen with mtime 1723560316.6177456
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\engine\filter_stack.py first seen with mtime 1723560286.4821749
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\apps.py first seen with mtime 1723560310.7931976
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\certifi\__init__.py first seen with mtime 1723560291.0105014
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\timeouts.py first seen with mtime 1713532124.2626364
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\views.py first seen with mtime 1723560300.2970393
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\solicitudesfua\settings.py first seen with mtime 1723730177.6374135
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\fields.py first seen with mtime 1723560284.8963954
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\model_checks.py first seen with mtime 1723560314.108025
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\utils.py first seen with mtime 1723560290.521265
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\backends\__init__.py first seen with mtime 1723560316.5139072
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\secrets.py first seen with mtime 1713532126.5105667
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\copyreg.py first seen with mtime 1713532124.4313114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\connection.py first seen with mtime 1723560316.624285
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\admin.py first seen with mtime 1715186788.0127153
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\solicitudesfua\__init__.py first seen with mtime 1715186404.7449615
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\wsgi.py first seen with mtime 1723560314.085969
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\json.py first seen with mtime 1723560315.460472
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\apps.py first seen with mtime 1723560300.2433732
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\dotenv\__init__.py first seen with mtime 1723560287.6036637
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\constraints.py first seen with mtime 1723560315.3485422
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\encodings\utf_8.py first seen with mtime 1713532124.795601
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\inspect.py first seen with mtime 1717787306.6161296
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\_compat_pickle.py first seen with mtime 1713532130.3114727
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\etree\ElementPath.py first seen with mtime 1713532130.224646
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\translation\__init__.py first seen with mtime 1723560316.7762666
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\locale.py first seen with mtime 1717787306.6161296
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\_base.py first seen with mtime 1713532124.4093485
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py first seen with mtime 1713532124.2534177
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\checks.py first seen with mtime 1723560300.2443726
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\operations\fields.py first seen with mtime 1723560315.2449703
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\security.py first seen with mtime 1723560316.3563838
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\pickle.py first seen with mtime 1713532126.4364707
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\dis.py first seen with mtime 1713532124.5292616
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\utils.py first seen with mtime 1723560315.39625
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\related_lookups.py first seen with mtime 1723560315.4950886
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\handlers\asgi.py first seen with mtime 1723560314.2269278
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\apps.py first seen with mtime 1723560328.471592
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\backends\django.py first seen with mtime 1723560316.5610635
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\datetime.py first seen with mtime 1713532124.5005555
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\l10n.py first seen with mtime 1723560316.5871415
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\utils.py first seen with mtime 1723560314.668097
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\decorators\__init__.py first seen with mtime 1723560316.8464837
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\_policybase.py first seen with mtime 1717787306.522768
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\platform.py first seen with mtime 1717787306.6377718
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\re\_compiler.py first seen with mtime 1713532126.4896698
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\resolvers.py first seen with mtime 1723560316.6147475
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\static.py first seen with mtime 1723560316.844481
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\collections\__init__.py first seen with mtime 1713532124.3995674
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\trsock.py first seen with mtime 1713532124.2642286
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\admin_modify.py first seen with mtime 1723560296.14521
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\images.py first seen with mtime 1723560314.1336126
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\threading.py first seen with mtime 1713532129.6996596
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\errors.py first seen with mtime 1713532124.5368125
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\views\autocomplete.py first seen with mtime 1723560296.1527286
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\re\_constants.py first seen with mtime 1713532126.4909725
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\apps\__init__.py first seen with mtime 1723560292.44232
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\urls.py first seen with mtime 1723560328.4891143
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\__init__.py first seen with mtime 1723560316.6092186
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\individual_cache.py first seen with mtime 1723560328.2055492
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\traceback.py first seen with mtime 1713532129.8688886
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\filters.py first seen with mtime 1723560293.8858688
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py first seen with mtime 1713532130.1106856
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\sites.py first seen with mtime 1723560293.8913958
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\uploadhandler.py first seen with mtime 1723560314.1637316
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\compatibility\__init__.py first seen with mtime 1723560314.111541
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\utils.py first seen with mtime 1723560291.468289
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\exceptions.py first seen with mtime 1723560316.613747
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_ssl.pyd first seen with mtime 1717787306.440285
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\boundfield.py first seen with mtime 1723560315.7713203
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\encodings\idna.py first seen with mtime 1713532124.7294688
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_hashlib.pyd first seen with mtime 1717787305.1259735
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\transaction.py first seen with mtime 1723560314.5743911
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\serializers\json.py first seen with mtime 1723560314.4781802
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\__init__.py first seen with mtime 1723560284.8888814
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\__init__.py first seen with mtime 1723560315.3982515
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\library.py first seen with mtime 1723560316.3766253
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\pkgutil.py first seen with mtime 1713532126.4399047
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xmlrpc\__init__.py first seen with mtime 1713532124.420736
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_uuid.pyd first seen with mtime 1717787306.4434428
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\exceptions.py first seen with mtime 1723560286.4641109
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\extras.py first seen with mtime 1723560288.8686998
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\introspection.py first seen with mtime 1723560315.0730572
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\api.py first seen with mtime 1723560290.5022118
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\__init__.py first seen with mtime 1723560314.171256
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\storage\base.py first seen with mtime 1723560307.4134312
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\mail\__init__.py first seen with mtime 1723560314.2334664
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\related_descriptors.py first seen with mtime 1723560315.494089
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\errors.py first seen with mtime 1723560288.861689
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\cloudshell.py first seen with mtime 1723560328.202548
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\__init__.py first seen with mtime 1723560316.7963243
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\enum.py first seen with mtime 1713532125.222524
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\aligned_indent.py first seen with mtime 1723560286.4937263
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\csrf.py first seen with mtime 1723560316.3503635
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\i18n.py first seen with mtime 1723560316.586144
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\csrf.py first seen with mtime 1723560316.7983246
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\timezone.py first seen with mtime 1723560316.7251017
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\tokens.py first seen with mtime 1723560286.5042691
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\exceptions.py first seen with mtime 1723560293.884868
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\throttled_http_client.py first seen with mtime 1723560328.213083
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\password_validation.py first seen with mtime 1723560298.0968966
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\backends\base.py first seen with mtime 1723560310.8027234
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\deletion.py first seen with mtime 1723560315.3510725
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\token_cache.py first seen with mtime 1723560328.2140849
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\text.py first seen with mtime 1723560315.5066206
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\admin_list.py first seen with mtime 1723560296.1442106
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\wsgiref\util.py first seen with mtime 1713532130.1510932
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\_range.py first seen with mtime 1723560288.8571713
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\views.py first seen with mtime 1723560328.4916284
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\html\entities.py first seen with mtime 1713532125.2384086
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\ctypes\_endian.py first seen with mtime 1713532124.469439
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\checks.py first seen with mtime 1723560293.8773491
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\base.py first seen with mtime 1723560314.9423862
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\module_loading.py first seen with mtime 1723560316.711565
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\decorators\common.py first seen with mtime 1723560316.8510058
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\urllib\response.py first seen with mtime 1713532130.1106856
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\__init__.py first seen with mtime 1713532130.2696562
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\widgets.py first seen with mtime 1723560315.7913783
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\handlers\__init__.py first seen with mtime 1723560314.224934
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_wmi.pyd first seen with mtime 1717787306.4439487
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\header.py first seen with mtime 1713532124.5393298
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\_version.py first seen with mtime 1723560284.8933935
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\list.py first seen with mtime 1723560316.8740754
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\psycopg_any.py first seen with mtime 1723560315.0750594
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loaders\base.py first seen with mtime 1723560316.5725958
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\client.py first seen with mtime 1723560315.0635135
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\postgresql\operations.py first seen with mtime 1723560315.074059
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\checks.py first seen with mtime 1723560313.5808096
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\engine\__init__.py first seen with mtime 1723560286.48016
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\parsers\expat.py first seen with mtime 1713532130.24105
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\__init__.py first seen with mtime 1713532125.9193997
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\security\base.py first seen with mtime 1723560314.1145499
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\encoders.py first seen with mtime 1713532124.5358114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\state.py first seen with mtime 1723560315.19232
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\logging\handlers.py first seen with mtime 1713532126.2711635
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\apps.py first seen with mtime 1723560293.876349
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py first seen with mtime 1713532125.9595356
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\staggered.py first seen with mtime 1713532124.2534177
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\base.py first seen with mtime 1723560314.6721413
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_overlapped.pyd first seen with mtime 1717787306.4317994
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\messages.py first seen with mtime 1723560314.107025
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\__init__.py first seen with mtime 1713532124.2709417
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\models.py first seen with mtime 1723560310.797202
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\_markupbase.py first seen with mtime 1713532130.3195462
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\datastructures.py first seen with mtime 1723560315.6120894
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sites\requests.py first seen with mtime 1723560312.4576218
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\md.cp312-win_amd64.pyd first seen with mtime 1723560290.5082204
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\poolmanager.py first seen with mtime 1723560284.9039268
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\unicodedata.pyd first seen with mtime 1717787305.0836246
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\servers\__init__.py first seen with mtime 1723560314.5706294
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\management\__init__.py first seen with mtime 1723560302.1979947
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\subprocess.py first seen with mtime 1713532124.2584255
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\authority.py first seen with mtime 1723560328.1970155
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\quopri.py first seen with mtime 1713532126.4846056
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\ddl_references.py first seen with mtime 1723560314.6636965
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\translation\reloader.py first seen with mtime 1723560316.7782595
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_tasks.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\selector_events.py first seen with mtime 1713532124.2534177
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\contrib\__init__.py first seen with mtime 1723560284.908926
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\management\__init__.py first seen with mtime 1723560313.6530476
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\serializers\base.py first seen with mtime 1723560314.4761794
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\_base_connection.py first seen with mtime 1723560284.8903868
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\compatibility\django_4_0.py first seen with mtime 1723560314.1125412
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\encoding.py first seen with mtime 1723560316.6714444
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py first seen with mtime 1713532124.689608
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\wstrust_response.py first seen with mtime 1723560328.2226038
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\token.py first seen with mtime 1713532129.839563
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\feedparser.py first seen with mtime 1713532124.5368125
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\choices.py first seen with mtime 1723560316.623284
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\models.py first seen with mtime 1723560300.2930405
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\__init__.py first seen with mtime 1723560284.9249806
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\filesystem.py first seen with mtime 1723560314.1742682
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_subprocess.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\mixins.py first seen with mtime 1713532124.2503881
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\_parseaddr.py first seen with mtime 1713532124.5905256
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_decimal.pyd first seen with mtime 1717787305.1201773
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\__init__.py first seen with mtime 1723560288.8145423
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\taskgroups.py first seen with mtime 1713532124.259437
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\__init__.py first seen with mtime 1723560296.143211
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\__init__.py first seen with mtime 1723560307.393327
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\dataclasses.py first seen with mtime 1717787306.5086174
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\shortcuts.py first seen with mtime 1723560292.44132
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\lookups.py first seen with mtime 1723560315.3569276
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\files.py first seen with mtime 1723560314.1050234
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\idna\__init__.py first seen with mtime 1723560289.7987711
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\calendar.py first seen with mtime 1713532124.3906054
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\http\__init__.py first seen with mtime 1723560316.2584949
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\heapq.py first seen with mtime 1713532125.2358801
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\cookies.py first seen with mtime 1723560291.4527483
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\utils.py first seen with mtime 1723560316.5053697
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\contextlib.py first seen with mtime 1713532124.4313114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\base.py first seen with mtime 1723560314.1722567
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\dates.py first seen with mtime 1723560316.6282854
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\functools.py first seen with mtime 1717787306.5484805
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zipfile\_path\glob.py first seen with mtime 1713532130.2696562
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\mail\utils.py first seen with mtime 1723560314.2379854
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\where.py first seen with mtime 1723560315.620608
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\telemetry.py first seen with mtime 1723560328.2110727
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\decorators\debug.py first seen with mtime 1723560316.8560152
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\creation.py first seen with mtime 1723560314.674151
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\connection.py first seen with mtime 1723560284.9259808
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\idna\package_data.py first seen with mtime 1723560289.8138206
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\dispatch\__init__.py first seen with mtime 1723560315.6216192
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\defaults.py first seen with mtime 1723560316.8404593
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\hooks.py first seen with mtime 1723560291.4577591
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\reverse_related.py first seen with mtime 1723560315.4960892
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\apps.py first seen with mtime 1723476247.7860618
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\admin.py first seen with mtime 1723560300.2423618
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\handlers\exception.py first seen with mtime 1723560314.2304435
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\hashers.py first seen with mtime 1723560298.0420208
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\text.py first seen with mtime 1713532124.5483663
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\html.py first seen with mtime 1723560316.6784565
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\output.py first seen with mtime 1723560286.4967263
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\__init__.py first seen with mtime 1723560314.5733895
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\api.py first seen with mtime 1723560291.4452262
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\models.py first seen with mtime 1723560290.5187457
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\signals.py first seen with mtime 1723560313.6700866
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\introspection.py first seen with mtime 1723560314.6771605
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\signals.py first seen with mtime 1723560315.3952496
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_elementtree.pyd first seen with mtime 1717787305.1259735
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\operations\base.py first seen with mtime 1723560315.2439592
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\mail\message.py first seen with mtime 1723560314.2354655
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\textwrap.py first seen with mtime 1713532129.6996596
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\hmac.py first seen with mtime 1713532125.2358801
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\random.py first seen with mtime 1713532126.4846056
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\models.py first seen with mtime 1723560298.0939028
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\hashable.py first seen with mtime 1723560316.6774561
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\backends\__init__.py first seen with mtime 1723560310.798198
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\sql.py first seen with mtime 1723560288.8712204
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\features.py first seen with mtime 1723560314.6755228
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\tokens.py first seen with mtime 1723560286.4756496
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\memory.py first seen with mtime 1723560314.1772683
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\comparison.py first seen with mtime 1723560315.498089
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\loader.py first seen with mtime 1723560315.1860688
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\__init__.py first seen with mtime 1715186788.0491266
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\__init__.py first seen with mtime 1723560314.6592162
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\checks.py first seen with mtime 1723560298.0344896
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\certifi\core.py first seen with mtime 1723560291.0204983
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\hashlib.py first seen with mtime 1713532125.2358801
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\version.py first seen with mtime 1723560290.522272
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\multipart.py first seen with mtime 1713532124.5483663
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\http\server.py first seen with mtime 1713532125.2593975
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\__init__.py first seen with mtime 1723560314.098493
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\__init__.py first seen with mtime 1723560328.1899953
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\security\csrf.py first seen with mtime 1723560314.1165502
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\lexer.py first seen with mtime 1723560286.471639
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\wsgiref\handlers.py first seen with mtime 1713532130.148919
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\numbers.py first seen with mtime 1713532126.4209578
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\expressions.py first seen with mtime 1723560315.353081
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\cli.py first seen with mtime 1723560286.4631095
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\base.py first seen with mtime 1723560316.8685434
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\quoprimime.py first seen with mtime 1713532124.5794106
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\models.py first seen with mtime 1723560315.779328
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py first seen with mtime 1713532124.2392452
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\fields\related.py first seen with mtime 1723560315.492079
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\queues.py first seen with mtime 1713532124.2534177
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\autoreload.py first seen with mtime 1723560316.358386
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\mex.py first seen with mtime 1723560328.2075472
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\templates.py first seen with mtime 1723560314.1090229
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\wsgiref\simple_server.py first seen with mtime 1713532130.149934
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\exceptions.py first seen with mtime 1723560310.7951972
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\__init__.py first seen with mtime 1723560313.6625688
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\formatter.py first seen with mtime 1723560286.46611
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\mimetypes.py first seen with mtime 1713532126.300871
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loaders\filesystem.py first seen with mtime 1723560316.578607
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\management\commands\runserver.py first seen with mtime 1723560313.6590478
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\base64mime.py first seen with mtime 1713532124.5292616
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\__init__.py first seen with mtime 1723560286.4917123
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\security\__init__.py first seen with mtime 1723560314.1135502
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\handlers\wsgi.py first seen with mtime 1723560314.2314546
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\__init__.py first seen with mtime 1723560315.7687964
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\urllib\error.py first seen with mtime 1713532130.1106856
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\debug.py first seen with mtime 1723560316.8008354
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\selectors.py first seen with mtime 1713532126.5105667
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\signal.py first seen with mtime 1713532126.5170121
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\__init__.py first seen with mtime 1723560316.8655434
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\exceptions.py first seen with mtime 1723560313.6645718
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\actions.py first seen with mtime 1723560293.875349
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\utils.py first seen with mtime 1723560315.2370038
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\decorators\cache.py first seen with mtime 1723560316.84748
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\_encoded_words.py first seen with mtime 1713532124.586679
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\storage\handler.py first seen with mtime 1723560314.1762636
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\dotenv\variables.py first seen with mtime 1723560287.628162
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\conf.py first seen with mtime 1723560316.610729
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_futures.py first seen with mtime 1713532124.2392452
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\wait.py first seen with mtime 1723560284.9403398
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\management\base.py first seen with mtime 1723560314.2579148
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\helpers.py first seen with mtime 1723560293.8878703
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\models.py first seen with mtime 1723560293.8888698
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\backends\locmem.py first seen with mtime 1723560314.0954933
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\apps\registry.py first seen with mtime 1723560292.4453292
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\http\cookies.py first seen with mtime 1713532125.2593975
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\base.py first seen with mtime 1723560314.12608
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\functions\__init__.py first seen with mtime 1723560315.497089
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\__init__.py first seen with mtime 1713532125.8955946
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\asgiref\current_thread_executor.py first seen with mtime 1723560291.1106668
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\wsgiref\__init__.py first seen with mtime 1713532130.1531205
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\encodings\aliases.py first seen with mtime 1713532124.6706262
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\response.py first seen with mtime 1723560284.9069276
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\constants.py first seen with mtime 1723560307.3953269
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_queue.pyd first seen with mtime 1717787306.433105
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\fnmatch.py first seen with mtime 1713532125.225525
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\_ipaddress.py first seen with mtime 1723560288.8185422
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\fields.py first seen with mtime 1723560315.7723198
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py first seen with mtime 1713532125.9584217
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\psycopg2\extensions.py first seen with mtime 1723560288.863694
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\ssltransport.py first seen with mtime 1723560284.9348357
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\idna\idnadata.py first seen with mtime 1723560289.8073015
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\contentmanager.py first seen with mtime 1713532124.5348036
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\views\main.py first seen with mtime 1723560296.1547425
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\_internal_utils.py first seen with mtime 1723560291.4402702
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\getpass.py first seen with mtime 1713532125.2305653
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\management\commands\runserver.py first seen with mtime 1723560314.3132448
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\cache.py first seen with mtime 1723560316.5821335
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\cache.py first seen with mtime 1723560316.2926044
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\_collections.py first seen with mtime 1723560284.8903868
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\uploadedfile.py first seen with mtime 1723560314.1627293
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\database.py first seen with mtime 1723560314.1040258
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\serializers\python.py first seen with mtime 1723560314.559419
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\decorators.py first seen with mtime 1723560298.0384924
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\dotenv\main.py first seen with mtime 1723560287.6217146
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\forms.py first seen with mtime 1723560298.0410204
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\__init__.py first seen with mtime 1723560291.437697
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\idna\intranges.py first seen with mtime 1723560289.8092995
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\http\request.py first seen with mtime 1723560316.2890809
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\signals.py first seen with mtime 1723560314.6650496
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\_legacy.py first seen with mtime 1713532125.8955946
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\auth.py first seen with mtime 1723560291.4462254
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\wsgiref\headers.py first seen with mtime 1713532130.148919
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\management\color.py first seen with mtime 1723560314.2589145
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\converters.py first seen with mtime 1723560316.6117365
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\_adapters.py first seen with mtime 1713532125.8905716
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\conf\global_settings.py first seen with mtime 1723560292.4473276
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\common.py first seen with mtime 1723560316.2936149
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\coroutines.py first seen with mtime 1713532124.2392452
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\context.py first seen with mtime 1723560316.3629198
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\exceptions.py first seen with mtime 1723560328.47459
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\ssl_match_hostname.py first seen with mtime 1723560284.931823
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loader.py first seen with mtime 1723560316.377822
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\ssl_.py first seen with mtime 1723560284.9308147
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\smartif.py first seen with mtime 1723560316.5043674
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\conf\__init__.py first seen with mtime 1723560292.4463277
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\adapters.py first seen with mtime 1723560291.443228
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\decorators.py first seen with mtime 1723560293.8773491
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\client.py first seen with mtime 1723560314.6731536
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\__init__.py first seen with mtime 1723560315.0918312
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\base.py first seen with mtime 1723560315.3318574
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\events.py first seen with mtime 1713532124.2392452
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\fields.py first seen with mtime 1723560300.2453725
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\middleware.py first seen with mtime 1723560310.7961986
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\management\commands\__init__.py first seen with mtime 1723560313.655048
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_asyncio.pyd first seen with mtime 1717787305.1002436
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\translation.py first seen with mtime 1723560314.1105316
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\serializers\__init__.py first seen with mtime 1723560314.4741805
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\__init__.py first seen with mtime 1723560316.291605
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loaders\__init__.py first seen with mtime 1723560316.5690742
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\decorators\csrf.py first seen with mtime 1723560316.8530202
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\inspect.py first seen with mtime 1723560316.6799693
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\_bz2.pyd first seen with mtime 1717787305.1110883
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\forms\renderers.py first seen with mtime 1723560315.780836
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\zoneinfo\_common.py first seen with mtime 1713532130.3008192
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\readers.py first seen with mtime 1713532125.8905716
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py first seen with mtime 1713532126.2711635
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\futures.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\lzma.py first seen with mtime 1713532126.290489
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\cd.py first seen with mtime 1723560290.503222
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\sslproto.py first seen with mtime 1713532124.2534177
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\threads.py first seen with mtime 1713532124.259437
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\conf\urls\__init__.py first seen with mtime 1723560293.8648074
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\utils.py first seen with mtime 1723560286.4776492
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\pathlib.py first seen with mtime 1717787306.6371076
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\util\response.py first seen with mtime 1723560284.9283059
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\socket.py first seen with mtime 1717787307.257635
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\oauth2cli\authcode.py first seen with mtime 1723560328.228604
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\sysconfig.py first seen with mtime 1713532129.6911006
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\linecache.py first seen with mtime 1713532126.2629182
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\constants.py first seen with mtime 1713532124.2392452
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\collections\abc.py first seen with mtime 1713532124.3995674
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\_abc.py first seen with mtime 1713532125.9193997
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\requests\status_codes.py first seen with mtime 1723560291.4642892
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\reindent.py first seen with mtime 1723560286.4987257
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\templatetags\admin_urls.py first seen with mtime 1723560296.14621
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\html\parser.py first seen with mtime 1713532125.2394354
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\log.py first seen with mtime 1713532124.2503881
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\wstrust_request.py first seen with mtime 1723560328.2150834
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\DLLs\pyexpat.pyd first seen with mtime 1717787305.0034852
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\middleware.py first seen with mtime 1723560298.09189
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\staticfiles\utils.py first seen with mtime 1723560313.620926
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\defaulttags.py first seen with mtime 1723560316.3689187
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\oauth2cli\oidc.py first seen with mtime 1723560328.2361395
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\constant.py first seen with mtime 1723560290.5052228
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\forms.py first seen with mtime 1723232941.7772017
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\i18n.py first seen with mtime 1723560316.8424816
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py first seen with mtime 1713532126.4909725
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\struct.py first seen with mtime 1713532129.6408973
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\__init__.py first seen with mtime 1723560314.1240828
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py first seen with mtime 1713532126.4909725
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\__init__.py first seen with mtime 1713532124.4093485
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\exceptions.py first seen with mtime 1723560316.3734567
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\_weakrefset.py first seen with mtime 1713532130.3595996
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\checks\security\sessions.py first seen with mtime 1723560314.1185505
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\cache\__init__.py first seen with mtime 1723560314.0879636
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\backends\base.py first seen with mtime 1723560316.5585382
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\admin.py first seen with mtime 1723560298.0229576
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\_itertools.py first seen with mtime 1713532125.8955946
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\filters\others.py first seen with mtime 1723560286.495725
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\decorators.py first seen with mtime 1723560316.6679194
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\__init__.py first seen with mtime 1723560297.855191
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\dateparse.py first seen with mtime 1723560316.6272848
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\apps.py first seen with mtime 1723560298.0239568
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\views.py first seen with mtime 1723667353.997381
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\backends\base\schema.py first seen with mtime 1723560314.7683654
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loader_tags.py first seen with mtime 1723560316.5013592
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\utils.py first seen with mtime 1723560314.5743911
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\views\generic\edit.py first seen with mtime 1723560316.8730755
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\core\files\temp.py first seen with mtime 1723560314.139146
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\urls\base.py first seen with mtime 1723560316.6102195
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\messages\apps.py first seen with mtime 1723560307.3943276
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\constants.py first seen with mtime 1723560315.3338702
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\asyncio\windows_utils.py first seen with mtime 1713532124.2694294
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\management\__init__.py first seen with mtime 1723560300.070343
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\sqlparse\engine\grouping.py first seen with mtime 1723560286.485188
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\charset_normalizer\md__mypyc.cp312-win_amd64.pyd first seen with mtime 1723560290.5127363
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\templatetags\tz.py first seen with mtime 1723560316.5916626
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\utils\itercompat.py first seen with mtime 1723560316.681983
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\typing.py first seen with mtime 1717787307.3008728
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\template\loaders\app_directories.py first seen with mtime 1723560316.570584
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\xml\etree\__init__.py first seen with mtime 1713532130.2297344
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\forms.py first seen with mtime 1723560300.2910342
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\asgiref\__init__.py first seen with mtime 1723560291.1086404
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\charset.py first seen with mtime 1713532124.5292616
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\connectionpool.py first seen with mtime 1723560284.8943934
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\msal\application.py first seen with mtime 1723560328.1940167
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\urllib3\_request_methods.py first seen with mtime 1723560284.8923929
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\shutil.py first seen with mtime 1717787307.2466567
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\email\mime\message.py first seen with mtime 1713532124.5473728
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py first seen with mtime 1713532124.4093485
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\query_utils.py first seen with mtime 1723560315.394249
+File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.1264.0_x64__qbz5n2kfra8p0\Lib\re\_casefix.py first seen with mtime 1713532126.4896698
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\azure_auth\handlers.py first seen with mtime 1723560328.4765885
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\base.html first seen with mtime 1715716292.0751953
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\form.html first seen with mtime 1723236196.3764179
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\formulario_novedad.html first seen with mtime 1722799232.326965
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\home.html first seen with mtime 1723667861.4842389
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\img first seen with mtime 1722259321.7474551
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\menuppal.html first seen with mtime 1723133307.1179292
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\prueba.html first seen with mtime 1723666714.2299943
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static first seen with mtime 1722259321.7474551
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\img\Favicono.png first seen with mtime 1715014266.829823
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\img\funda-icon-1.png first seen with mtime 1722259321.7474551
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\img\funda-logo-3.png first seen with mtime 1715014266.8494816
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\copia.js first seen with mtime 1715803737.1689675
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\form_inicio.css first seen with mtime 1723236658.7927992
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\main.css first seen with mtime 1723133717.945823
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\menuppal.js first seen with mtime 1723670220.9876225
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\modal-select2.js first seen with mtime 1723237004.4055912
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\modal-select2COPIA.js first seen with mtime 1722259930.8245845
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\script.js first seen with mtime 1715186404.7255955
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\templates\static\style.css first seen with mtime 1715186404.7261107
+(0.094) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.078) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0002_novedadtipo1_novedadtipo2_delete_novedad.py first seen with mtime 1715700711.174745
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0002_alter_permission_name_max_length.py first seen with mtime 1723560300.1355524
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\recorder.py first seen with mtime 1723560315.190309
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0001_initial.py first seen with mtime 1715195409.1380856
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0001_initial.py first seen with mtime 1723560300.0783648
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\solicitudesfua\wsgi.py first seen with mtime 1715186404.7481427
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0004_alter_user_username_opts.py first seen with mtime 1723560300.1505964
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0005_alter_novedad_detalle_opcion2_and_more.py first seen with mtime 1715797333.7851062
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\migrations\0002_remove_content_type_name.py first seen with mtime 1723560302.2026987
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\middleware\clickjacking.py first seen with mtime 1723560316.2926044
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\backends\db.py first seen with mtime 1723560310.8112485
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0010_alter_group_name_max_length.py first seen with mtime 1723560300.1786654
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0007_alter_novedadtipo1_tipo_novedad_and_more.py first seen with mtime 1716299901.8539455
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0004_novedad_detalle_opcion1_novedad_detalle_opcion2_and_more.py first seen with mtime 1715719869.35953
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0011_update_proxy_permissions.py first seen with mtime 1723560300.222298
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0009_delete_novedadtipo1_delete_novedadtipo2_and_more.py first seen with mtime 1720011130.4255116
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0012_alter_user_first_name_max_length.py first seen with mtime 1723560300.2233114
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0009_alter_user_last_name_max_length.py first seen with mtime 1723560300.1776655
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\migrations\0003_logentry_add_action_flag_choices.py first seen with mtime 1723560295.1487384
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0005_alter_user_last_login_null.py first seen with mtime 1723560300.1526058
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\__init__.py first seen with mtime 1723560300.2243109
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0006_novedadtipo1_novedadtipo2_novedadtipo3_and_more.py first seen with mtime 1715866278.4674766
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\migrations\graph.py first seen with mtime 1723560315.096843
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\__init__.py first seen with mtime 1715186788.0576804
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\migrations\__init__.py first seen with mtime 1723560302.2026987
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0008_usuario_campo.py first seen with mtime 1719415579.2582994
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0003_alter_user_email_max_length.py first seen with mtime 1723560300.147089
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\db\models\sql\compiler.py first seen with mtime 1723560315.6085665
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0007_alter_validators_add_error_messages.py first seen with mtime 1723560300.1546137
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\softwareids\migrations\0003_novedad_delete_novedadtipo1_delete_novedadtipo2.py first seen with mtime 1715716796.897622
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\migrations\0001_initial.py first seen with mtime 1723560312.3958986
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\contenttypes\migrations\0001_initial.py first seen with mtime 1723560302.201686
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\migrations\0002_logentry_remove_auto_add.py first seen with mtime 1723560295.1457407
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0006_require_contenttypes_0002.py first seen with mtime 1723560300.1536164
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\migrations\0001_initial.py first seen with mtime 1723560295.1447394
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\auth\migrations\0008_alter_user_username_max_length.py first seen with mtime 1723560300.1756713
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\sessions\migrations\__init__.py first seen with mtime 1723560312.3958986
+File C:\Users\acardona\Documents\GitHub\ids_software_beta\solicitudesfua\venv\Lib\site-packages\django\contrib\admin\migrations\__init__.py first seen with mtime 1723560295.1703045
